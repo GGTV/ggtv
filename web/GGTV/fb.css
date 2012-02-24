@@ -1,0 +1,1497 @@
+/* Rule 2546 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIImageBlock_Content {
+	DISPLAY: block;
+	VERTICAL-ALIGN: top;
+	WIDTH: auto;
+	ZOOM: 1
+}
+
+/* Rule 167 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.clearfix {
+	ZOOM: 1
+}
+
+/* Rule 2240 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.storyContent {
+	MARGIN: -2px 0px 2px
+}
+
+/* Rule 2224 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamStory {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	PADDING-TOP: 0px;
+	ZOOM: 1;
+	POSITION: static
+}
+
+/* Rule 2225 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.homeWiderContent .uiStreamStory {
+	MARGIN-LEFT: -18px
+}
+
+/* Rule 2581 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiListItem {
+	DISPLAY: block
+}
+
+/* Rule 2583 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiListLight {
+	BORDER-TOP-STYLE: solid;
+	BORDER-RIGHT-STYLE: solid;
+	BORDER-LEFT-STYLE: solid;
+	BORDER-BOTTOM-STYLE: solid
+}
+
+/* Rule 2587 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiListVerticalItemBorder {
+	BORDER-TOP-WIDTH: 1px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+/* Rule 2589 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiListLight {
+	BORDER-LEFT-COLOR: #e9e9e9;
+	BORDER-BOTTOM-COLOR: #e9e9e9;
+	BORDER-TOP-COLOR: #e9e9e9;
+	BORDER-RIGHT-COLOR: #e9e9e9
+}
+
+/* Rule 163 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+UL {`
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-TOP: 0px;
+	LIST-STYLE-TYPE: none
+}
+
+/* Rule 190 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+#content {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	WIDTH: auto;
+	PADDING-TOP: 0px
+}
+
+/* Rule 192 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.home #content {
+	MIN-HEIGHT: 600px
+}
+
+/* Rule 506 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fbx #globalContainer #content {
+	
+}
+
+/* Rule 519 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+#contentArea {
+	PADDING-LEFT: 1px;
+	MARGIN-RIGHT: -1px;
+	WORD-WRAP: break-word
+}
+
+/* Rule 520 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasLeftCol #contentArea {
+	FLOAT: left;
+	MARGIN-RIGHT: 0px
+}
+
+/* Rule 521 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasRightCol #contentArea {
+	FLOAT: left;
+	MARGIN-RIGHT: 0px
+}
+
+/* Rule 522 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasLeftCol #contentArea {
+	PADDING-RIGHT: 20px;
+	PADDING-LEFT: 20px;
+	PADDING-BOTTOM: 0px;
+	WIDTH: 759px;
+	PADDING-TOP: 0px
+}
+
+/* Rule 523 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasRightCol #contentArea {
+	WIDTH: 714px
+}
+
+/* Rule 524 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasLeftCol .hasRightCol #contentArea {
+	PADDING-RIGHT: 0px;
+	WIDTH: 493px
+}
+
+/* Rule 1091 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasLeftCol .homeWiderContent DIV#contentArea {
+	PADDING-RIGHT: 25px;
+	PADDING-LEFT: 18px;
+	WIDTH: 511px
+}
+
+/* Rule 515 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+#contentCol {
+	PADDING-TOP: 15px;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 516 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasLeftCol #contentCol {
+	MARGIN-LEFT: 178px;
+	BORDER-LEFT: #ccc 1px solid
+}
+
+/* Rule 1088 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+DIV.homeWiderContent#contentCol {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px
+}
+
+/* Rule 508 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+#mainContainer {
+	DISPLAY: block;
+	MARGIN-LEFT: -1px;
+	WIDTH: 100%
+}
+
+/* Rule 509 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hasLeftCol #mainContainer {
+	BORDER-RIGHT: #ccc 1px solid
+}
+
+/* Rule 504 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fb_content {
+	PADDING-BOTTOM: 20px
+}
+
+/* Rule 505 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fbx .fb_content {
+	PADDING-BOTTOM: 0px
+}
+
+/* Rule 500 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+#globalContainer {
+	MARGIN: 0px auto;
+	ZOOM: 1;
+	POSITION: relative
+}
+
+/* Rule 502 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fbx #globalContainer {
+	WIDTH: 981px
+}
+
+/* Rule 2985 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiContextualLayerParent {
+	POSITION: relative
+}
+
+/* Rule 145 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+BODY {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	FONT-SIZE: 11px;
+	BACKGROUND: #fff;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	COLOR: #333;
+	DIRECTION: ltr;
+	LINE-HEIGHT: 1.28;
+	PADDING-TOP: 0px;
+	FONT-FAMILY: "lucida grande",tahoma,verdana,arial,sans-serif;
+	unicode-bidi: embed;
+	TEXT-ALIGN: left
+}
+
+/* Rule 185 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+BODY {
+	OVERFLOW-Y: visible
+}
+
+/* Rule 2219 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamStory .mainWrapper {
+	MARGIN: 14px 29px 14px 0px
+}
+
+/* Rule 128 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+FORM {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-TOP: 0px
+}
+/* Rule 247 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerOpen .focus_target {
+	PADDING-BOTTOM: 10px
+}
+.uiComposer {
+	BORDER-BOTTOM: #ccc 1px solid
+}
+/* Rule 238 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerOpen {
+	BORDER-BOTTOM-STYLE: none
+}
+/* Rule 717 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+DIV.fbComposerWideSpacing {
+	BORDER-BOTTOM-WIDTH: 0px;
+	PADDING-BOTTOM: 4px;
+	MARGIN: 9px 0px -6px
+}
+
+/* Rule 3149 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.collapsed_comments .uiUfi {
+	DISPLAY: none
+}
+
+/* Rule 3150 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfi {
+	MARGIN: 0px;
+	WIDTH: 398px;
+	PADDING-TOP: 2px
+}
+
+/* Rule 3151 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfi .uiListItem {
+	ZOOM: 1
+}
+
+/* Rule 3152 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfi .ufiItem {
+	PADDING-RIGHT: 5px;
+	MARGIN-TOP: 1px;
+	PADDING-LEFT: 5px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 5px;
+	BORDER-BOTTOM: #d2d9e7 1px solid;
+	ZOOM: 1;
+	BACKGROUND-COLOR: #edeff4
+}
+
+/* Rule 2553 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIImageBlock_ICON_Content {
+	PADDING-TOP: 1px
+}
+
+/* Rule 3160 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .commentArea {
+	PADDING-RIGHT: 0px !important;
+	PADDING-LEFT: 0px !important;
+	PADDING-BOTTOM: 0px !important;
+	PADDING-TOP: 0px !important
+}
+
+/* Rule 129 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+LABEL {
+	FONT-WEIGHT: bold;
+	VERTICAL-ALIGN: middle;
+	CURSOR: pointer;
+	COLOR: #666
+}
+
+/* Rule 176 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+#facebook .hidden_elem {
+	DISPLAY: none !important
+}
+
+/* Rule 2389 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiButton {
+	BORDER-RIGHT: #999 1px solid;
+	PADDING-RIGHT: 6px;
+	BACKGROUND-POSITION: 0px -98px;
+	BORDER-TOP: #999 1px solid;
+	DISPLAY: inline-block;
+	PADDING-LEFT: 6px;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 11px;
+	BACKGROUND-IMAGE: url(http://static.ak.fbcdn.net/rsrc.php/v1/yr/r/l5HccJez9OB.gif);
+	PADDING-BOTTOM: 2px;
+	VERTICAL-ALIGN: top;
+	BORDER-LEFT: #999 1px solid;
+	CURSOR: pointer;
+	LINE-HEIGHT: 13px;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #888 1px solid;
+	BACKGROUND-REPEAT: no-repeat;
+	WHITE-SPACE: nowrap;
+	POSITION: relative;
+	BACKGROUND-COLOR: #eee;
+	TEXT-ALIGN: center;
+	TEXT-DECORATION: none
+}
+
+/* Rule 2420 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiButtonConfirm {
+	BACKGROUND-POSITION: 0px -49px;
+	BORDER-LEFT-COLOR: #29447e;
+	BACKGROUND-IMAGE: url(http://static.ak.fbcdn.net/rsrc.php/v1/yr/r/l5HccJez9OB.gif);
+	BORDER-BOTTOM-COLOR: #1a356e;
+	BORDER-TOP-COLOR: #29447e;
+	BACKGROUND-REPEAT: no-repeat;
+	BACKGROUND-COLOR: #5b74a8;
+	BORDER-RIGHT-COLOR: #29447e
+}
+/* Rule 2172 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader {
+	PADDING-RIGHT: 0px;
+	BORDER-TOP: #ccc 1px solid;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 10px 0px -4px -18px;
+	PADDING-TOP: 0px;
+	POSITION: relative;
+	HEIGHT: 1px;
+	BACKGROUND-COLOR: #e9e9e9
+}
+
+/* Rule 2617 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.mts {
+	MARGIN-TOP: 5px
+}
+/* Rule 2173 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm {
+	PADDING-RIGHT: 2px;
+	LEFT: 0px;
+	POSITION: absolute;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 2176 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm {
+	RIGHT: 35px;
+	LEFT: auto;
+	TOP: -7px
+}
+/* Rule 3162 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .commentBtn {
+	FLOAT: right
+}
+
+/* Rule 3170 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .commentBtn {
+	DISPLAY: none
+}
+
+/* Rule 130 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+LABEL INPUT {
+	FONT-WEIGHT: normal
+}
+
+/* Rule 2402 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiButton INPUT {
+	BORDER-TOP-WIDTH: 0px;
+	PADDING-RIGHT: 0px;
+	DISPLAY: inline-block;
+	PADDING-LEFT: 0px;
+	FONT-WEIGHT: bold;
+	BORDER-LEFT-WIDTH: 0px;
+	FONT-SIZE: 11px;
+	BACKGROUND: none transparent scroll repeat 0% 0%;
+	BORDER-BOTTOM-WIDTH: 0px;
+	PADDING-BOTTOM: 2px;
+	MARGIN: 0px;
+	WIDTH: 0px;
+	CURSOR: pointer;
+	COLOR: #333;
+	PADDING-TOP: 1px;
+	FONT-FAMILY: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	WHITE-SPACE: nowrap;
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+/* Rule 2403 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiButton INPUT {
+	PADDING-BOTTOM: 0px;
+	OVERFLOW: visible
+}
+
+/* Rule 2436 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiButtonConfirm INPUT {
+	COLOR: #fff
+}
+
+/* Rule 3161 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .commentBox {
+	BORDER-RIGHT: #bdc7d8 1px solid;
+	PADDING-RIGHT: 3px;
+	BORDER-TOP: #bdc7d8 1px solid;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	BORDER-LEFT: #bdc7d8 1px solid;
+	PADDING-TOP: 3px;
+	BORDER-BOTTOM: #bdc7d8 1px solid;
+	ZOOM: 1;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 3182 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .commentBox {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	BORDER-TOP-STYLE: none;
+	PADDING-TOP: 0px;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BORDER-BOTTOM-STYLE: none
+}
+
+/* Rule 2655 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMentionsInput {
+	POSITION: relative
+}
+
+/* Rule 3184 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .textBoxContainer {
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 3185 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .textBoxContainer {
+	FLOAT: left
+}
+
+/* Rule 2657 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMentionsInput .mentionsTypeahead {
+	BACKGROUND: none transparent scroll repeat 0% 0%;
+	ZOOM: 1
+}
+
+/* Rule 3094 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiTypeahead {
+	BORDER-RIGHT: #bdc7d8 0px solid;
+	BORDER-TOP: #bdc7d8 1px solid;
+	BACKGROUND: #fff;
+	BORDER-LEFT: #bdc7d8 0px solid;
+	CURSOR: default;
+	BORDER-BOTTOM: #bdc7d8 1px solid;
+	POSITION: relative
+}
+
+/* Rule 3186 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .mentionsTypeahead {
+	FLOAT: left
+}
+
+/* Rule 3095 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiTypeahead .wrap {
+	BORDER-RIGHT: #bdc7d8 1px solid;
+	BORDER-TOP: #bdc7d8 0px solid;
+	BORDER-LEFT: #bdc7d8 1px solid;
+	BORDER-BOTTOM: #bdc7d8 0px solid
+}
+
+/* Rule 3183 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .mentionsTypeahead .wrap {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	PADDING-TOP: 3px
+}
+
+/* Rule 3096 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiTypeahead .innerWrap {
+	OVERFLOW: hidden;
+	ZOOM: 1
+}
+
+/* Rule 131 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+TEXTAREA {
+	BORDER-RIGHT: #bdc7d8 1px solid;
+	PADDING-RIGHT: 3px;
+	BORDER-TOP: #bdc7d8 1px solid;
+	PADDING-LEFT: 3px;
+	FONT-SIZE: 11px;
+	PADDING-BOTTOM: 3px;
+	BORDER-LEFT: #bdc7d8 1px solid;
+	PADDING-TOP: 3px;
+	BORDER-BOTTOM: #bdc7d8 1px solid;
+	FONT-FAMILY: "lucida grande",tahoma,verdana,arial,sans-serif
+}
+
+/* Rule 183 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.DOMControl_placeholder {
+	COLOR: #777
+}
+
+/* Rule 2656 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMentionsInput .mentionsTextarea {
+	BACKGROUND: none transparent scroll repeat 0% 0%;
+	ZOOM: 1
+}
+
+/* Rule 2776 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiTextareaNoResize {
+	resize: none
+}
+
+/* Rule 2777 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiTextareaAutogrow {
+	OVERFLOW: hidden
+}
+
+/* Rule 3097 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiTypeahead .textInput {
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	WIDTH: 100%;
+	BACKGROUND-COLOR: transparent;
+	BORDER-RIGHT-WIDTH: 0px;
+	outline: 0
+}
+
+/* Rule 3163 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .textBox {
+	BORDER-TOP-WIDTH: 0px;
+	PADDING-RIGHT: 0px;
+	DISPLAY: block;
+	PADDING-LEFT: 0px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	WIDTH: 100%;
+	PADDING-TOP: 0px;
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+/* Rule 3166 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .textBox {
+	HEIGHT: 29px
+}
+
+/* Rule 3167 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddCommentCollapsed .textBox {
+	FLOAT: left;
+	HEIGHT: 14px
+}
+
+/* Rule 3187 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .textBox {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	LINE-HEIGHT: 13px;
+	PADDING-TOP: 0px
+}
+
+/* Rule 3212 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiSmall .commentArea .textBox {
+	HEIGHT: 14px
+}
+
+/* Rule 2658 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMentionsInput .highlighter {
+	PADDING-RIGHT: 4px;
+	PADDING-LEFT: 4px;
+	LEFT: 1px;
+	PADDING-BOTTOM: 4px;
+	OVERFLOW: hidden;
+	PADDING-TOP: 4px;
+	POSITION: absolute;
+	TOP: 1px
+}
+
+/* Rule 3188 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .highlighter {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	FLOAT: left;
+	PADDING-BOTTOM: 3px;
+	PADDING-TOP: 3px
+}
+
+/* Rule 2659 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMentionsInput .highlighter DIV {
+	WIDTH: 100%;
+	COLOR: #fff;
+	LINE-HEIGHT: 14px
+}
+
+/* Rule 3189 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .mentionsAddComment .highlighter DIV {
+	LINE-HEIGHT: 13px
+}
+
+/* Rule 158 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+IMG {
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+/* Rule 2547 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIImageBlock_Image {
+	FLOAT: left;
+	MARGIN-RIGHT: 5px
+}
+
+/* Rule 2549 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+IMG.UIImageBlock_Image {
+	DISPLAY: block
+}
+
+/* Rule 2552 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIImageBlock_ICON_Image {
+	MARGIN-RIGHT: 5px
+}
+
+/* Rule 3054 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiProfilePhotoMedium {
+	WIDTH: 32px;
+	HEIGHT: 32px
+}
+
+/* Rule 3159 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddComment .actorPic {
+	FLOAT: left;
+	MARGIN-RIGHT: 6px
+}
+
+/* Rule 3169 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiAddCommentCollapsed .actorPic {
+	DISPLAY: none
+}
+
+/* Rule 3190 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfiComments {
+	ZOOM: 1
+}
+
+/* Rule 3155 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfi .ufiNub {
+	MARGIN-TOP: 0px;
+	FONT-SIZE: 0px;
+	MARGIN-BOTTOM: -2px;
+	LINE-HEIGHT: 5px
+}
+
+/* Rule 3156 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiUfi .ufiNub I {
+	BACKGROUND-POSITION: 0px 0px;
+	DISPLAY: block;
+	BACKGROUND-IMAGE: url(http://b.static.ak.fbcdn.net/rsrc.php/v1/y7/r/UvyvLtJTQzO.png);
+	MARGIN-LEFT: 17px;
+	WIDTH: 9px;
+	BACKGROUND-REPEAT: no-repeat;
+	HEIGHT: 5px
+}
+
+/* Rule 2269 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamFooter {
+	COLOR: #999
+}
+
+/* Rule 2322 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiImageBlockContent {
+	OVERFLOW: hidden;
+	ZOOM: 1
+}
+
+/* Rule 2323 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiImageBlockSmallContent {
+	PADDING-TOP: 1px
+}
+
+/* Rule 156 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+A {
+	CURSOR: pointer;
+	COLOR: #3b5998;
+	TEXT-DECORATION: none
+}
+
+/* Rule 208 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.inlineBlock {
+	DISPLAY: inline;
+	ZOOM: 1
+}
+/* Rule 2695 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelector {
+	VERTICAL-ALIGN: top;
+	max-width: 200px
+}
+/* Rule 134 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+SELECT {
+	BORDER-RIGHT: #bdc7d8 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #bdc7d8 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 11px;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #bdc7d8 1px solid;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #bdc7d8 1px solid;
+	FONT-FAMILY: "lucida grande",tahoma,verdana,arial,sans-serif
+}
+
+/* Rule 2697 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelector SELECT {
+	DISPLAY: none
+}
+
+/* Rule 2696 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelector .wrap {
+	POSITION: relative
+}
+/* Rule 2689 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiToggleFlyout {
+	DISPLAY: none
+}
+/* Rule 2692 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.openToggler .uiToggleFlyout {
+	DISPLAY: block
+}
+.openToggler{z-index:100}
+.uiToggleFlyout,.toggleTargetClosed,.openToggler .uiToggleFlyout .uiToggleFlyout{display:none}
+.openToggler .uiToggleFlyout,.openToggler .uiToggleFlyout .openToggler .uiToggleFlyout{display:block}
+.hideToggler{border:0;height:0;font-size:0;filter:alpha(opacity=0);overflow:hidden;position:absolute;width:0}
+
+/* Rule 2747 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelectorMenuWrapper {
+	Z-INDEX: -1;
+	RIGHT: auto;
+	LEFT: 0px;
+	MARGIN: -1px 0px 30px;
+	BOTTOM: auto;
+	POSITION: absolute;
+	TOP: 100%;
+	min-width: 100%;
+	max-width: 340px
+}
+
+/* Rule 2748 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelectorRight .uiSelectorMenuWrapper {
+	RIGHT: -1px;
+	LEFT: auto
+}
+
+/* Rule 2665 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMenu {
+	PADDING-RIGHT: 0px;
+	OVERFLOW-Y: visible;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 4px;
+	PADDING-TOP: 3px;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 2751 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelector .uiMenu {
+	BORDER-RIGHT: #777 1px solid;
+	BORDER-TOP: #777 1px solid;
+	BORDER-LEFT: #777 1px solid;
+	BORDER-BOTTOM: #293e6a 2px solid
+}
+
+/* Rule 2673 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMenuItem {
+	WHITE-SPACE: nowrap;
+	height:22px
+}
+
+/* Rule 2272 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamFooter A {
+	COLOR: #6d84b4
+}
+
+/* Rule 2217 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fbStreamPrivacy .lock {
+	MARGIN-BOTTOM: -5px;
+	VERTICAL-ALIGN: top;
+	BOTTOM: -2px;
+	POSITION: relative
+}
+
+/* Rule 2544 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+I.img {
+	OVERFLOW: hidden
+}
+
+/* Rule 2270 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamSource {
+	COLOR: #999
+}
+
+/* Rule 2273 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamSource A {
+	COLOR: #999
+}
+
+/* Rule 164 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+abbr {
+	BORDER-BOTTOM-STYLE: none
+}
+
+/* Rule 677 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIActionLinks_bottom {
+	COLOR: #999
+}
+
+/* Rule 678 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIActionLinks_bottom A {
+	COLOR: #6d84b4
+}
+
+/* Rule 3146 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIActionLinks .uiLinkButton {
+	FONT-WEIGHT: normal;
+	VERTICAL-ALIGN: text-top;
+	COLOR: #6b84b4
+}
+
+/* Rule 680 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIActionLinks_bottom .uiLinkButton INPUT {
+	COLOR: #6d84b4
+}
+
+/* Rule 2511 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiLinkButton INPUT {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	FONT-SIZE: 11px;
+	BACKGROUND: none transparent scroll repeat 0% 0%;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	VERTICAL-ALIGN: top;
+	OVERFLOW: visible;
+	WIDTH: 0px;
+	CURSOR: pointer;
+	COLOR: #3b5998;
+	BORDER-TOP-STYLE: none;
+	PADDING-TOP: 0px;
+	FONT-FAMILY: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BORDER-BOTTOM-STYLE: none
+}
+
+/* Rule 3147 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIActionLinks .uiLinkButton INPUT {
+	FONT-WEIGHT: normal;
+	VERTICAL-ALIGN: text-top;
+	COLOR: #6b84b4
+}
+
+/* Rule 216 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+BUTTON.as_link {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	FONT-SIZE: 100%;
+	BACKGROUND: none transparent scroll repeat 0% 0%;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px 0px -1px 3px;
+	VERTICAL-ALIGN: middle;
+	OVERFLOW: visible;
+	WIDTH: auto;
+	CURSOR: pointer;
+	COLOR: #3b5998;
+	BORDER-TOP-STYLE: none;
+	PADDING-TOP: 0px;
+	FONT-FAMILY: "lucida grande",tahoma,verdana,arial,sans-serif;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	TEXT-ALIGN: left;
+	BORDER-BOTTOM-STYLE: none
+}
+
+/* Rule 679 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIActionLinks_bottom BUTTON.as_link {
+	COLOR: #6d84b4
+}
+
+/* Rule 121 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.saving_message {
+	DISPLAY: none
+}
+
+/* Rule 122 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.default_message {
+	DISPLAY: inline
+}
+
+/* Rule 1908 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.sp_7h2yks {
+	DISPLAY: inline-block;
+	BACKGROUND-IMAGE: url(images/map.png);
+	WIDTH: 16px;
+	BACKGROUND-REPEAT: no-repeat;
+	HEIGHT: 16px
+}
+
+/* Rule 1934 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.sx_5f9f3c {
+	BACKGROUND-POSITION: -35px -108px;
+	HEIGHT: 17px
+}
+
+/* Rule 2324 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiImageBlockImage {
+	DISPLAY: block
+}
+
+/* Rule 2326 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiImageBlockSmallImage {
+	MARGIN-RIGHT: 5px
+}
+
+/* Rule 2575 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.lfloat {
+	DISPLAY: inline
+}
+
+/* Rule 2577 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.lfloat {
+	FLOAT: left
+}
+
+/* Rule 2633 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.mvm {
+	MARGIN-TOP: 10px;
+	MARGIN-BOTTOM: 10px
+}
+/* Rule 2666 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMenuItem .itemAnchor {
+	BORDER-RIGHT: #fff 0px solid;
+	PADDING-RIGHT: 16px;
+	BORDER-TOP: #fff 1px solid;
+	DISPLAY: block;
+	PADDING-LEFT: 22px;
+	FONT-WEIGHT: normal;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #fff 0px solid;
+	COLOR: #111;
+	LINE-HEIGHT: 16px;
+	PADDING-TOP: 0px;
+	BORDER-BOTTOM: #fff 1px solid;
+	TEXT-DECORATION: none
+}
+/* Rule 2674 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMenuItem .itemLabel {
+	DISPLAY: block;
+	WHITE-SPACE: nowrap;
+	TEXT-OVERFLOW: ellipsis;
+	max-width: 300px;
+	width: 100%;
+}
+
+/* Rule 2670 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMenu .checked .itemAnchor {
+	FONT-WEIGHT: bold;
+	BACKGROUND: url(http://static.ak.fbcdn.net/rsrc.php/v1/yu/r/6NHt8H5uyPf.png) no-repeat left 4px
+}
+.uiMenuItem a:hover{text-decoration:none}
+.uiMenuItem a:active,.uiMenuItem a:focus{background-color:#6d84b4;border-color:#3b5998;color:#fff;outline:none}
+.uiMenuItem a:active,.uiMenuItem a:hover{background-color:#6d84b4;border-color:#3b5998;color:#fff;outline:none}
+.uiMenu .checked a:active,.uiMenu .checked a:focus{background-color:#6d84b4;background-position:left -56px}
+.uiMenu .checked a:active,.uiMenu .checked a:hover{background-color:#6d84b4;color:#FFF;background-position:left -56px}
+
+/* Rule 2179 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm .uiSelectorButton {
+	PADDING-RIGHT: 9px;
+	BACKGROUND-POSITION: right -396px;
+	PADDING-LEFT: 3px;
+	BACKGROUND-IMAGE: url(http://static.ak.fbcdn.net/rsrc.php/v1/yr/r/l5HccJez9OB.gif);
+	PADDING-BOTTOM: 0px;
+	MARGIN: -1px 2px 0px;
+	BORDER-TOP-STYLE: none;
+	PADDING-TOP: 0px;
+	BACKGROUND-REPEAT: no-repeat;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BACKGROUND-COLOR: transparent;
+	BORDER-BOTTOM-STYLE: none
+}
+.uiMenuItem a:active,.uiMenuItem a:focus{background-color:#6d84b4;border-color:#3b5998;color:#fff;outline:none}
+
+/* Rule 2636 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fsm {
+	FONT-SIZE: 11px
+}
+
+/* Rule 2640 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fwn {
+	FONT-WEIGHT: normal
+}
+
+/* Rule 2643 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fcg {
+	COLOR: gray
+}
+
+/* Rule 2213 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiAttachmentDesc {
+	WORD-WRAP: break-word
+}
+
+/* Rule 2234 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiAttachmentDesc {
+	COLOR: gray
+}
+
+/* Rule 2212 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiAttachmentTitle {
+	WORD-WRAP: break-word
+}
+
+/* Rule 2218 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+DIV.uiAttachmentTitle {
+	COLOR: #333
+}
+
+/* Rule 2555 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIImageBlock_MED_Image {
+	MARGIN-RIGHT: 10px
+}
+
+/* Rule 2897 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiVideoThumb {
+	BORDER-TOP-WIDTH: 0px;
+	DISPLAY: inline-block;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	OVERFLOW: hidden;
+	POSITION: relative;
+	BORDER-RIGHT-WIDTH: 0px;
+	max-height: 130px;
+	max-width: 130px;
+}
+
+/* Rule 2901 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiVideoThumb I {
+	BACKGROUND: url(http://b.static.ak.fbcdn.net/rsrc.php/v1/yB/r/jxUplchomFH.png) no-repeat 0px 0px;
+	LEFT: 5px;
+	WIDTH: 35px;
+	BOTTOM: 5px;
+	POSITION: absolute;
+	HEIGHT: 26px
+}
+
+/* Rule 2548 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.UIImageBlock_Image .img {
+	DISPLAY: block
+}
+
+/* Rule 2898 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiVideoThumb IMG {
+	DISPLAY: inline-block;
+	max-height: 130px;
+	max-width: 130px
+}
+
+/* Rule 2899 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.ie6 .uiVideoThumb IMG {
+	
+}
+
+/* Rule 151 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+H6 {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	FONT-SIZE: 13px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	COLOR: #333;
+	PADDING-TOP: 0px
+}
+
+/* Rule 2204 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamMessage {
+	FONT-WEIGHT: normal;
+	FONT-SIZE: 11px;
+	MARGIN: 0px 0px 5px;
+	COLOR: #000
+}
+
+/* Rule 2211 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamMessage {
+	WORD-WRAP: break-word
+}
+
+/* Rule 169 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.word_break {
+	DISPLAY: inline-block
+}
+
+/* Rule 2205 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeadline {
+	MARGIN-BOTTOM: 0px
+}
+
+/* Rule 2214 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamMessage .actorDescription {
+	PADDING-BOTTOM: 3px
+}
+
+/* Rule 2246 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStreamMessage .actorName {
+	FONT-WEIGHT: bold
+}
+
+
+/* Rule 2524 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiBoxLightblue {
+	BORDER-RIGHT: #d8dfea 1px solid;
+	BORDER-TOP: #d8dfea 1px solid;
+	BORDER-LEFT: #d8dfea 1px solid;
+	BORDER-BOTTOM: #d8dfea 1px solid;
+	BACKGROUND-COLOR: #edeff4
+}
+
+/* Rule 2594 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.pam {
+	PADDING-RIGHT: 10px;
+	PADDING-LEFT: 10px;
+	PADDING-BOTTOM: 10px;
+	PADDING-TOP: 10px
+}
+
+/* Rule 2914 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMorePager .uiMorePagerLoader {
+	PADDING-RIGHT: 15px;
+	DISPLAY: none;
+	PADDING-LEFT: 15px;
+	PADDING-BOTTOM: 9px;
+	PADDING-TOP: 11px;
+	TEXT-ALIGN: center
+}
+
+/* Rule 158 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+IMG {
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-LEFT-WIDTH: 0px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+/* Rule 156 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+A {
+	CURSOR: pointer;
+	COLOR: #3b5998;
+	TEXT-DECORATION: none
+}
+
+/* Rule 2910 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMorePager .uiMorePagerPrimary {
+	PADDING-RIGHT: 15px;
+	DISPLAY: block;
+	PADDING-LEFT: 15px;
+	PADDING-BOTTOM: 10px;
+	PADDING-TOP: 10px
+}
+/* Rule 1917 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.sx_adb049 {
+	BACKGROUND-POSITION: -63px -128px;
+	WIDTH: 9px;
+	HEIGHT: 5px
+}
+
+/* Rule 2544 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+I.img {
+	OVERFLOW: hidden
+}
+
+/* Rule 2626 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.mls {
+	MARGIN-LEFT: 5px
+}
+
+/* Rule 2913 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiMorePager .arrow {
+	DISPLAY: inline-block;
+	VERTICAL-ALIGN: top
+}
+
+/* Rule 2702 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelector .uiButton {
+	BACKGROUND-IMAGE: none
+}
+/* Rule 2706 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelector .uiSelectorButton {
+	VERTICAL-ALIGN: top
+}
+
+/* Rule 2716 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelectorNormal .uiSelectorButton {
+	PADDING-RIGHT: 23px;
+	BACKGROUND-POSITION: right 0px;
+	BACKGROUND-IMAGE: url(http://static.ak.fbcdn.net/rsrc.php/v1/yr/r/l5HccJez9OB.gif);
+	BACKGROUND-REPEAT: no-repeat;
+	max-width: 169px
+}
+
+/* Rule 2177 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm .uiSelectorButton .uiButtonText {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 9px;
+	COLOR: gray
+}
+/* Rule 2401 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiButton .uiButtonText {
+	BORDER-TOP-WIDTH: 0px;
+	PADDING-RIGHT: 0px;
+	DISPLAY: inline-block;
+	PADDING-LEFT: 0px;
+	FONT-WEIGHT: bold;
+	BORDER-LEFT-WIDTH: 0px;
+	FONT-SIZE: 11px;
+	BACKGROUND: none transparent scroll repeat 0% 0%;
+	BORDER-BOTTOM-WIDTH: 0px;
+	PADDING-BOTTOM: 2px;
+	MARGIN: 0px;
+	WIDTH: 0px;
+	CURSOR: pointer;
+	COLOR: #333;
+	PADDING-TOP: 1px;
+	FONT-FAMILY: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	WHITE-SPACE: nowrap;
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+/* Rule 2743 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiSelectorNormal .uiSelectorButton .uiButtonText {
+	VERTICAL-ALIGN: top;
+	OVERFLOW: visible;
+	TEXT-OVERFLOW: ellipsis;
+	max-width: 169px
+}
+
+/* Rule 2174 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderText {
+	PADDING-RIGHT: 2px;
+	LEFT: 0px;
+	POSITION: absolute;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 2175 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderText {
+	MARGIN-LEFT: 68px;
+	COLOR: gray;
+	TOP: -6px
+}
+
+/* Rule 2606 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.plm {
+	PADDING-LEFT: 10px
+}
+/* Rule 2635 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fss {
+	FONT-SIZE: 9px
+}
+
+/* Rule 2641 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.fwb {
+	FONT-WEIGHT: bold
+}
+/* Rule 2688 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.openToggler {
+	Z-INDEX: 100
+}
+* Rule 2694 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.hideToggler {
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-LEFT-WIDTH: 0px;
+	FONT-SIZE: 0px;
+	FILTER: alpha(opacity=0);
+	BORDER-BOTTOM-WIDTH: 0px;
+	OVERFLOW: hidden;
+	WIDTH: 0px;
+	POSITION: absolute;
+	HEIGHT: 0px;
+	BORDER-RIGHT-WIDTH: 0px
+}
+/* Rule 264 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerAttachments {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	Z-INDEX: 2;
+	PADDING-BOTTOM: 5px;
+	LINE-HEIGHT: 22px;
+	PADDING-TOP: 2px;
+	POSITION: relative
+}
+
+/* Rule 265 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerOpen .uiComposerAttachments {
+	PADDING-BOTTOM: 7px
+}
+
+/* Rule 240 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposer .attachmentLoader {
+	RIGHT: 2px;
+	LINE-HEIGHT: normal;
+	POSITION: absolute;
+	TOP: 9px
+}
+/* Rule 2447 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiListHorizontalItem {
+	FLOAT: left
+}
+/* Rule 2451 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiListHorizontalItemBorder {
+	BORDER-TOP-WIDTH: 0px;
+	BORDER-LEFT-WIDTH: 1px;
+	BORDER-BOTTOM-WIDTH: 0px;
+	BORDER-RIGHT-WIDTH: 0px
+}
+/* Rule 2509 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiLoadingIndicatorAsync {
+	DISPLAY: none
+}
+/* Rule 263 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+SPAN.uiComposerAttachment {
+	DISPLAY: inline-block;
+	COLOR: #333
+}
+
+/* Rule 258 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerAttachment .selected {
+	DISPLAY: none
+}
+/* Rule 2408 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiIconText {
+	PADDING-LEFT: 21px;
+	ZOOM: 1;
+	POSITION: relative
+}
+/* Rule 261 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerAttachment .nub {
+	BACKGROUND: url(images/friend.png) no-repeat center top;
+	LEFT: 2px;
+	WIDTH: 11px;
+	POSITION: absolute;
+	TOP: 18px;
+	HEIGHT: 7px
+}
+/* Rule 262 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiMetaComposer .uiComposerAttachment .nub {
+	LEFT: 0px;
+	BACKGROUND-IMAGE: url(images/map.png);
+	TOP: 0px
+}
+/* Rule 1705 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.sp_3ji6pu {
+	DISPLAY: inline-block;
+	BACKGROUND-IMAGE: url(images/friend.png);
+	WIDTH: 16px;
+	BACKGROUND-REPEAT: no-repeat;
+	HEIGHT: 16px
+}
+/* Rule 2410 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiIconText .img {
+	LEFT: 0px;
+	VERTICAL-ALIGN: middle;
+	POSITION: absolute;
+	TOP: -1px
+}
+/* Rule 256 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerAttachment .attachmentLink {
+	outline: none
+}
+
+/* Rule 1911 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.sp_7h2yks {
+	DISPLAY: inline-block;
+	BACKGROUND-IMAGE: url(images/global.png);
+	WIDTH: 16px;
+	BACKGROUND-REPEAT: no-repeat;
+	HEIGHT: 16px
+}
+
+/* Rule 1933 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.sx_a9a417 {
+	BACKGROUND-POSITION: -33px -91px
+}
+
+/* Rule 260 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerAttachmentSelected .selected {
+	DISPLAY: inline
+}
+/* Rule 259 of http://b.static.ak.fbcdn.net/rsrc.php/v1/yC/r/yHHSjezljEn.css */ 
+.uiComposerAttachmentSelected .normal {
+	DISPLAY: none
+}
+/* Rule 2173 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm2 {
+	PADDING-RIGHT: 2px;
+	LEFT: 0px;
+	POSITION: absolute;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 2176 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm2 {
+	RIGHT: 120px;
+	LEFT: auto;
+	TOP: -7px
+}
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm2 .uiSelectorButton {
+	PADDING-RIGHT: 9px;
+	BACKGROUND-POSITION: right -396px;
+	PADDING-LEFT: 3px;
+	BACKGROUND-IMAGE: url(http://static.ak.fbcdn.net/rsrc.php/v1/yr/r/l5HccJez9OB.gif);
+	PADDING-BOTTOM: 0px;
+	MARGIN: -1px 2px 0px;
+	BORDER-TOP-STYLE: none;
+	PADDING-TOP: 0px;
+	BACKGROUND-REPEAT: no-repeat;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BACKGROUND-COLOR: transparent;
+	BORDER-BOTTOM-STYLE: none
+}
+/* Rule 2177 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm2 .uiSelectorButton .uiButtonText {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 9px;
+	COLOR: gray
+}
+
+/* Rule 2173 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm3 {
+	PADDING-RIGHT: 2px;
+	LEFT: 0px;
+	POSITION: absolute;
+	BACKGROUND-COLOR: #fff
+}
+
+/* Rule 2176 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm3 {
+	RIGHT: 250px;
+	LEFT: auto;
+	TOP: -7px
+}
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm3 .uiSelectorButton {
+	PADDING-RIGHT: 9px;
+	BACKGROUND-POSITION: right -396px;
+	PADDING-LEFT: 3px;
+	BACKGROUND-IMAGE: url(http://static.ak.fbcdn.net/rsrc.php/v1/yr/r/l5HccJez9OB.gif);
+	PADDING-BOTTOM: 0px;
+	MARGIN: -1px 2px 0px;
+	BORDER-TOP-STYLE: none;
+	PADDING-TOP: 0px;
+	BACKGROUND-REPEAT: no-repeat;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BACKGROUND-COLOR: transparent;
+	BORDER-BOTTOM-STYLE: none
+}
+/* Rule 2177 of http://static.ak.fbcdn.net/rsrc.php/v1/y1/r/tlJ66IshynG.css */ 
+.uiStream .uiStreamHeader .uiStreamHeaderChronologicalForm3 .uiSelectorButton .uiButtonText {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 9px;
+	COLOR: gray
+}
+
+﻿.uiStreamAttachments .exploded .swfObject{margin-bottom:7px}
+.uiStreamAttachments .exploded .UIImageBlock_Image{margin-right:0}
+.uiStreamAttachments .exploded .UIImageBlock_Content,.uiStreamAttachments .text_exposed .truncatedMediaInfo{clear:both;display:block;padding-left:0;width:auto}
