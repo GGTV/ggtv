@@ -1,0 +1,148 @@
+<project name="GagiaTV" default="build-web" basedir=".">
+
+<property name="url" value="${apserver-url}"/>
+<property name="war-file" value="GagiaTV.war" />
+<property name="project-path" value="${root-path}/${context}" />
+<property name="dir.web.build" value="build-web"/>
+<property name="dir.web.pages" value="${dir.web.build}/pages"/>
+<property name="dir.web.webinfo" value="${dir.web.build}/WEB-INF"/>
+<property name="dir.web.classes" value="${dir.web.webinfo}/classes"/>
+<property name="dir.web.lib" value="${dir.web.webinfo}/lib"/>
+
+<path id="classpath">
+	<fileset dir="lib" includes="*.jar"/>
+</path>
+<path id="demo.classpath">
+	<fileset dir="." includes="lib/*.jar,dist/*.jar,cassandraLib/*.jar"/>
+</path>
+<path id="web.classpath">
+	<fileset dir="." includes="${dir.web.lib}/*.jar"/>
+</path>
+
+<target name="init">
+	<tstamp/>
+</target>
+
+<target name="prepare" depends="init" description="Create build directories.">
+<!--	<mkdir dir="build" />-->
+	<mkdir dir="build-core" />
+	<mkdir dir="build-demo" />
+	<mkdir dir="${dir.web.build}" />
+	<mkdir dir="${dir.web.build}/META-INF" />
+	<mkdir dir="${dir.web.webinfo}" />
+	<mkdir dir="${dir.web.classes}" />
+	<mkdir dir="${dir.web.lib}" />
+	<mkdir dir="dist" />
+</target>
+
+<!-- Executable Targets -->
+<target name="copyCoreLib" description="Copy core.jar to destination folder" >
+	<copy overwrite="true" todir="${destDir}" file="dist/gagiatv-core.jar"/>
+</target>
+
+<target name="build-demo" depends="build-core" description="Compile Java files and copy DD and static files." >
+	<javac srcdir="src/test" destdir="build-demo" debug="on">
+		<include name="**/*.java" />
+		<classpath refid="demo.classpath"/>
+	</javac>
+	<copy todir="build-demo">
+		<fileset dir="src/test" includes="**/*.properties"/>
+	</copy>
+</target>
+<target name="build-core" depends="prepare" description="Compile Java files and copy DD and static files." >
+	<javac srcdir="src/core" destdir="build-core" debug="on">
+		<include name="**/*.java" />
+		<classpath refid="classpath"/>
+	</javac>
+</target>
+<target name="build-web" depends="build-core" description="Compile Java files and copy DD and static files." >
+	<antcall target="copyCoreLib">
+		<param name="destDir" value="${dir.web.build}/WEB-INF/lib"/>
+	</antcall>
+	<copy todir="${dir.web.lib}">
+		<fileset dir="lib" includes="*.jar"/>
+	</copy>
+	<javac srcdir="src/web" destdir="${dir.web.classes}" debug="on">
+		<include name="**/*.java" />
+		<classpath refid="web.classpath"/>
+	</javac>
+	<copy todir="${dir.web.webinfo}">
+		<fileset dir="src/web" includes="tag/*.tld,web.xml"/>
+	</copy>
+	<copy todir="${dir.web.classes}">
+		<fileset dir="src/web" includes="**/*.properties"/>
+	</copy>
+	<copy todir="${dir.web.pages}">
+		<fileset dir="web" excludes="fb.html,list.jsp,**/*.bak,**/*.txt"/>
+	</copy>
+	<copy todir="${dir.web.build}">
+		<fileset dir="." includes="GeoIP.dat"/>
+	</copy>
+</target>
+<target name="build-webLocal" depends="build-core" description="Compile Java files and copy DD and static files." >
+	<antcall target="copyCoreLib">
+		<param name="destDir" value="${dir.web.build}/WEB-INF/lib"/>
+	</antcall>
+	<copy todir="${dir.web.lib}">
+		<fileset dir="lib" includes="*.jar"/>
+	</copy>
+	<javac srcdir="src/web" destdir="${dir.web.classes}" debug="on">
+		<include name="**/*.java" />
+		<classpath refid="web.classpath"/>
+	</javac>
+	<copy todir="${dir.web.webinfo}">
+		<fileset dir="src/web" includes="tag/*.tld,web.xml"/>
+	</copy>
+	<copy todir="${dir.web.classes}">
+		<fileset dir="src/web" includes="**/*.properties"/>
+	</copy>
+	<copy todir="${dir.web.pages}">
+		<fileset dir="web" excludes="**/*.bak,**/*.txt"/><!-- different from build-web -->
+	</copy>
+	<copy todir="${dir.web.build}">
+		<fileset dir="." includes="GeoIP.dat"/>
+	</copy>
+</target>
+
+<target name="package-core" depends="build-core" description="Packages the WAR file">
+	<echo message="Packaging core...."/>
+	<jar jarfile="dist/gagiatv-core.jar" >
+		<fileset dir="build-core" />
+	</jar>
+    <copy overwrite="true" todir="build/WEB-INF/lib" file="dist/gagiatv-core.jar"/>
+</target>
+<target name="package-demo" depends="build-demo" description="Packages the jar file">
+	<echo message="Packaging demo...."/>
+	<copy todir="build-demo">
+		<fileset dir="." includes="*.sh"/>
+	</copy>
+	<copy todir="build-demo/lib">
+		<fileset dir="lib" includes="*.jar"/>
+		<fileset dir="dist" includes="gagiatv-core.jar"/>
+	</copy>
+	<jar jarfile="dist/CollectGagiaTV.zip" >
+		<fileset dir="build-demo" />
+	</jar>
+</target>
+<target name="package-web" depends="build-web" description="Packages the WAR file">
+	<echo message="Packaging web...."/>
+	<jar jarfile="dist/${war-file}" >
+		<fileset dir="${dir.web.build}" />
+	</jar>
+</target>
+
+<target name="clean-core" description="Removes build-core and core.jar">
+	<delete dir="build-core" />
+	<delete dir="dist/gagiatv-core.jar" />
+</target>
+<target name="clean-demo" description="Removes build-core and core.jar">
+	<delete dir="build-demo" />
+</target>
+<target name="clean-all" depends="clean-core,clean-demo" description="Removes build-core and core.jar">
+</target>
+
+<target name="clean-web" description="Removes build-core and core.jar">
+	<delete dir="build-web" />
+</target>
+
+</project>
