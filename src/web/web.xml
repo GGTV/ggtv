@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app PUBLIC '-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN' 'http://java.sun.com/dtd/web-app_2_3.dtd'>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+	<!--
+	<filter>
+        <filter-name>Set Character Encoding</filter-name>
+        <filter-class>SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+		<init-param> 
+		<param-name>ignore</param-name> 
+		<param-value>true</param-value> 
+	</init-param> 
+    </filter>
+	<filter-mapping>
+        <filter-name>Set Character Encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	<listener>
+		<listener-class>ContextListener</listener-class>
+	</listener>  
+	-->
+	<servlet>
+		<servlet-name>LoadVideo</servlet-name>
+		<servlet-class>org.gagia.web.servlets.LoadVideoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadVideo</servlet-name>
+		<url-pattern>/servlets/LoadVideo</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>LoadStream</servlet-name>
+		<servlet-class>org.gagia.web.servlets.LoadStreamServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadStream</servlet-name>
+		<url-pattern>/servlets/LoadStream</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>org.gagia.web.servlets.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/servlets/Login</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>LoadCategory</servlet-name>
+		<servlet-class>org.gagia.web.servlets.LoadVideoCategoryServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadCategory</servlet-name>
+		<url-pattern>/servlets/LoadCategory</url-pattern>
+	</servlet-mapping>
+
+	<jsp-config>
+	  <taglib>
+		<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+		<taglib-location>/WEB-INF/tag/c.tld</taglib-location>
+	  </taglib>
+	  <taglib>
+		<taglib-uri>http://java.sun.com/jstl/fmt</taglib-uri>
+		<taglib-location>/WEB-INF/tag/fmt.tld</taglib-location>
+	  </taglib>
+	</jsp-config>
+
+	<session-config>
+		<session-timeout>1440</session-timeout>
+	</session-config>
+	
+	<welcome-file-list>
+        <welcome-file>/pages/list.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>

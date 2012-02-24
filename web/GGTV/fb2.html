@@ -1,0 +1,190 @@
+<HTML class=" canHaveFixedElements" lang="en" id="facebook">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="fb.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+</HEAD>
+<script>
+var fSortMenuShow = false;
+function showSortMenu()
+{
+	hideCategory();
+	hidePlayMode();
+	$('div[rel=toggleParent]').addClass("openToggler");
+	fSortMenuShow = true;
+	$('a[rel=toggle]').get(0).onclick=function(){hideSortMenu();return false;};
+}
+function hideSortMenu()
+{
+	$('div[rel=toggleParent]').removeClass("openToggler");
+	fSortMenuShow = false;
+	$('a[rel=toggle]').get(0).onclick=function(){showSortMenu();return false;};
+}
+function showCategory()
+{
+	hideSortMenu();
+	hidePlayMode();
+	$('div[rel=toggleParent2]').addClass("openToggler");
+	$('a[rel=toggle2]').get(0).onclick=function(){hideCategory();return false;};
+}
+function hideCategory()
+{
+	$('div[rel=toggleParent2]').removeClass("openToggler");
+	$('a[rel=toggle2]').get(0).onclick=function(){showCategory();return false;};
+}
+function showPlayMode()
+{
+	hideSortMenu();
+	hideCategory();
+	$('div[rel=toggleParent3]').addClass("openToggler");
+	$('a[rel=toggle3]').get(0).onclick=function(){hidePlayMode();return false;};
+}
+function hidePlayMode()
+{
+	$('div[rel=toggleParent3]').removeClass("openToggler");
+	$('a[rel=toggle3]').get(0).onclick=function(){showPlayMode();return false;};
+}
+</script>
+<BODY class="hasLeftCol home fbx hasSlimHeader win Locale_en_US">
+<!-- Menu -->
+<DIV id="contentArea" role="main"><DIV id="pagelet_composer" data-referrer="pagelet_composer"><DIV class="uiComposer uiComposerHideContent stat_elem uiMetaComposer fbComposerWideSpacing uiComposerOpen uiComposerHideContent uiComposerWhiteMessageBox" id="" onclick='javascript:alert("abc");return false;'><DIV class="focus_target">
+<UL class="uiList uiListHorizontal clearfix uiComposerAttachments" onclick='javascript:alert("cde");return false;'>
+ <LI class="uiListItem  uiListHorizontalItemBorder uiListHorizontalItem">
+  <SPAN class="uiComposerAttachment statusAttachment uiComposerAttachmentSelected attachmentAcceptsLink" id="composerTourStart" onclick='javascript:alert("gg");return false;' data-endpoint="#"><SPAN class="uiIconText selected"><Img src="images/friend.png" width=20 height=20></Img><STRONG class="attachmentName">Personal</STRONG></SPAN></SPAN>
+ </LI>
+ <LI class="plm uiListItem  uiListHorizontalItemBorder uiListHorizontalItem">
+  <SPAN class="uiComposerAttachment photoAttachment" id="ukjj1g_6" data-endpoint=""><A class="uiIconText attachmentLink normal" href="http://www.facebook.com/?ref=logo#"><Img src="images/map.png" width=20 height=20></Img><STRONG class="attachmentName">Regional</STRONG></A><SPAN class="uiIconText selected"></SPAN></SPAN>
+ </LI>
+ <LI class="plm uiListItem  uiListHorizontalItemBorder uiListHorizontalItem">
+  <SPAN class="uiComposerAttachment" id="ukjj1g_7" data-endpoint=""><A class="uiIconText attachmentLink normal" href="http://www.facebook.com/?ref=logo#"><Img src="images/global.png" width=20 height=20></Img><STRONG class="attachmentName">Global</STRONG></A><SPAN class="uiIconText selected"></STRONG></SPAN></SPAN>
+ </LI>
+ <LI class="attachmentLoader plm uiListItem  uiListHorizontalItemBorder uiListHorizontalItem">
+  <IMG class="uiLoadingIndicatorAsync img" height="0" alt="" src="http://b.static.ak.fbcdn.net/rsrc.php/v1/yb/r/GsNJNwuI-UM.gif" width="0" />
+ </LI>
+</UL>
+</DIV></DIV></DIV></DIV>
+<!-- /Menu -->
+<!-- Header (Sort) -->
+<DIV id="contentArea" role="main"><DIV id="pagelet_home_stream" data-referrer="pagelet_home_stream" data-gt='{"ref":"nf"}'>
+<UL class="uiStream" id="boulder_fixed_header">
+ <LI class="mts uiStreamHeader">
+ <!-- Show / hide Play mode-->
+ <DIV class="uiStreamHeaderChronologicalForm3">
+   <DIV class="uiSelector inlineBlock uiSelectorRight uiSelectorNormal uiSelectorDynamicLabel">
+    <DIV class="wrap" rel="toggleParent3"><BUTTON class="hideToggler"></BUTTON>
+     <A class="uiSelectorButton uiButton" href="" rel="toggle3" aria-haspopup="1" role="button" data-length="30" onclick="javascript:showPlayMode();return false;"><SPAN class="uiButtonText">PLAY MODE</SPAN></A>
+     <DIV class="uiSelectorMenuWrapper uiToggleFlyout">
+      <DIV class="uiMenu uiSelectorMenu" role="menu">
+       <UL class="uiMenuInner">
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption checked" data-label="SORT">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_nor" role="menuitemradio" aria-checked="true"><SPAN class="itemLabel fsm">Once</SPAN></A>
+        </LI>
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption" data-label="SORT: TITLE">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_chr" role="menuitemradio" aria-checked="false"><SPAN class="itemLabel fsm">Repeat</SPAN></A>
+        </LI>
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption" data-label="SORT: TITLE">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_chr" role="menuitemradio" aria-checked="false"><SPAN class="itemLabel fsm">Continuous</SPAN></A>
+        </LI>
+       </UL>
+      </DIV>
+     </DIV>
+    </DIV>
+   </DIV>
+  </DIV>
+ <!-- /Show / hide play mode-->
+ <!-- Show / hide Category-->
+ <DIV class="uiStreamHeaderChronologicalForm2">
+   <DIV class="uiSelector inlineBlock uiSelectorRight uiSelectorNormal uiSelectorDynamicLabel">
+    <DIV class="wrap" rel="toggleParent2"><BUTTON class="hideToggler"></BUTTON>
+     <A class="uiSelectorButton uiButton" href="" rel="toggle2" aria-haspopup="1" role="button" data-length="30" onclick="javascript:showCategory();return false;"><SPAN class="uiButtonText">CATEGORY</SPAN></A>
+     <DIV class="uiSelectorMenuWrapper uiToggleFlyout">
+      <DIV class="uiMenu uiSelectorMenu" role="menu">
+       <UL class="uiMenuInner">
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption checked" data-label="SORT">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_nor" role="menuitemradio" aria-checked="true"><SPAN class="itemLabel fsm">Most Recent</SPAN></A>
+        </LI>
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption" data-label="SORT: TITLE">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_chr" role="menuitemradio" aria-checked="false"><SPAN class="itemLabel fsm">Video Title</SPAN></A>
+        </LI>
+       </UL>
+      </DIV>
+     </DIV>
+    </DIV>
+   </DIV>
+  </DIV>
+ <!-- /Show / hide Category-->
+
+  <DIV class="uiStreamHeaderChronologicalForm">
+   <DIV class="uiSelector inlineBlock uiSelectorRight uiSelectorNormal uiSelectorDynamicLabel">
+    <DIV class="wrap" rel="toggleParent"><BUTTON class="hideToggler"></BUTTON>
+     <A class="uiSelectorButton uiButton" href="" rel="toggle" aria-haspopup="1" role="button" data-length="30" onclick="javascript:showSortMenu();return false;"><SPAN class="uiButtonText">SORT</SPAN></A>
+     <DIV class="uiSelectorMenuWrapper uiToggleFlyout">
+      <DIV class="uiMenu uiSelectorMenu" role="menu">
+       <UL class="uiMenuInner">
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption checked" data-label="SORT">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_nor" role="menuitemradio" aria-checked="true"><SPAN class="itemLabel fsm">Most Recent</SPAN></A>
+        </LI>
+        <LI class="uiMenuItem uiMenuItemRadio uiSelectorOption" data-label="SORT: TITLE">
+         <A class="itemAnchor" href="http://www.facebook.com/?sk=h_chr" role="menuitemradio" aria-checked="false"><SPAN class="itemLabel fsm">Video Title</SPAN></A>
+        </LI>
+       </UL>
+      </DIV>
+     </DIV>
+    </DIV>
+   </DIV>
+  </DIV>
+ </LI>
+</UL>
+</DIV></DIV>
+<!-- /Header (Sort) -->
+
+
+<!-- Video Data Block -->
+<DIV id="contentArea" role="main"><DIV id="pagelet_home_stream" data-referrer="pagelet_home_stream" data-gt='{"ref":"nf"}'><DIV class="UIIntentionalStream UIStream" id="c4f2e49faebd580766906397"><UL class="uiList uiStream uiStreamHomepage translateParent UIIntentionalStream_Content" id="home_stream" style="MIN-HEIGHT: 100px" data-referrer="home_stream"><LI class="uiUnifiedStory uiStreamStory genericStreamStory uiStreamBoulderHighlight aid_1221610072 uiListItem uiListLight uiListVerticalItemBorder" id="stream_story_4f2e49fb8af7f0e81367821" data-ft='{"qid":"5705579117614779541","mf_story_key":"10150629424593454","c":"m"}'><DIV class="storyContent"><DIV class="UIImageBlock clearfix"><DIV class="storyInnerContent UIImageBlock_Content UIImageBlock_MED_Content">
+
+<DIV class="mainWrapper">
+ <H6 class="uiStreamMessage uiStreamHeadline">
+ </H6>
+ <H6 class="uiStreamMessage" data-ft='{"type":1}'>
+  <SPAN class="messageBody" data-ft='{"type":3}'><A onmousedown='UntrustedLink.bootstrap($(this), "pAQFLut62AQHhqoK3QvjJiZDX3pkNS4PrQZAOqznfZL5zUQ", event, bagof(null));' href="http://www.youtube.com/watch?v=qX2GsMj7154" target="_blank" rel="nofollow nofollow"><SPAN>http://www.youtube.com/</SPAN><WBR></WBR><SPAN class="word_break"></SPAN>watch?v=qX2GsMj7154</A></SPAN>
+ </H6>
+ <DIV class="mvm uiStreamAttachments clearfix fbMainStreamAttachment" data-ft='{"type":10}'>
+  <DIV class="UIImageBlock clearfix">
+   <A class="uiVideoThumb UIImageBlock_Image UIImageBlock_MED_Image" id="uv3nee_60" onclick='CSS.addClass(this, "uiVideoThumbLoading");' href="http://www.facebook.com/" target="_blank" rel="async" aria-hidden="true" data-ft='{"type":42,"video_type":"share"}' ajaxify="/ajax/flash/expand_inline.php?replace=1&target_div=uv3nee_60&context=story&share_id=167179513393050"><IMG class="img" style="CLEAR: none; WIDTH: 130px" alt="" src="http://external.ak.fbcdn.net/safe_image.php?d=AQAaMZBUEuT1vjws&url=http%3A%2F%2Fi2.ytimg.com%2Fvi%2FqX2GsMj7154%2Fhqdefault.jpg" /><I></I></A>
+   <DIV class="UIImageBlock_Content UIImageBlock_MED_Content fsm fwn fcg">
+    <DIV class="uiAttachmentTitle" data-ft='{"type":11}'>
+     <STRONG><A onmousedown='UntrustedLink.bootstrap($(this), "HAQFHMLrEAQEM-W_F8BCfBPe6-wULZ1qRzz_9-hoBR_iTqQ", event, bagof(null));' href="http://www.youtube.com/watch?v=qX2GsMj7154" target="_blank" rel="nofollow">::首播::Mayday五月天【乾杯】MV官方完整版</A></STRONG> 
+    </DIV>
+    <SPAN class="caption"><A onmousedown='UntrustedLink.bootstrap($(this), "1AQHopwgvAQH6fONQa3kzVE4mKmPjNVgDPwNJ_Y5OzhT__g", event, bagof(null));' href="http://www.youtube.com/" target="_blank" rel="nofollow nofollow">www.youtube.com</A></SPAN>
+    <DIV class="mts uiAttachmentDesc translationEligibleUserAttachmentMessage">
+     作詞：阿信 作曲：阿信 會不會 有一天 時間真的能倒退 退回 你的我的 回不去的 悠悠的歲月 也許會 有一天 世界真的有終點 也要和你舉起回憶釀的甜 和你再乾一杯 如果說 要我選出 代表青春 那個畫面 浮現了 那滴眼淚 那片藍天 那年畢業 那一張 邊哭邊笑 還要擁抱 是你的臉 想起來 可愛可憐 可歌可泣 可是多懷...
+    </DIV>
+   </DIV>
+  </DIV>
+ </DIV>
+ <DIV class="clearfix uiImageBlock uiStreamFooter">
+   <I class="uiImageBlockImage uiImageBlockSmallImage lfloat img sp_7h2yks sx_5f9f3c"></I>
+<a name="fb_share" type="icon_link" 
+   share_url="http://www.facebook.com/sharer.php?u=<url to share>&t=<title of content>">Share</a> 
+   
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
+        type="text/javascript">
+</script>
+<script>
+	$(".FBConnectButton_Simple").css("background-image", "url('')");
+	$('.FBConnectButton_Text_Simple').css("margin", "0 0 0 0");
+</script>
+  </DIV>
+</DIV>
+</DIV></DIV></DIV></LI></UL></DIV></DIV></DIV>
+<!-- /Video Data Block -->
+
+
+<!-- Footer (More) -->
+<DIV class="uiContextualLayerParent" id="globalContainer"><DIV id="contentArea" role="main"><DIV id="pagelet_home_stream" data-referrer="pagelet_home_stream" data-gt='{"ref":"nf"}'><DIV class="UIIntentionalStream UIStream" id="c4f2e8a9c9bb317750746968"><DIV><DIV><DIV id="pagelet_stream_pager" data-referrer="pagelet_stream_pager"><DIV class="clearfix mts uiMorePager stat_elem fbStreamPager hasMorePosts">
+<DIV>
+ <A class="pam uiBoxLightblue  uiMorePagerPrimary" onclick="UIIntentionalStream.instance && UIIntentionalStream.instance.loadOlderPosts(); return false;" href="http://www.facebook.com/?ref=logo#">More<I class="mts mls arrow img sp_7h2yks sx_adb049"></I></A><SPAN class="uiMorePagerLoader pam uiBoxLightblue "><IMG class="img" height="0" alt="" src="http://b.static.ak.fbcdn.net/rsrc.php/v1/yb/r/GsNJNwuI-UM.gif" width="0" /></SPAN>
+</DIV>
+</DIV></DIV></DIV></DIV></DIV></DIV></DIV>
+<!-- /Footer (More) -->
+</BODY></HTML>
