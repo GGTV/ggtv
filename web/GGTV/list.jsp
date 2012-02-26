@@ -9,14 +9,33 @@
         <meta property="og:image" content="thumbnail_image" />	<title>Video</title>
 	<style type="text/css">
 	<!--
+	.normal {
+		white-space: normal; /* default value */
+		width: 160px;        /* specific width */
+		}
+	.wrapped {
+		/* wrap long urls */
+		white-space: pre;           /* CSS 2.0 */
+		white-space: pre-wrap;      /* CSS 2.1 */
+		white-space: pre-line;      /* CSS 3.0 */
+		white-space: -pre-wrap;     /* Opera 4-6 */
+		white-space: -o-pre-wrap;   /* Opera 7 */
+		white-space: -moz-pre-wrap; /* Mozilla */
+		white-space: -hp-pre-wrap;  /* HP Printers */
+		word-wrap: break-word;      /* IE 5+ */
+		/* specific width */
+		width: 160px; 
+		}
 	-->
 	</style>
     <link rel="stylesheet" type="text/css" href="fb.css" />
-    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 </head>
+<script type="text/javascript" src="swfobject.js"></script>    
 <script type="text/javascript" src="date_fmt.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
+<%@ include file="ytscript.jsp" %>
+var currentPlayItem = null;
 function toTimestamp(strDate){
  var datum = Date.parse(strDate);
  return datum/1000;
@@ -116,7 +135,7 @@ function loadVideo(type, cate)
     curType = type;
     curCate = cate;
 //	alert(type + "," + cate);
-	loadCategory(type);
+//	loadCategory(type);
 	var params = {column:'max_created_time', order:'desc', offset:curOffset, timestamp:toTimestamp(new Date()), type:type};
 	if(cate!='')
 		params = $.extend(params, {cate:cate});
@@ -137,6 +156,11 @@ function loadVideo(type, cate)
 			var ary = [];
 			for(var i=0;i<response.video.length;i++)
 			{
+				var item = response.video[i];
+				ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' style='width=160px; float:left; border-style:double;cursor:hand'>" + 
+									"<img src='"+ item.thumb+"' width=160 height=120/>" +
+									"<div style='width=160px;'><pre class='wrapped'>"+ item.title +"</pre></div>" + 
+								  "</div>";
                 /*
 				var duration = "";				
 				if(response.video[i].duration!=null)
@@ -158,69 +182,43 @@ function loadVideo(type, cate)
 								"</tr>";
                  */
            
-				ary[ary.length]  = "" + 
-                   "<DIV id='contentArea' role='main'><DIV id='pagelet_home_stream' data-referrer='pagelet_home_stream' data-gt=\"{'ref':'nf'}\"><DIV class='UIIntentionalStream UIStream'><UL class='uiList uiStream uiStreamHomepage translateParent UIIntentionalStream_Content' id='home_stream' style='MIN-HEIGHT: 100px' data-referrer='home_stream'><LI class='uiUnifiedStory uiStreamStory genericStreamStory uiStreamBoulderHighlight aid_1221610072 uiListItem uiListLight uiListVerticalItemBorder' id='stream_story_vid' data-ft=\"{'qid':'5705579117614779541','mf_story_key':'','c':'m'}\"><DIV class='storyContent'><DIV class='UIImageBlock clearfix'><DIV class='storyInnerContent UIImageBlock_Content UIImageBlock_MED_Content'>" + 
-                   "<DIV class='mainWrapper'>" + 
-                   "<H6 class='uiStreamMessage uiStreamHeadline'>" + 
-                   "</H6>" + 
-                   "<H6 class='uiStreamMessage' data-ft=\"{'type':1}\">" + 
-                   "<SPAN class='messageBody' data-ft=\"{'type':3}\"><A href='"+response.video[i].source_url+"' target='_blank' rel='nofollow nofollow'><SPAN>http://www.youtube.com/</SPAN><WBR></WBR><SPAN class='word_break'></SPAN>watch?v="+response.video[i].key+"</A></SPAN>" + 
-                   "</H6>" + 
-                   "<DIV class='mvm uiStreamAttachments clearfix fbMainStreamAttachment' data-ft=\"{'type':10}\">" + 
-                   "<DIV class='UIImageBlock clearfix'>" + 
-                   "<A class='uiVideoThumb UIImageBlock_Image UIImageBlock_MED_Image' id='thumb_"+response.video[i].key+"' onclick=\"CSS.addClass(this, 'uiVideoThumbLoading');return false;\" href='#' rel='async' aria-hidden='true' data-ft=\"{'type':42,'video_type':'share'}\" key='"+response.video[i].key+"'><IMG class='img' style='CLEAR: none; WIDTH: 130px' alt='' src='"+response.video[i].thumb+"'/><I></I></A>" + 
-                   "<DIV class='UIImageBlock_Content UIImageBlock_MED_Content fsm fwn fcg'>" + 
-                   "<DIV class='uiAttachmentTitle' data-ft=\"{'type':11}\">" + 
-                   "<STRONG><A onmousedown=\"UntrustedLink.bootstrap($(this), 'HAQFHMLrEAQEM-W_F8BCfBPe6-wULZ1qRzz_9-hoBR_iTqQ', event, bagof(null));\" href='http://www.youtube.com/watch?v="+response.video[i].key+"' target='_blank' rel='nofollow'>"+response.video[i].title+"</A></STRONG>" + 
-                   "</DIV>" + 
-                   "<SPAN class='caption'><A onmousedown=\"UntrustedLink.bootstrap($(this), '1AQHopwgvAQH6fONQa3kzVE4mKmPjNVgDPwNJ_Y5OzhT__g', event, bagof(null));\" href='http://www.youtube.com/' target='_blank' rel='nofollow nofollow'>www.youtube.com</A></SPAN>" + 
-                   "<DIV class='mts uiAttachmentDesc translationEligibleUserAttachmentMessage' id='desc_"+response.video[i].key+"'>" + response.video[i].description + 
-                   "</DIV>" + 
-                   "</DIV>" + 
-                   "</DIV>" + 
-                   "</DIV>" + 
-                   "<DIV class='clearfix uiImageBlock uiStreamFooter'>" + 
-                   "<I class='uiImageBlockImage uiImageBlockSmallImage lfloat img sp_7h2yks sx_5f9f3c'></I>" + 
-                   "<a name='fb_share' type='icon_link' " + 
-                   "href='http://www.facebook.com/sharer.php?u="+encodeURIComponent(response.video[i].share_url)+"&t=' target='_blank'>Share</a>" + 
-                    /*
-                        TOTO: gen share fun
-                     */
-                    "</DIV>" + 
-                    "</DIV>" + 
-                    "</DIV></DIV></DIV></LI></UL></DIV></DIV></DIV>";           
 			}
-			$("#data").empty();
-			$("#data").append(ary.join(''));
-			$("A[id^=thumb_]").bind('click', function(){
-					$(this).parent().addClass("exploded");
-					var vid = $(this).attr("key");
-					var thumbUrl = $(this).attr('src');
-					var playUrl = "https://www.youtube.com/v/"+vid+"?version=3&autohide=1&autoplay=1";
-					var desc = $('#desc_' + vid).html();
-					$(this).replaceWith('<div id="uqou4_'+vid+'" style="width:398px;height:224px" class=" swfObject" data-swfid="swf_uqou4_89">' + 
-					'<iframe width="398" height="224" frameborder="0" src="refererFrame.jsp?vid='+vid+'"></iframe>'/* + 
-					"<SPAN class='caption'><A onmousedown=\"UntrustedLink.bootstrap($(this), '1AQHopwgvAQH6fONQa3kzVE4mKmPjNVgDPwNJ_Y5OzhT__g', event, bagof(null));\" href='http://www.youtube.com/' target='_blank' rel='nofollow nofollow'>www.youtube.com</A></SPAN>" + 
-                   "<DIV class='mts uiAttachmentDesc translationEligibleUserAttachmentMessage'>" + desc + 
-                   "</DIV>"*/
-					);
-					$(this).attr("id", "flash_"+vid);
-					$(this).attr("thumbUrl", thumbUrl);
-					$(this).attr("playUrl", playUrl);
-					//
-					
+			$('#listArea').empty();
+			$('#listArea').append(ary.join(''));
+			$('div[id^=item_]').each(function(){
+				$(this).bind('click', function(){
+					var vid = $(this).attr("vid");
+					playVideo(vid);
+				});
 			});
-			/*
-			$("span[id^=v_]").bind('click', function(){
-				window.parent.ytplay.loadVideo($(this).attr("key"));
-				window.parent.mainFrame.cols="0,*";
-				window.parent.headline.showBackBtn();
-			});
-			*/
 		},
 		complete: function(xhr, status){
 		}
 	});
+}
+function playVideo(vid)
+{
+	var params = { allowScriptAccess: "always"};
+	var atts = { id: "myytplayer" };
+	var flashvars = {};
+	swfobject.embedSWF("http://www.youtube.com/v/"+vid+"?enablejsapi=1&playerapiid=ytplayer&version=3",
+					"myytplayer", "65%", "65%", "8", null, flashvars, params, atts);
+	currentPlayItem = vid;
+}
+function playAgain()
+{
+	if(currentPlayItem != null)
+	{
+		playVideo(currentPlayItem);
+	}	
+}
+function playNextVideo()
+{
+	if(currentPlayItem != null)
+	{
+		var nextVid = $('#item_' + currentPlayItem).next().attr('vid');
+		playVideo(nextVid);
+	}
 }
 var debug = true;
 function loadStream(vid)
@@ -259,30 +257,68 @@ function pageToOffset(page)
 }
 function bindEvent()
 {
+	$('a[id^=m]').each(function(){
+		$(this).bind('click', function(){
+			$('a[id^=m] span').removeClass('itemSelected');
+			$(this).children('span').addClass('itemSelected');
+			loadData(this.id);
+		});
+	});
+	//
+//	setTimeout(function(){$('#mG').click();}, 500);
+
 }
 $(document).ready(function(e)
 {
-	//bindEvent();
+	bindEvent();
 	loadData('mG');
 });
 </script>
-<body class="hasLeftCol home fbx hasSlimHeader win Locale_en_US">
-<%@ include file="body_menu.jsp" %>
-<%@ include file="body_sort.jsp" %>
-<!--
-<table border=0>
-	<tr>
-		<td>
-		<table border=1>
-			<tbody id="data">
-			</tbody>
-		</table>
-		</td>
-	</tr>
-</table>
--->
-<div id="data">
+<body>
+<div id="toolbar" style="width:350px; display:block">
+	<div class="panel" style="width:350px">
+		<a href="#"  title="toolbar" style="width:25px"/>
+		<ul>
+			<li style="width:100px; float:left"><a href="#" id="mP"><span>Personal</span></a></li>
+			<li style="width:100px; float:left"><a href="#" id="mR"><span>Regional</span></a></li>
+			<li style="width:100px; float:left"><a href="#" id="mG"><span>Global</span></a></li>
+		</ul>
+	</div>
 </div>
-<%@ include file="body_more.jsp" %>
+<!-- play area-->
+<div id="myytplayer">
+</div>
+<!-- /play area-->
+<div style="clear:both"/>
+<!-- list -->
+<div id="listArea" style="position:absolute;width:100%;height=100px; left: 0px; bottom: 10px;">
+<!--
+	<div style="width=200px; float:left">
+		<img src="" width=160 height=120/>
+		<div>title........</div>
+	</div>
+	<div style="width=200px; float:left">
+		<img src="" width=160 height=120/>
+		<div>title........</div>
+	</div>
+	<div style="width=200px; float:left">
+		<img src="" width=160 height=120/>
+		<div>title........</div>
+	</div>
+	<div style="width=200px; float:left">
+		<img src="" width=160 height=120/>
+		<div>title........</div>
+	</div>
+	<div style="width=200px; float:left">
+		<img src="" width=160 height=120/>
+		<div>title........</div>
+	</div>
+	<div style="width=200px; float:left">
+		<img src="" width=160 height=120/>
+		<div>title........</div>
+	</div>
+-->	
+</div>
+<!-- /list -->
 </body>
 </html>
