@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri = "http://java.sun.com/jstl/core" prefix="c"%>
+<!DOCTYPE>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,9 +10,17 @@
         <meta property="og:image" content="thumbnail_image" />	<title>Video</title>
 	<style type="text/css">
 	<!--
+	.menu_box{
+		position:absolute;
+		float:right;
+		right:0px;
+	}
+	.bottom{
+		bottom:20px;
+	}
 	.normal {
 		white-space: normal; /* default value */
-		width: 160px;        /* specific width */
+		width: 120px;        /* specific width */
 		}
 	.wrapped {
 		/* wrap long urls */
@@ -24,8 +33,9 @@
 		white-space: -hp-pre-wrap;  /* HP Printers */
 		word-wrap: break-word;      /* IE 5+ */
 		/* specific width */
-		width: 160px; 
+		width: 120px; 
 		}
+	.truncated { display:inline-block; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:white}
 	-->
 	</style>
     <link rel="stylesheet" type="text/css" href="fb.css" />
@@ -54,23 +64,62 @@ function formatDuration(sec)
 		return h + ":" + m + ":" + s;
 }
     var curOffset = -7;
+    var curIndex = 0;
     var curType;
     var curCate;
 function loadOlderPosts()
 {
-    curOffset -= 7;
+    curIndex += 1;
     loadVideo(curType, curCate);
+}
+function loadCachedPosts(offset)
+{
+	var response = cachedVideoData;
+	var ary = [];
+	curIndex += offset;
+	var idx = curIndex;
+//	if(response.video.length>0 && idx>0)
+		ary[ary.length] = "<div id='pre' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/pre.png' width=20/></div>";
+	var screenWidth = document.documentElement.clientWidth;
+	var w = (screenWidth - 20 - 20 - 50)/7;
+	for(var i=idx;i<response.video.length && i<idx+7;i++)
+	{
+		var item = response.video[i];
+		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand'>" + 
+							"<img src='"+ item.thumb+"' width=120 height=100/>" +
+							"<div style='width=160px;'><pre class='truncated'>"+ item.title +"</pre></div>" + 
+						  "</div>";
+	}
+	ary[ary.length] = "<div id='more' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/next.png' width=20/></div>";
+	$('#listArea').empty();
+	$('#listArea').append('<table border=0 width=100% id=tbList><tr><td align=center width=100%>'+ary.join('')+'</td></tr></table>');
+	$('div[id^=item_]').each(function(){
+		$(this).bind('click', function(){
+			var vid = $(this).attr("vid");
+			playVideo(vid);
+		});
+	});
+	$('#more').bind('click', function(){
+		loadOlderPosts();
+	});
+	$('#pre').bind('click', function(){
+		if(curIndex>0)
+			loadCachedPosts(-1);
+	});
+	if(fAutoPlayNext)
+		playNextVideo();
 }
 function getToken()
 {
     var access_token = "<%=request.getParameter("access_token")%>";
     if(access_token == '')
-        access_token = "AAAFPPxXzH5wBALgIXt3lQFcatEBwjqIi22oh0Yh1PJ17YgspJmQj02aEBmuaWxwdhbZAkp52BbYARIDXKapVLFhsed4cL8kZCNBrJnWyd7pTqscIY8";
+        access_token = "AAAFPPxXzH5wBAJ9TQ7ZCiRniH9nZB6I9MKG2NmTSWfcagi1UU6iXkX5ziVb3xR6zDoRPzo2ZBGOnlJCCsV3sEnrZAR4Nx8zZC5gZCyaYnrdF5LRyY181Rg";
 	return access_token;
 }
 
 function loadData(mItemId)
 {
+	curOffset = -7;
 	var type = -1;
 	if(mItemId == "mP")
 	{
@@ -103,98 +152,70 @@ function loadCategory(type)
 		{
 			var ary = new Array();
 			
-			ary[ary.length] = "<LI class='uiMenuItem uiMenuItemRadio uiSelectorOption checked' data-label='SORT' rel=''>" + 
-         		"<A class='itemAnchor' href='#' aria-checked='true'><SPAN class='itemLabel fsm'>All</SPAN></A>" + 
-        		"</LI>";
+			$('#divCate').empty();
+			ary[ary.length] = "<option value=''>All</option>";
 			for(var i=0;i<response.category.length;i++)
 			{
-				var cate = response.category[i].category;
-				//ary[ary.length]="<option value='"+cate+"'>"+cate+"</option>";
-				ary[ary.length]="<LI class='uiMenuItem uiMenuItemRadio uiSelectorOption' data-label='SORT' rel='"+cate+"'>" + 
-         		"<A class='itemAnchor' href='#' aria-checked='true'><SPAN class='itemLabel fsm'>"+cate+"</SPAN></A>" + 
-        		"</LI>";
+				var item = response.category[i];
+				ary[ary.length] = "<option vaue='"+item.category+"'>" + item.category + "</option>";
 			}
-			var e = $('UL[rel=category]');
-			$(e).empty();
-			$(e).append(ary.join(''));
-			$(e).children().each(function(){
-				$(this).bind('click', function(){
-					hideCategory();
-					$(e).children().removeClass("checked");
-					loadVideo(type, $(this).attr("rel"));
-					$(this).addClass("checked");
-				});
+			$('#divCate').append(ary.join(''));
+			$('#divCate').bind('change', function(){
+				loadVideo(type, $(this).val());
+				$('#btnCate').val($(this).val());
 			});
+			if($('#btnCate').val()=='Category')
+				$('#btnCate').val($('#divCate option[value=""]').text());
+			else
+				$('#divCate').val($('#btnCate').val());
 		},
 		complete: function(xhr, status){
 		}
 	});
 }
+var cachedVideoData;
+var playMode = 0;
+var fAutoPlayNext = false;
 function loadVideo(type, cate)
 {
-    curType = type;
-    curCate = cate;
-//	alert(type + "," + cate);
-//	loadCategory(type);
-	var params = {column:'max_created_time', order:'desc', offset:curOffset, timestamp:toTimestamp(new Date()), type:type};
-	if(cate!='')
-		params = $.extend(params, {cate:cate});
-	if(type==2)
-		//params = $.extend(params, {token:window.parent.getToken()});
-		params = $.extend(params, {token:getToken()});
-	$.ajax(
+	if((Math.abs(curOffset)-curIndex)<7)
 	{
-		url:'../../servlets/LoadVideo',
-		data:params,
-		type:'POST',
-		dataType:'json',
-		error:function(xhr, status, e) {
-			alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
-		},
-		success: function(response)
+		curOffset-=7;
+	}
+	if((Math.abs(curOffset)-curIndex)<14 || curIndex==0)
+	{
+		curType = type;
+		curCate = cate;
+	//	alert(type + "," + cate);
+		loadCategory(type);
+		var params = {column:'max_created_time', order:'desc', offset:curOffset, timestamp:toTimestamp(new Date()), type:type};
+		if(cate!='')
+			params = $.extend(params, {cate:cate});
+		if(type==2)
+			//params = $.extend(params, {token:window.parent.getToken()});
+			params = $.extend(params, {token:getToken()});
+		$.ajax(
 		{
-			var ary = [];
-			for(var i=0;i<response.video.length;i++)
+			url:'../../servlets/LoadVideo',
+			data:params,
+			type:'POST',
+			dataType:'json',
+			error:function(xhr, status, e) {
+				alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
+			},
+			success: function(response)
 			{
-				var item = response.video[i];
-				ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' style='width=160px; float:left; border-style:double;cursor:hand'>" + 
-									"<img src='"+ item.thumb+"' width=160 height=120/>" +
-									"<div style='width=160px;'><pre class='wrapped'>"+ item.title +"</pre></div>" + 
-								  "</div>";
-                /*
-				var duration = "";				
-				if(response.video[i].duration!=null)
-				{
-					duration = formatDuration(response.video[i].duration);
-				}
-				
-				var id = "v_" + i;
-				var lastPostTime = response.video[i].lastPostTime.substr(0, 16);
-				ary[ary.length] = "<tr>" + 
-								"<td><img src='"+response.video[i].thumb+"' width=160 height=120/></td>"+
-								"<td><table height=100% width=100%><tr>" + 
-//								"<td height='80%' valign=top colspan=3><a href='"+response.video[i].source_url+"' id='"+i+"' target='_blank'>"+response.video[i].title+"</a></td>"+
-								"<td height='80%' valign=top colspan=3><span style='cursor:hand' id='"+id+"' key='"+response.video[i].key+"'>"+response.video[i].title+"</span></td>"+								"</tr><tr>" + 
-								"<td height='20%' align='left'><img src='images/share.png' width=16 height=16/>&nbsp;"+response.video[i].streamCount+"</td>"+
-								"<td height='20%' align='left'><img src='images/duration.png' width=16 height=16/>&nbsp;"+duration+"</td>"+
-								"<td height='20%' align='right'>"+lastPostTime+"</td>"+
-								"</tr></table></td>" + 
-								"</tr>";
-                 */
-           
+				cachedVideoData = response;
+				loadCachedPosts(0);
+			},
+			complete: function(xhr, status){
 			}
-			$('#listArea').empty();
-			$('#listArea').append(ary.join(''));
-			$('div[id^=item_]').each(function(){
-				$(this).bind('click', function(){
-					var vid = $(this).attr("vid");
-					playVideo(vid);
-				});
-			});
-		},
-		complete: function(xhr, status){
-		}
-	});
+		});
+	}
+	else
+	{
+		loadCachedPosts(0);
+	}
 }
 function playVideo(vid)
 {
@@ -202,7 +223,7 @@ function playVideo(vid)
 	var atts = { id: "myytplayer" };
 	var flashvars = {};
 	swfobject.embedSWF("http://www.youtube.com/v/"+vid+"?enablejsapi=1&playerapiid=ytplayer&version=3",
-					"myytplayer", "65%", "65%", "8", null, flashvars, params, atts);
+					"myytplayer", "70%", "70%", "8", null, flashvars, params, atts);
 	currentPlayItem = vid;
 }
 function playAgain()
@@ -214,10 +235,17 @@ function playAgain()
 }
 function playNextVideo()
 {
+	fAutoPlayNext = false;
 	if(currentPlayItem != null)
 	{
 		var nextVid = $('#item_' + currentPlayItem).next().attr('vid');
-		playVideo(nextVid);
+		if(nextVid==undefined)
+		{
+			loadOlderPosts();
+			fAutoPlayNext = true;
+		}
+		else
+			playVideo(nextVid);
 	}
 }
 var debug = true;
@@ -265,16 +293,33 @@ function bindEvent()
 		});
 	});
 	//
-//	setTimeout(function(){$('#mG').click();}, 500);
-
+	$('#menu').bind('click', function(){
+		$('#buttonsDiv').show();
+		$('#menu').hide('slow');
+	});
+	$('#btnHide').bind('click', function(){
+		$('#buttonsDiv').hide('fast');
+		$('[id^=div]').hide('slow');
+		$('#menu').show();
+	});
+	$(".buttons").click(function () {
+	var divname= 'div' + this.id.substring(3);
+	  $("#"+divname).show("slow").siblings('[id^=div]').hide("slow");
+	});
+	//
+	$('#divPlayMode').bind('change', function(){
+		$('#btnPlayMode').val($('#divPlayMode option[value='+$(this).val()+']').text());
+		playMode = $(this).val();
+	});
 }
 $(document).ready(function(e)
 {
 	bindEvent();
 	loadData('mG');
+//
 });
 </script>
-<body>
+<body style="padding:0px;margin:0px auto;text-align:center">
 <div id="toolbar" style="width:350px; display:block">
 	<div class="panel" style="width:350px">
 		<a href="#"  title="toolbar" style="width:25px"/>
@@ -285,34 +330,15 @@ $(document).ready(function(e)
 		</ul>
 	</div>
 </div>
+<div style="clear:both; padding-top:4px;"/>
 <!-- play area-->
 <div id="myytplayer">
 </div>
 <!-- /play area-->
 <div style="clear:both"/>
 <!-- list -->
-<div id="listArea" style="position:absolute;width:100%;height=100px; left: 0px; bottom: 10px;">
+<div id="listArea" style="overflow:auto;position:absolute;height=80px; bottom: 0px;margin:0 auto; background-color:black;left:0px;right:0px">
 <!--
-	<div style="width=200px; float:left">
-		<img src="" width=160 height=120/>
-		<div>title........</div>
-	</div>
-	<div style="width=200px; float:left">
-		<img src="" width=160 height=120/>
-		<div>title........</div>
-	</div>
-	<div style="width=200px; float:left">
-		<img src="" width=160 height=120/>
-		<div>title........</div>
-	</div>
-	<div style="width=200px; float:left">
-		<img src="" width=160 height=120/>
-		<div>title........</div>
-	</div>
-	<div style="width=200px; float:left">
-		<img src="" width=160 height=120/>
-		<div>title........</div>
-	</div>
 	<div style="width=200px; float:left">
 		<img src="" width=160 height=120/>
 		<div>title........</div>
@@ -320,5 +346,31 @@ $(document).ready(function(e)
 -->	
 </div>
 <!-- /list -->
+<!-- menu -->
+<div id="menu" class='menu_box' style="bottom:0px;">
+<input type="button" value="Show"></input>
+</div>
+<span id="buttonsDiv" class='menu_box' style="display:none;bottom:0px"> 
+<input type="button" id="btnHide" value="Hide"></input>
+<input type="button" id="btnPlayMode" class="buttons" value="Once"></input>
+<input type="button" id="btnCate" class="buttons" value="Category"></input>
+<input type="button" id="btnSort" class="buttons" value="Sort"></input>
+
+</span>
+<div style='clear:both'/>
+<select id='divPlayMode' class='menu_box bottom' style="display:none;">
+	<option value="0">Once</option>
+	<option value="1">Repeat</option>
+	<option value="2">Continuous</option>
+</select>
+
+<select id="divCate" class='menu_box bottom' style="display:none">
+</select>
+
+<div id="divSort" class='menu_box bottom' style="display:none">
+Sort..
+</div>
+</div>
+<!-- /menu -->
 </body>
 </html>

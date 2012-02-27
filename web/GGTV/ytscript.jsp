@@ -11,7 +11,15 @@ function onytplayerStateChange(newState) {
 	{
 		isPlaying = false;
 		window.status = "complete";
-//		playNextVideo();
+		if(playMode == 0);
+		else if(playMode == 1)
+		{
+			playAgain();			
+		}
+		else if(playMode == 2)
+		{
+			playNextVideo();	
+		}
 	}
 	else if(newState == 1 || newState==3 || newState==5)
 		isPlaying = true;
@@ -22,8 +30,13 @@ function onytplayerStateChange(newState) {
 }
 function onytplayerError(errorCode)
 {
-	alert("error: " + errorCode);
+//	alert("error: " + errorCode);
 	isPlaying = false;
+		if(playMode == 0 || playMode == 1);
+		else if(playMode == 2)
+		{
+			playNextVideo();	
+		}
 }
 function yt_loadVideo(videoId)
 {
