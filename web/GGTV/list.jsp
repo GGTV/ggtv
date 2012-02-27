@@ -112,6 +112,7 @@ function loadCachedPosts(offset)
 function getToken()
 {
     var access_token = "<%=request.getParameter("access_token")%>";
+//    alert('<%=request.getParameter("user_id")%>');
     if(access_token == '')
         access_token = "AAAFPPxXzH5wBAJ9TQ7ZCiRniH9nZB6I9MKG2NmTSWfcagi1UU6iXkX5ziVb3xR6zDoRPzo2ZBGOnlJCCsV3sEnrZAR4Nx8zZC5gZCyaYnrdF5LRyY181Rg";
 	return access_token;
@@ -219,7 +220,7 @@ function loadVideo(type, cate)
 }
 function playVideo(vid)
 {
-	var params = { allowScriptAccess: "always"};
+	var params = { allowScriptAccess: "always",  allowfullscreen:"true"};
 	var atts = { id: "myytplayer" };
 	var flashvars = {};
 	swfobject.embedSWF("http://www.youtube.com/v/"+vid+"?enablejsapi=1&playerapiid=ytplayer&version=3",
@@ -290,6 +291,7 @@ function bindEvent()
 			$('a[id^=m] span').removeClass('itemSelected');
 			$(this).children('span').addClass('itemSelected');
 			loadData(this.id);
+			return false;
 		});
 	});
 	//
@@ -348,7 +350,7 @@ $(document).ready(function(e)
 <!-- /list -->
 <!-- menu -->
 <div id="menu" class='menu_box' style="bottom:0px;">
-<input type="button" value="Show"></input>
+<input type="button" value="Config"></input>
 </div>
 <span id="buttonsDiv" class='menu_box' style="display:none;bottom:0px"> 
 <input type="button" id="btnHide" value="Hide"></input>

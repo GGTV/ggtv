@@ -102,7 +102,6 @@ private String hmacSHA256(String data, String key) throws Exception {
 		document.getElementById('output').style.height = document.documentElement.clientHeight + " px";
 		//document.getElementById('output').src = "index.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
 		//document.getElementById('output').src = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
-		location.href = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
   	    }
 	function doLogin()
 	{
@@ -115,6 +114,7 @@ private String hmacSHA256(String data, String key) throws Exception {
 				token: "<%=accessToken%>"
 			},
 			success: function(response){
+				location.href = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
 				//alert(response);
 			}
 		});
