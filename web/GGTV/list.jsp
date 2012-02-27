@@ -36,6 +36,7 @@
 		width: 120px; 
 		}
 	.truncated { display:inline-block; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:white}
+	.underline {text-decoration:underline overline; color:orange}
 	-->
 	</style>
     <link rel="stylesheet" type="text/css" href="fb.css" />
@@ -66,7 +67,7 @@ function formatDuration(sec)
     var curOffset = -7;
     var curIndex = 0;
     var curType;
-    var curCate;
+    var curCate = "";
 function loadOlderPosts()
 {
     curIndex += 1;
@@ -134,7 +135,9 @@ function loadData(mItemId)
 	{
 		type = 0;
 	}
-	loadVideo(type, "");
+	loadVideo(type, curCate);
+	$('a[id^=m]').removeClass("underline");
+	$('#'+mItemId).addClass("underline");
 //	loadCategory(type);
 }
 function loadCategory(type)
@@ -164,6 +167,8 @@ function loadCategory(type)
 			$('#divCate').bind('change', function(){
 				loadVideo(type, $(this).val());
 				$('#btnCate').val($(this).val());
+				//
+				$('#btnHide').click();
 			});
 			if($('#btnCate').val()=='Category')
 				$('#btnCate').val($('#divCate option[value=""]').text());
@@ -312,6 +317,8 @@ function bindEvent()
 	$('#divPlayMode').bind('change', function(){
 		$('#btnPlayMode').val($('#divPlayMode option[value='+$(this).val()+']').text());
 		playMode = $(this).val();
+		//
+		$('#btnHide').click();
 	});
 }
 $(document).ready(function(e)
@@ -321,14 +328,14 @@ $(document).ready(function(e)
 //
 });
 </script>
-<body style="padding:0px;margin:0px auto;text-align:center">
+<body style="padding:0px;margin:0px auto;text-align:center; background-color:black">
 <div id="toolbar" style="width:350px; display:block">
 	<div class="panel" style="width:350px">
 		<a href="#"  title="toolbar" style="width:25px"/>
 		<ul>
-			<li style="width:100px; float:left"><a href="#" id="mP"><span>Personal</span></a></li>
-			<li style="width:100px; float:left"><a href="#" id="mR"><span>Regional</span></a></li>
-			<li style="width:100px; float:left"><a href="#" id="mG"><span>Global</span></a></li>
+			<li style="width:100px; float:left;"><a href="#" id="mP"><span style="color:white">Personal</span></a></li>
+			<li style="width:100px; float:left;"><a href="#" id="mR"><span style="color:white">Regional</span></a></li>
+			<li style="width:100px; float:left;"><a href="#" id="mG"><span style="color:white">Global</span></a></li>
 		</ul>
 	</div>
 </div>
