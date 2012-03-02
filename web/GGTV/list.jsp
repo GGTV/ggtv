@@ -10,6 +10,13 @@
         <meta property="og:image" content="thumbnail_image" />	<title>Video</title>
 	<style type="text/css">
 	<!--
+	.showLoading{
+		position:absolute;
+		float:right;
+		right:0px;
+		top:0px;
+		color:white;
+	}
 	.menu_box{
 		position:absolute;
 		float:right;
@@ -42,6 +49,26 @@
 		}
 	.truncated { display:inline-block; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:white}
 	.underline {text-decoration:underline overline; color:orange}
+	.listAreaFrame {
+		overflow:hidden;
+		width:100%;
+		height:86px;
+		position:absolute;
+		z-index:100;
+		background-color:black;
+		bottom:0px;
+	}
+	.selectedItem {
+		position:absolute;
+		margin-left:180px;
+		margin-top:3px;
+		width:100px;
+		height:80px;
+		background-color:gray;
+		filter: Alpha(Opacity=35);
+		-moz-opacity: 0.35;
+		opacity: 0.35;
+	}
 	-->
 	</style>
     <link rel="stylesheet" type="text/css" href="fb.css" />
@@ -50,6 +77,7 @@
 <script type="text/javascript" src="swfobject.js"></script>    
 <script type="text/javascript" src="date_fmt.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.hotkeys.js"></script>
 <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 <script src="http://connect.facebook.net/en_US/all.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
@@ -82,27 +110,39 @@ function loadOlderPosts(fHideLoading)
     curIndex += 1;
     loadVideo(curType, curCate, fHideLoading);
 }
-function loadCachedPosts(offset)
+var screenWidth = document.documentElement.clientWidth;
+var w = (screenWidth - 20 - 20 - 50)/7;
+function loadCachedPosts(offset, fReset)
 {
-	var response = cachedVideoData;
+	fReset = fReset==undefined?true:fReset;
+	var cacheObj = cache[curType +"_"+curCate];
+	//var response = cachedVideoData;
+	var response = cacheObj.data;
 	var ary = [];
 	curIndex += offset;
 	var idx = curIndex;
+//	cache[curType +"_"+curCate].index = idx;
 //	if(response.video.length>0 && idx>0)
 		ary[ary.length] = "<div id='pre' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/pre.png' width=20/></div>";
-	var screenWidth = document.documentElement.clientWidth;
-	var w = (screenWidth - 20 - 20 - 50)/7;
+	
 	for(var i=idx;i<response.video.length && i<idx+7;i++)
 	{
 		var item = response.video[i];
+		/*
 		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand'>" + 
 							"<img src='"+ item.thumb+"' width=120 height=100/>" +
 							"<div style='width=160px;'><pre class='truncated'>"+ item.title +"</pre></div>" + 
 						  "</div>";
+		*/
+		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand;'>" + 
+							"<img src='"+ item.thumb+"' width="+w+" height=80/>" +
+						  "</div>";		
 	}
-	ary[ary.length] = "<div id='more' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/next.png' width=20/></div>";
-	$('#listArea').empty();
-	$('#listArea').append('<table border=0 width=100% id=tbList><tr><td align=center width=100%>'+ary.join('')+'</td></tr></table>');
+//	ary[ary.length] = "<div id='more' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/next.png' width=20/></div>";
+	if(fReset)
+		$('#listArea').empty();
+	//$('#listArea').append('<table border=0 width=100% id=tbList><tr><td align=center width=100%>'+ary.join('')+'</td></tr></table>');
+	$('#listArea').append(ary.join(''));
 	$('div[id^=item_]').each(function(){
 		$(this).bind('click', function(){
 			var vid = $(this).attr("vid");
@@ -124,13 +164,18 @@ function getToken()
     var access_token = "<%=request.getParameter("access_token")%>";
 //    alert('<%=request.getParameter("user_id")%>');
     if(access_token == '')
-        access_token = "AAAFPPxXzH5wBAJ9TQ7ZCiRniH9nZB6I9MKG2NmTSWfcagi1UU6iXkX5ziVb3xR6zDoRPzo2ZBGOnlJCCsV3sEnrZAR4Nx8zZC5gZCyaYnrdF5LRyY181Rg";
+        access_token = "AAAFPPxXzH5wBAJ7PWyvJzDSx1GqLLrlggI2GPY3y0ZBnqQvx8ZAUQuMx5VG6eZAO8bZC4KWDCSWU3ztWZAX9AGp11iKjPQOQNVzaEjn3dNgZDZD";
 	return access_token;
 }
 
 function loadData(mItemId)
 {
 	curOffset = -7;
+	curIndex = 0;
+	curCate = "";
+	//
+	if($('#btnCate').val()!="Category")
+		$('#btnCate').val($('#divCate option[value=""]').text());
 	var type = -1;
 	if(mItemId == "mP")
 	{
@@ -144,6 +189,7 @@ function loadData(mItemId)
 	{
 		type = 0;
 	}
+	cache[type+"_"+curCate] = {finish:0, offset:-7, pause:0, index:0};
 	loadVideo(type, curCate);
 	$('a[id^=m]').removeClass("underline");
 	$('#'+mItemId).addClass("underline");
@@ -159,7 +205,7 @@ function loadCategory(type)
 		type:'POST',
 		dataType:'json',
 		error: function(xhr, status, e) {
-			alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
+			//alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
 		},
 		success: function(response)
 		{
@@ -174,6 +220,7 @@ function loadCategory(type)
 			}
 			$('#divCate').append(ary.join(''));
 			$('#divCate').bind('change', function(){
+				cache[type+"_"+$(this).val()] = {finish:0, offset:-7, pause:0, index:0};
 				loadVideo(type, $(this).val());
 				$('#btnCate').val($(this).val());
 				//
@@ -191,56 +238,130 @@ function loadCategory(type)
 var cachedVideoData;
 var playMode = 0;
 var fAutoPlayNext = false;
-function loadVideo(type, cate, fHideLoading)
+var cache = {};
+function loadVideoData(type, cate, offset, fHideLoading)
 {
-	var fShowLoading = fHideLoading==undefined?true:!fHideLoading;
-	if((Math.abs(curOffset)-curIndex)<7)
+	if(cache[type+"_"+cate].finish == 0)
 	{
-		curOffset-=7;
-	}
-	if((Math.abs(curOffset)-curIndex)<14 || curIndex==0)
-	{
-		if(fShowLoading)
+		var fShowLoading = fHideLoading==undefined?true:!fHideLoading;
 		{
-			$("#loading").dialog({
-			   closeOnEscape: false,
-			   open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }
+			if(fShowLoading)
+			{
+				/*
+				$("#loading").dialog({
+				   closeOnEscape: false,
+				   open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }
+				});
+				*/
+				$("#loading").show();
+			}
+			//
+			var params = {column:'max_created_time', order:'desc', offset:offset, timestamp:toTimestamp(new Date()), type:type};
+			if(cate!='')
+				params = $.extend(params, {cate:cate});
+			if(type==2)
+				params = $.extend(params, {token:getToken()});
+			$.ajax(
+			{
+				url:'../../servlets/LoadVideo',
+				data:params,
+				type:'POST',
+				dataType:'json',
+				error:function(xhr, status, e) {
+					//alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
+				},
+				success: function(response)
+				{
+					try
+					{
+						/*
+						if(cachedVideoData != undefined && (cachedVideoData.video.size == response.video.length && response.video.length!=7))
+						{
+							cache[type+"_"+cate].finish = 1;
+						}
+						else*/
+						{
+							//alert(cate + "," + cache[type+"_"+cate].videoSize + "," + response.video.length+ "," + offset);
+							if(cache[type+"_"+cate].videoSize!=response.video.length)
+								cache[type+"_"+cate].videoSize = response.video.length;
+							else
+							{
+								if(cache[type+"_"+cate].tryAgain != undefined)
+								{
+									cache[type+"_"+cate].finish = 1;
+									return;
+								}
+								//
+								cache[type+"_"+cate].tryAgain = 1;
+							}
+							cache[type+"_"+cate].data = response;
+							cachedVideoData = response;
+							if(offset>-100 || cache[type+"_"+cate].pause == 0)
+							{
+								curOffset = offset-7;
+								cache[type+"_"+cate].offset = offset-7;
+								if(offset>-100)
+									cache[type+"_"+cate].pause = 1;
+								//
+								var ary = [];
+								if(!fShowLoading)
+								{
+									for(var i=Math.abs(offset)-7;i<response.video.length && i<Math.abs(offset)+7;i++)
+									{
+										var item = response.video[i];
+										ary[ary.length] = "<div id='uitem_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand;'>" + 
+															"<img src='"+ item.thumb+"' width="+w+" height=80/>" +
+														  "</div>";		
+									}
+									$('#listArea').append(ary.join(''));
+									$('div[id^=uitem_]').each(function(){
+										$(this).attr('id', 'item_'+$(this).attr('vid'));
+										$(this).bind('click', function(){
+											var vid = $(this).attr("vid");
+											playVideo(vid);
+										});
+									});
+								}
+								//
+								setTimeout(function(){loadVideoData(type, cate, offset-7, true);}, 50);
+							}
+							else
+								cache[type+"_"+cate].pause = 1;
+							if(fShowLoading)
+								loadCachedPosts(0);							
+						}
+					}
+					catch(e){}
+				},
+				complete: function(xhr, status){
+					if(fShowLoading)
+						$('#loading').hide();
+						//$('#loading').dialog('close');
+				}
 			});
 		}
+	}
+}
+function loadVideo(type, cate, fHideLoading)
+{
+	curType = type;
+	curCate = cate;
+	if(cache[type+"_"+cate] == undefined)
+		cache[type+"_"+cate] = {finish:0, offset:-7, pause:0, index:0};
+	var cacheObj = cache[type+"_"+cate];
+	if(cacheObj.offset == -7 || cacheObj.pause==1)
+	{
+		if(cacheObj.offset == -7)
+			curIndex = 0;
+		if(cacheObj.finish==1)
+			return;
 		//
-		curType = type;
-		curCate = cate;
-	//	alert(type + "," + cate);
 		loadCategory(type);
-		var params = {column:'max_created_time', order:'desc', offset:curOffset, timestamp:toTimestamp(new Date()), type:type};
-		if(cate!='')
-			params = $.extend(params, {cate:cate});
-		if(type==2)
-			//params = $.extend(params, {token:window.parent.getToken()});
-			params = $.extend(params, {token:getToken()});
-		$.ajax(
-		{
-			url:'../../servlets/LoadVideo',
-			data:params,
-			type:'POST',
-			dataType:'json',
-			error:function(xhr, status, e) {
-				alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
-			},
-			success: function(response)
-			{
-				cachedVideoData = response;
-				loadCachedPosts(0);
-			},
-			complete: function(xhr, status){
-				$('#loading').dialog('close');
-			}
-		});
+		cacheObj.pause=0;
+		loadVideoData(type, cate, cacheObj.offset, fHideLoading);
 	}
 	else
-	{
 		loadCachedPosts(0);
-	}
 }
 function playVideo(vid)
 {
@@ -293,7 +414,7 @@ function loadStream(vid)
 		dataType:'json',
 		error: function(xhr, status, e) {
 			if(debug)
-			alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
+			//alert('xhr: '+xhr.responseText+'\nstatus: '+status+'\ne: '+e);
 			debug = false;
 		},
 		success: function(response)
@@ -317,8 +438,71 @@ function pageToOffset(page)
 	var offset = ( page - 1 ) * pagingSize;	
 	return offset;
 }
+var idx = 3;
+var initMarginLeft = 0;
+var flag = 0;
+function addShortcutEvent()
+{
+	//
+	$('.selectedItem').css("width", w+8);
+	$('.selectedItem').css('marginLeft', w*3+20+10);
+	//
+	var moveW = (w+6)/2;
+   $(document).bind('keyup', 'right', function(){
+		if(flag==0 && idx!=$('div[id^=item]').length-1)
+		{
+			window.status = "before:" + idx;
+			$('#listArea').animate({
+				'marginLeft':"-="+moveW+"px"
+			}, 200);
+			idx+=0.5;
+			window.status = "after: " + idx;
+		}
+		else
+		{
+			window.status = "before(DD): " + idx;
+			$('#listArea').animate({
+			 'marginLeft':$('#selectedItem').css('marginLeft')
+			 }, 0);
+			//idx=0;
+			flag++;
+			window.status = "after(DD): " + idx + "," + flag;
+		}
+		if(flag==1)
+		{
+			idx = idx-idx-0.5;
+		}
+		else if(flag==2)
+		{
+			window.status = "before(xx): " + idx;
+			idx+=0.5;
+			flag =0;
+			window.status = "after(xx): " + idx;
+		}
+   });
+  $(document).bind('keyup', 'left', function(){
+	   if(idx!=0)
+	   {
+		   $('#listArea').animate({
+			'marginLeft':"+="+moveW+"px"
+			}, 200);
+		   idx-=0.5;
+	   }
+   });
+    while(idx!=0)
+    {
+	  $('#listArea').animate({
+		   'marginLeft':"+="+moveW+"px"
+	   }, 0);
+	  idx-=0.5;
+    }
+	initMarginLeft = $('#listArea').css('marginLeft');
+}
 function bindEvent()
 {
+//
+	addShortcutEvent();
+//
 	$('a[id^=m]').each(function(){
 		$(this).bind('click', function(){
 			$('a[id^=m] span').removeClass('itemSelected');
@@ -414,9 +598,7 @@ $(document).ready(function(e)
 	$('#share_button').live('click', function(e){
 	if(currentPlayItem==null)
 		return;
-//	alert(0);
 	e.preventDefault();
-//	alert(1);
 	FB.ui(
 	{
 		method: 'feed',
@@ -456,14 +638,20 @@ $(document).ready(function(e)
 <!-- /play area-->
 <div style="clear:both"/>
 <!-- list -->
-<div id="listArea" style="overflow:auto;position:absolute;height=80px; bottom: 0px;margin:0 auto; background-color:black;left:0px;right:0px">
+<div id="listAreaFrame" class="listAreaFrame">
+	<div id="selectedItemTitle" align="center" style="height:16px;"></div>
+	<div id="selectedItem" class="selectedItem"></div>
+	<div id="listArea" style="background-color:block;border-style:double;border-color:black">
+	</div>
+<div>
 <!--
+<div id="listArea" style="overflow:auto;position:absolute;height=80px; bottom: 0px;margin:0 auto; background-color:black;left:0px;right:0px">
 	<div style="width=200px; float:left">
 		<img src="" width=160 height=120/>
 		<div>title........</div>
 	</div>
--->	
 </div>
+-->
 <!-- /list -->
 <!-- share -->
 <div id="share" class='menu_box_align_left' style="bottom:0px;">
@@ -496,6 +684,6 @@ $(document).ready(function(e)
 Sort..
 </div>
 <!-- /menu -->
-<div id="loading">Loading...Please wait...</div>
+<div id="loading" class="showLoading">Loading...</div>
 </body>
 </html>
