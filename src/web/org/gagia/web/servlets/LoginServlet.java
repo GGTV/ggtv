@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet
 			//
 			HashMap hm = new HashMap();
 			boolean fExist = false;
-			if(user_id!=null)
+			if(user_id!=null && !user_id.equals(""))
 				fExist = UserFacade.getInstance().exists(user_id);
 			else if(access_token!=null)
 				fExist = UserFacade.getInstance().checkToken(access_token);
