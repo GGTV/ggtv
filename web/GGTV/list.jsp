@@ -50,9 +50,10 @@
 	.truncated { display:inline-block; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:white}
 	.underline {text-decoration:underline overline; color:orange}
 	.listAreaFrame {
+		float:left;
 		overflow:hidden;
 		width:100%;
-		height:86px;
+		height:120px;
 		position:absolute;
 		z-index:100;
 		background-color:black;
@@ -63,8 +64,13 @@
 		margin-left:180px;
 		margin-top:3px;
 		width:100px;
-		height:80px;
+		height:100px;
 		background-color:gray;
+		filter: Alpha(Opacity=0);
+		-moz-opacity: 0.0;
+		opacity: 0.0;
+	}
+	.img_opacity{
 		filter: Alpha(Opacity=35);
 		-moz-opacity: 0.35;
 		opacity: 0.35;
@@ -123,20 +129,21 @@ function loadCachedPosts(offset, fReset)
 	var idx = curIndex;
 //	cache[curType +"_"+curCate].index = idx;
 //	if(response.video.length>0 && idx>0)
-		ary[ary.length] = "<div id='pre' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/pre.png' width=20/></div>";
-	
+//		ary[ary.length] = "<div id='pre' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/pre.png' width=20/></div>";
+	var vTitle = {};
 	for(var i=idx;i<response.video.length && i<idx+7;i++)
 	{
 		var item = response.video[i];
 		/*
-		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand'>" + 
+		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left;cursor:hand'>" + 
 							"<img src='"+ item.thumb+"' width=120 height=100/>" +
 							"<div style='width=160px;'><pre class='truncated'>"+ item.title +"</pre></div>" + 
 						  "</div>";
 		*/
-		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand;'>" + 
-							"<img src='"+ item.thumb+"' width="+w+" height=80/>" +
+		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; margin:3px;cursor:hand;'>" + 
+							"<img src='"+ item.thumb+"' width="+w+" height=100 class='img_opacity'/>" +
 						  "</div>";		
+		vTitle[item.key] = item.title;
 	}
 //	ary[ary.length] = "<div id='more' style='width:20px; float:left;padding-top:70px;cursor:hand'><img src='images/next.png' width=20/></div>";
 	if(fReset)
@@ -144,6 +151,7 @@ function loadCachedPosts(offset, fReset)
 	//$('#listArea').append('<table border=0 width=100% id=tbList><tr><td align=center width=100%>'+ary.join('')+'</td></tr></table>');
 	$('#listArea').append(ary.join(''));
 	$('div[id^=item_]').each(function(){
+		$(this).attr('video_title', vTitle[$(this).attr('vid')]);
 		$(this).bind('click', function(){
 			var vid = $(this).attr("vid");
 			playVideo(vid);
@@ -306,15 +314,18 @@ function loadVideoData(type, cate, offset, fHideLoading)
 								var ary = [];
 								if(!fShowLoading)
 								{
+									var vTitle = {};
 									for(var i=Math.abs(offset)-7;i<response.video.length && i<Math.abs(offset)+7;i++)
 									{
 										var item = response.video[i];
-										ary[ary.length] = "<div id='uitem_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; border-style:double;cursor:hand;'>" + 
-															"<img src='"+ item.thumb+"' width="+w+" height=80/>" +
+										ary[ary.length] = "<div id='uitem_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left;cursor:hand;margin:3px'>" + 
+															"<img src='"+ item.thumb+"' width="+w+" height=100 class='img_opacity'/>" +
 														  "</div>";		
+										vTitle[item.key] = item.title;
 									}
 									$('#listArea').append(ary.join(''));
 									$('div[id^=uitem_]').each(function(){
+										$(this).attr('video_title', vTitle[$(this).attr('vid')]);
 										$(this).attr('id', 'item_'+$(this).attr('vid'));
 										$(this).bind('click', function(){
 											var vid = $(this).attr("vid");
@@ -328,7 +339,12 @@ function loadVideoData(type, cate, offset, fHideLoading)
 							else
 								cache[type+"_"+cate].pause = 1;
 							if(fShowLoading)
-								loadCachedPosts(0);							
+							{
+								loadCachedPosts(0);
+								currentSelectedItem = $('div[id^=item_]')[0];								$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+								$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+								
+							}
 						}
 					}
 					catch(e){}
@@ -363,6 +379,7 @@ function loadVideo(type, cate, fHideLoading)
 	else
 		loadCachedPosts(0);
 }
+var hideListTT = null;
 function playVideo(vid)
 {
 	if($('#myytplayer').is('div'))
@@ -370,16 +387,23 @@ function playVideo(vid)
 		var params = { allowScriptAccess: "always",  allowfullscreen:"true"};
 		var atts = { id: "myytplayer" };
 		var flashvars = {};
+		var windowHeight = $(window).height();
+		var h = windowHeight - 120 - 20;
+		var ratio = h/windowHeight;
+		var w = $(window).width()*ratio;
+		$('#tbPlayer').height(h);
+		$('#tbPlayer').width(w);
 		swfobject.embedSWF("http://www.youtube.com/v/"+vid+"?enablejsapi=1&playerapiid=ytplayer&version=3",
-						"myytplayer", "70%", "70%", "8", null, flashvars, params, atts);
+						"myytplayer", '100%', '100%', "8", null, flashvars, params, atts);
 	}
 	else
 	{
 		yt_loadVideo(vid);
 	}
 	//		
-	$('#spanPlaying').text($('div[vid='+vid+']').text());
+	$('#spanPlaying').text($('div[vid='+vid+']').attr('video_title'));
 	currentPlayItem = vid;
+	hideListTT = setTimeout(function(){hideList();}, 8000);
 }
 function playAgain()
 {
@@ -438,47 +462,86 @@ function pageToOffset(page)
 	var offset = ( page - 1 ) * pagingSize;	
 	return offset;
 }
-var idx = 3;
+var currentSelectedItem = null;
+var shortcutCount = 3;
+var idx = 3*shortcutCount;
 var initMarginLeft = 0;
 var flag = 0;
+function isInteger(s) {
+  return (s.toString().search(/^-?[0-9]+$/) == 0);
+}
+function hideList()
+{
+	var h = $(window).height()-20;
+	var ratio = h/$(window).height();
+	window.status = h + ',' + w;
+	$('#tbPlayer').height(h);
+	$('#tbPlayer').width($(window).width());
+	$('#listAreaFrame').hide('fast');
+}
+function showList()
+{
+	if(hideListTT != null)
+	{
+		clearTimeout(hideListTT);
+	}
+	if(document.getElementById('listAreaFrame').style.display='none')
+	{
+		var windowHeight = $(window).height();
+		var h = windowHeight - 120 - 20;
+		var ratio = h/windowHeight;
+		var w = $(window).width()*ratio;
+		$('#tbPlayer').height(h);
+		$('#tbPlayer').width(w);
+		//
+		$('#listAreaFrame').show();
+		hideListTT = setTimeout(function(){hideList();}, 8000);		
+	}	
+}
 function addShortcutEvent()
 {
 	//
+	var marginLeft = w*3+20+10;
+	/*
 	$('.selectedItem').css("width", w+8);
 	$('.selectedItem').css('marginLeft', w*3+20+10);
+	*/
 	//
-	var moveW = (w+6)/2;
+	var moveW = (w+6)/shortcutCount;
    $(document).bind('keyup', 'right', function(){
-		if(flag==0 && idx!=$('div[id^=item]').length-1)
+//		if(flag==0 && idx!=$('div[id^=item]').length-1)
+		if($('#listArea').find(currentSelectedItem).next().attr('vid') != undefined)
 		{
 			window.status = "before:" + idx;
 			$('#listArea').animate({
 				'marginLeft':"-="+moveW+"px"
 			}, 200);
-			idx+=0.5;
+			//idx+=0.5;
+			idx++;
+			if(idx%shortcutCount==0)
+			{
+				$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+				currentSelectedItem = $('#listArea').find(currentSelectedItem).next();
+				$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+				$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+			}
 			window.status = "after: " + idx;
 		}
 		else
 		{
 			window.status = "before(DD): " + idx;
 			$('#listArea').animate({
-			 'marginLeft':$('#selectedItem').css('marginLeft')
+			 'marginLeft':marginLeft
 			 }, 0);
-			//idx=0;
+			idx=0;
 			flag++;
+			$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+			currentSelectedItem = $('#listArea').children('div[id^=item_]')[0];
+			$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+			$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 			window.status = "after(DD): " + idx + "," + flag;
 		}
-		if(flag==1)
-		{
-			idx = idx-idx-0.5;
-		}
-		else if(flag==2)
-		{
-			window.status = "before(xx): " + idx;
-			idx+=0.5;
-			flag =0;
-			window.status = "after(xx): " + idx;
-		}
+   		showList();
    });
   $(document).bind('keyup', 'left', function(){
 	   if(idx!=0)
@@ -486,16 +549,29 @@ function addShortcutEvent()
 		   $('#listArea').animate({
 			'marginLeft':"+="+moveW+"px"
 			}, 200);
-		   idx-=0.5;
+		   //idx-=0.5;
+		   idx--;
+   			if(idx%shortcutCount==0)
+			{
+				$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+				currentSelectedItem = $('#listArea').find(currentSelectedItem).prev();
+				$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');				
+				$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+			}
 	   }
+		showList();
    });
     while(idx!=0)
     {
 	  $('#listArea').animate({
 		   'marginLeft':"+="+moveW+"px"
 	   }, 0);
-	  idx-=0.5;
+	  //idx-=0.5;
+	  idx--;
     }
+    $(document).bind('keyup', 'return', function(){
+    	playVideo(currentSelectedItem.attr('vid'));
+	});
 	initMarginLeft = $('#listArea').css('marginLeft');
 }
 function bindEvent()
@@ -633,16 +709,20 @@ $(document).ready(function(e)
 </div>
 <div style="clear:both; padding-top:4px;"/>
 <!-- play area-->
+<table border=0 id='tbPlayer' align=center><tr><td>
 <div id="myytplayer">
 </div>
+</td></tr></table>
 <!-- /play area-->
 <div style="clear:both"/>
 <!-- list -->
 <div id="listAreaFrame" class="listAreaFrame">
-	<div id="selectedItemTitle" align="center" style="height:16px;"></div>
-	<div id="selectedItem" class="selectedItem"></div>
-	<div id="listArea" style="background-color:block;border-style:double;border-color:black">
+	<div id="selectedItemTitle" align="center" style="height:24px;color:white;"></div>
+	<div id='pre' style='z-index:100;width:20px; height:100px;left:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/pre.png' width=20 style='padding-top:40px'/></div>
+<!--	<div id="selectedItem" class="selectedItem"></div>-->
+	<div id="listArea" style="background-color:block;border-color:black">
 	</div>
+	<div id='next' style='z-index:100;width:20px; height:100px;right:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/next.png' width=20 style='padding-top:40px'/></div>
 <div>
 <!--
 <div id="listArea" style="overflow:auto;position:absolute;height=80px; bottom: 0px;margin:0 auto; background-color:black;left:0px;right:0px">
