@@ -22,7 +22,9 @@ function onytplayerStateChange(newState) {
 		}
 	}
 	else if(newState == 1 || newState==3 || newState==5)
+	{
 		isPlaying = true;
+	}
 	else if(newState == 2)
 		isPlaying = false;
 	else
