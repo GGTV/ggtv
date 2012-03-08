@@ -1,7 +1,10 @@
+var isPlaying = false;
+var playerReady = false;
 function onYouTubePlayerReady(playerId) {
       ytplayer = document.getElementById("myytplayer");
 	  ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
 	  ytplayer.addEventListener("onError", "onytplayerError");
+	  playerReady = true;
 	  play();
 }
 //unstarted (-1), ended (0), playing (1), paused (2), buffering (3), video cued (5)
@@ -42,7 +45,7 @@ function onytplayerError(errorCode)
 }
 function yt_loadVideo(videoId)
 {
-	if(ytplayer)
+	if(ytplayer && playerReady==true)
 	{
 		ytplayer.loadVideoById(videoId);
 	}
@@ -50,7 +53,7 @@ function yt_loadVideo(videoId)
 		setTimeout(function(){yt_loadVideo(videoId);}, 500);
 }
 function play() {
-  if (ytplayer) {
+  if (ytplayer && playerReady==true) {
     ytplayer.playVideo();
   }
 }
