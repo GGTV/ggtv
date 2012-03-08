@@ -131,9 +131,9 @@ function loadCachedPosts(offset, fReset)
 	var response = cacheObj.data;
 	var ary = [];
 	curIndex += offset;
-	var idx = curIndex;
+	var theIdx = curIndex;
 	var vData = {};
-	for(var i=idx;i<response.video.length && i<idx+7;i++)
+	for(var i=theIdx;i<response.video.length && i<theIdx+7;i++)
 	{
 		var item = response.video[i];
 		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; margin:3px;cursor:hand;'>" + 
@@ -145,7 +145,10 @@ function loadCachedPosts(offset, fReset)
 		vData[item.key].lastPostTime = item.lastPostTime;
 	}
 	if(fReset)
+	{
 		$('#listArea').empty();
+//		$('#listArea').css('marginLeft', '0px');
+	}
 	//$('#listArea').append('<table border=0 width=100% id=tbList><tr><td align=center width=100%>'+ary.join('')+'</td></tr></table>');
 	$('#listArea').append(ary.join(''));
 	$('div[id^=item_]').each(function(){
@@ -157,6 +160,15 @@ function loadCachedPosts(offset, fReset)
 			playVideo(vid);
 		});
 	});
+	var moveW = (w+6)/shortcutCount;
+	while(idx!=0)
+    {
+	  $('#listArea').animate({
+		   'marginLeft':"+="+moveW+"px"
+	   }, 0);
+	  idx--;
+    }
+
 	$('#next').bind('click', function(){
 		moveToNextPage();
 		//loadOlderPosts();
@@ -248,6 +260,8 @@ function loadCategory(type)
 				$('#divCate').children('div').css('background-color', '');
 				$(this).css('background-color', 'black');
 				$('#divCate').hide("slow");
+				if(timerLoad!=null)
+					clearInterval(timerLoad);
 				cache[type+"_"+$(this).attr('rel')] = {finish:0, offset:-7, pause:0, index:0};
 				loadVideo(type, $(this).attr('rel'));					
 			});
@@ -275,6 +289,7 @@ var fAutoPlayNext = false;
 var cache = {};
 var timerLoad = null;
 var timerKeyup = {'right':{"t":0},'left':{"t":0}};
+var lastPostTime = null;
 function loadOlderData(type, cate)
 {
 	var j = 0;
@@ -288,6 +303,9 @@ function loadOlderData(type, cate)
 		return;
 	var lastItem = $('#listArea div:last-child');
 	var dateTime = lastItem.attr('lastPostTime').substring(0, lastItem.attr('lastPostTime').indexOf("."));
+	if(dateTime==lastPostTime)
+		return;
+	lastPostTime = dateTime;
 	dateTime = dateTime.replace(/-/g, "/");
 	
 	var params = {column:'max_created_time', order:'desc', offset:-7, timestamp:toTimestamp(dateTime)-1, type:type};
@@ -368,7 +386,7 @@ function loadVideoData(type, cate, offset, fHideLoading)
 					{
 						cache[type+"_"+cate].data = response;
 						cachedVideoData = response;
-						timerLoad = setInterval(function(){loadOlderData(type, cate);}, 1200);
+						timerLoad = setInterval(function(){loadOlderData(type, cate);}, 500);
 						//
 						if(fShowLoading)
 						{
@@ -518,12 +536,6 @@ function loadStream(vid)
 		}
 	});		
 }
-function pageToOffset(page)
-{
-	var pagingSize = 50;
-	var offset = ( page - 1 ) * pagingSize;	
-	return offset;
-}
 var currentSelectedItem = null;
 var shortcutCount = 5;
 var idx = 3*shortcutCount;
@@ -582,7 +594,7 @@ function moveToCurrentPlayItem()
 		'marginLeft':"+="+moveW * Math.abs(i-j)*shortcutCount+"px"
 		}, 100);
 		$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-		currentSelectedItem = $('#listArea').children('[vid='+currentPlayItemVid+']')[0];
+		currentSelectedItem = $('#listArea').children('[vid='+currentPlayItemVid+']');
 		$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');				
 		$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 		
@@ -594,7 +606,7 @@ function moveToCurrentPlayItem()
 			'marginLeft':"-="+moveW * (i-j)*shortcutCount+"px"
 		}, 100);
 		$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-			currentSelectedItem = $('#listArea').children('[vid='+currentPlayItemVid+']')[0];
+			currentSelectedItem = $('#listArea').children('[vid='+currentPlayItemVid+']');
 			$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 			$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));		
 	}
@@ -681,6 +693,7 @@ function addShortcutEvent()
 			}
 			window.status = "after: " + idx;
 		}
+		/*
 		else
 		{
 			window.status = "before(DD): " + idx;
@@ -695,6 +708,7 @@ function addShortcutEvent()
 			$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 			window.status = "after(DD): " + idx + "," + flag;
 		}
+		*/
    		showList();
    });
   $(document).bind('keyup', 'left', function(){
