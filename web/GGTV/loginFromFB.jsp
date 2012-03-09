@@ -119,7 +119,20 @@ private String hmacSHA256(String data, String key) throws Exception {
 			}
 		});
 	}
-         doLogin();
+	<%
+	if(request.getParameter("jft")!=null && request.getParameter("jft").equals("gagia"))
+	{
+	%>
+		location.href = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
+	<%
+	}
+	else
+	{
+	%>
+    	doLogin();
+    <%
+    }
+    %>
 	   echoSize();
   	   window.onresize = echoSize;
      </script>
