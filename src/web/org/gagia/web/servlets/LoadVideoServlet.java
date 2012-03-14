@@ -53,7 +53,7 @@ public class LoadVideoServlet extends HttpServlet
 			//
 			boolean fOffsetIn = false;
 			int offset = -1;
-			if(!("0".equals(type) || "1".equals(type) || "2".equals(type)))
+			if(!("0".equals(type) || "1".equals(type) || "2".equals(type) || "3".equals(type)))
 			{
 				JSONObject jso = new JSONObject("{error: Invalid type value:" + type + "}");
 				pw.println(jso.toString());
@@ -100,6 +100,11 @@ public class LoadVideoServlet extends HttpServlet
 				{
 					total = VideoFacade.getInstance().getPersonalTotalSize(access_token, category);
 					list = VideoFacade.getInstance().listPersonalVideo(orderColumn, SQLOrder.sort(sortType), offset, Long.parseLong(timestamp), access_token, category);
+				}
+				else if("3".equals(type))
+				{
+					total = VideoFacade.getInstance().getMyTotalSize(access_token, category);
+					list = VideoFacade.getInstance().listMyVideo(orderColumn, SQLOrder.sort(sortType), offset, Long.parseLong(timestamp), access_token, category);
 				}
 			}
 

@@ -41,7 +41,7 @@ public class LoadVideoCategoryServlet extends HttpServlet
 			//
 			String access_token = request.getParameter("token")==null?(String)request.getSession().getAttribute("access_token"):request.getParameter("token");
 			//
-			if(!("0".equals(type) || "1".equals(type) || "2".equals(type)))
+			if(!("0".equals(type) || "1".equals(type) || "2".equals(type)|| "3".equals(type)))
 			{
 				JSONObject jso = new JSONObject("{error: Invalid type value:" + type + "}");
 				pw.println(jso.toString());
@@ -57,6 +57,8 @@ public class LoadVideoCategoryServlet extends HttpServlet
 			}
 			else if("2".equals(type))
 				list = VideoFacade.getInstance().listCategoryAtPersonal(access_token);
+			else if("3".equals(type))
+				list = VideoFacade.getInstance().listCategoryAtMe(access_token);
 
 			JSONObject output = new JSONObject();
 			JSONArray jsa = new JSONArray((HashMap[])list.toArray(new HashMap[0]));
