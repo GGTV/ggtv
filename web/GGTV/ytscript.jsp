@@ -36,6 +36,7 @@ function onytplayerStateChange(newState) {
 function onytplayerError(errorCode)
 {
 //	alert("error: " + errorCode);
+	$.post("../../servlets/UpdateVideoState", {'videoId':currentPlayItemVid, 'valid':-1,  'errorCode':errorCode});
 	isPlaying = false;
 		if(playMode == 0 || playMode == 1);
 		else if(playMode == 2)

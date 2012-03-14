@@ -61,7 +61,7 @@
 		position:absolute;
 		z-index:100;
 		background-color:black;
-		bottom:16px;
+		bottom:0px;
 	}
 	.selectedItem {
 		position:absolute;
@@ -109,7 +109,7 @@ function formatDuration(sec)
 	else
 		return h + ":" + m + ":" + s;
 }
-    var curOffset = -7;
+    var curOffset = -100;
     var curIndex = 0;
     var curType;
     var curCate = "";
@@ -133,11 +133,12 @@ function loadCachedPosts(offset, fReset)
 	curIndex += offset;
 	var theIdx = curIndex;
 	var vData = {};
-	for(var i=theIdx;i<response.video.length && i<theIdx+7;i++)
+	for(var i=theIdx;i<response.video.length && i<theIdx+100;i++)
 	{
 		var item = response.video[i];
+		var img = item.thumb==null?"images/video.png":item.thumb;
 		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; margin:3px;cursor:hand;'>" + 
-							"<img src='"+ item.thumb+"' width="+w+" height="+itemHeight+" class='img_opacity'/>" +
+							"<img src='"+ img+"' width="+w+" height="+itemHeight+" class='img_opacity'/>" +
 						  "</div>";		
 		vData[item.key] = {}
 		vData[item.key].vtitle = item.title;
@@ -161,6 +162,10 @@ function loadCachedPosts(offset, fReset)
 		});
 	});
 	var moveW = (w+6)/shortcutCount;
+	
+	window.status = "???????????" + $('#listArea').css('marginLeft');
+	$('#listArea').css('marginLeft', "0px").css('marginLeft', moveW*3*shortcutCount + "px");
+	/*
 	while(idx!=0)
     {
 	  $('#listArea').animate({
@@ -168,7 +173,7 @@ function loadCachedPosts(offset, fReset)
 	   }, 0);
 	  idx--;
     }
-
+	*/
 	$('#next').bind('click', function(){
 		moveToNextPage();
 		//loadOlderPosts();
@@ -188,19 +193,23 @@ function getToken()
     var access_token = "<%=request.getParameter("access_token")%>";
 //    alert('<%=request.getParameter("user_id")%>');
     if(access_token == '')
-        access_token = "AAAFPPxXzH5wBAJ7PWyvJzDSx1GqLLrlggI2GPY3y0ZBnqQvx8ZAUQuMx5VG6eZAO8bZC4KWDCSWU3ztWZAX9AGp11iKjPQOQNVzaEjn3dNgZDZD";
+        access_token = "AAAFPPxXzH5wBAPqIFsd2NZB4H4nd8ypqe0sMF4eFTZBznI1mfa0umI9qbrNSy9YQmgymXTC2gO4gsMMgjHs5mQqhZBTx6ZC8fHgQ3LQqIQZDZD";
 	return access_token;
 }
 
 function loadData(mItemId)
 {
-	curOffset = -7;
+	curOffset = -100;
 	curIndex = 0;
 	curCate = "";
 	//
 	if($('#btnCate').val()!="Category")
 		$('#btnCate').val($('#divCate option[value=""]').text());
 	var type = -1;
+	if(mItemId == "mM")
+	{
+		type = 3;
+	}
 	if(mItemId == "mP")
 	{
 		type = 2;
@@ -213,7 +222,7 @@ function loadData(mItemId)
 	{
 		type = 0;
 	}
-	cache[type+"_"+curCate] = {finish:0, offset:-7, pause:0, index:0};
+	cache[type+"_"+curCate] = {finish:0, offset:-100, pause:0, index:0};
 	loadVideo(type, curCate);
 	$('a[id^=m]').removeClass("underline");
 	$('#'+mItemId).addClass("underline");
@@ -221,6 +230,8 @@ function loadData(mItemId)
 }
 function loadCategory(type)
 {
+	var cates = new Array("All", "Autos", "Film & Animation", "Comedy", "Music", "Games", "News", "Sports", "Travel", "Technology");
+	var otherCates = new Array();
 	$.ajax(
 	{
 		url: '../../servlets/LoadCategory',
@@ -237,7 +248,7 @@ function loadCategory(type)
 			
 			$('#divCate').empty();
 			//ary[ary.length] = "<option value=''>All</option>";
-			var styleSelected = "background-color:black;";
+			var styleSelected = "background-color:#FFA500;";
 			if(curCate == '')
 				ary[ary.length] = "<div rel='' style='"+styleSelected+"cursor:hand'>All</div>";
 			else
@@ -246,12 +257,24 @@ function loadCategory(type)
 			for(var i=0;i<response.category.length;i++)
 			{
 				var item = response.category[i];
-				var css_bgColor = "";
-				if(curCate == item.category)
-					css_bgColor = "background-color:black;";
-				ary[ary.length] = "<div rel='cate_"+i+"' style='"+css_bgColor+"cursor:hand'>"+item.category+"</div>";
-				cateData['cate_'+i] = item.category;
+				var fFound = false;
+				for(var j=0;j<cates.length;j++)
+				{
+					if(item.category == cates[j])
+					{
+						var css_bgColor = "";
+						if(curCate == item.category)
+							css_bgColor = "background-color:#FFA500;";
+						ary[ary.length] = "<div rel='cate_"+i+"' style='"+css_bgColor+"cursor:hand'>"+item.category+"</div>";
+						cateData['cate_'+i] = item.category;
+						fFound = true;
+						break;
+					}
+				}
+				if(fFound==false)
+					otherCates[item.category] = item.category;
 			}
+			ary[ary.length] = "<div rel='more' style='cursor:hand'>more</div>";
 			$('#divCate').append(ary.join(''));
 			$('#divCate').children('div').each(function(){
 				$(this).attr('rel', cateData[$(this).attr('rel')]);
@@ -259,25 +282,34 @@ function loadCategory(type)
 			$('#divCate').children('div').bind('click', function(){
 				$('#divCate').children('div').css('background-color', '');
 				$(this).css('background-color', 'black');
-				$('#divCate').hide("slow");
-				if(timerLoad!=null)
-					clearInterval(timerLoad);
-				cache[type+"_"+$(this).attr('rel')] = {finish:0, offset:-7, pause:0, index:0};
-				loadVideo(type, $(this).attr('rel'));					
+				if($(this).attr('rel')!='more')
+				{
+					//$('#divCate').hide("slow");
+					if(timerLoad!=null)
+						clearInterval(timerLoad);
+					cache[type+"_"+$(this).attr('rel')] = {finish:0, offset:-100, pause:0, index:0};
+					loadVideo(type, $(this).attr('rel'));					
+				}
+				else
+				{
+					var ary = new Array();
+					//for(var i=0;i<otherCates.length;i++)
+					for(var cc in otherCates)
+					{
+						ary[ary.length] = "<div rel='"+cc+"' style='cursor:hand' tag='more'>"+cc+"</div>";
+					}
+					$('#divCate').children('div[rel=more]').hide();
+					$('#divCate').append(ary.join(''));
+					$('#divCate').children('div[tag=more]').bind('click', function(){
+						$('#divCate').children('div').css('background-color', '');
+						$(this).css('background-color', 'black');
+						if(timerLoad!=null)
+							clearInterval(timerLoad);
+						cache[type+"_"+$(this).attr('rel')] = {finish:0, offset:-100, pause:0, index:0};
+						loadVideo(type, $(this).attr('rel'));					
+					});
+				}
 			});
-			/*
-			$('#divCate').bind('change', function(){
-				cache[type+"_"+$(this).val()] = {finish:0, offset:-7, pause:0, index:0};
-				loadVideo(type, $(this).val());
-				$('#btnCate').val($(this).val());
-				//
-				$('#btnHide').click();
-			});
-			if($('#btnCate').val()=='Category')
-				$('#btnCate').val($('#divCate option[value=""]').text());
-			else
-				$('#divCate').val($('#btnCate').val());
-			*/
 		},
 		complete: function(xhr, status){
 		}
@@ -308,7 +340,7 @@ function loadOlderData(type, cate)
 	lastPostTime = dateTime;
 	dateTime = dateTime.replace(/-/g, "/");
 	
-	var params = {column:'max_created_time', order:'desc', offset:-7, timestamp:toTimestamp(dateTime)-1, type:type};
+	var params = {column:'max_created_time', order:'desc', offset:-100, timestamp:toTimestamp(dateTime)-1, type:type};
 	if(cate!='')
 		params = $.extend(params, {cate:cate});
 	if(type==2)
@@ -328,11 +360,14 @@ function loadOlderData(type, cate)
 			var vData = {};
 			if(response.video.length==0)
 				clearInterval(timerLoad);
+			if(cate != curCate)
+				return;
 			for(var i=0;i<response.video.length;i++)
 			{
 				var item = response.video[i];
+				var img = item.thumb==null?"images/video.png":item.thumb;
 				ary[ary.length] = "<div id='uitem_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left;cursor:hand;margin:3px'>" + 
-									"<img src='"+ item.thumb+"' width="+w+" height="+itemHeight+" class='img_opacity'/>" +
+									"<img src='"+ img+"' width="+w+" height="+itemHeight+" class='img_opacity'/>" +
 								  "</div>";
 				vData[item.key] = {};
 				vData[item.key].vtitle = item.title;
@@ -369,7 +404,7 @@ function loadVideoData(type, cate, offset, fHideLoading)
 			var params = {column:'max_created_time', order:'desc', offset:offset, timestamp:toTimestamp(new Date()), type:type};
 			if(cate!='')
 				params = $.extend(params, {cate:cate});
-			if(type==2)
+			if(type==2 || type==3)
 				params = $.extend(params, {token:getToken()});
 			$.ajax(
 			{
@@ -413,11 +448,11 @@ function loadVideo(type, cate, fHideLoading)
 	curType = type;
 	curCate = cate;
 	if(cache[type+"_"+cate] == undefined)
-		cache[type+"_"+cate] = {finish:0, offset:-7, pause:0, index:0};
+		cache[type+"_"+cate] = {finish:0, offset:-100, pause:0, index:0};
 	var cacheObj = cache[type+"_"+cate];
-	if(cacheObj.offset == -7 || cacheObj.pause==1)
+	if(cacheObj.offset == -100 || cacheObj.pause==1)
 	{
-		if(cacheObj.offset == -7)
+		if(cacheObj.offset == -100)
 			curIndex = 0;
 		if(cacheObj.finish==1)
 			return;
@@ -438,7 +473,8 @@ function playVideo(vid)
 		var atts = { id: "myytplayer" };
 		var flashvars = {};
 		var windowHeight = $(window).height();
-		var h = windowHeight - $('#listAreaFrame').height() - $('#menu').height() - $('#toolbar').height() - 10;
+		//var h = windowHeight - $('#listAreaFrame').height() - $('#menu').height() - $('#toolbar').height() - 10;
+		var h = windowHeight - $('#listAreaFrame').height() - $('#toolbar').height() - 8;
 		var ratio = h/windowHeight;
 		var w = $(window).width()*ratio;
 		$('#tbPlayer').height(h);
@@ -457,6 +493,8 @@ function playVideo(vid)
 	{
 		yt_loadVideo(vid);
 	}
+	if($('#btnFull').css('display')=="none" && $('#btnRestore').css('display')=="none")
+		$('#btnFull').show();
 	//		
 	$('#spanPlaying').text($('div[vid='+vid+']').attr('video_title'));
 	currentPlayItemVid = vid;
@@ -467,7 +505,7 @@ function playVideo(vid)
 	//
 	if(hideListTT!=null)
 		clearTimeout(hideListTT);
-	hideListTT = setTimeout(function(){hideList();}, 8000);
+	//hideListTT = setTimeout(function(){hideList();}, 8000);
 }
 function playAgain()
 {
@@ -537,7 +575,7 @@ function loadStream(vid)
 	});		
 }
 var currentSelectedItem = null;
-var shortcutCount = 5;
+var shortcutCount = 7;
 var idx = 3*shortcutCount;
 var initMarginLeft = 0;
 var flag = 0;
@@ -548,13 +586,15 @@ function hideList()
 {
 	if(isPlaying == false)
 		return;
-	var h = $(window).height()-20 - 16;
+	var h = $(window).height()-20;
 	var ratio = h/$(window).height();
 	window.status = h + ',' + w;
 	$('#tbPlayer').height(h);
 	$('#tbPlayer').width($(window).width());
 	$('#listAreaFrame').hide('fast');
 	$('#showListBtn').show();
+	//
+	$('#divCate').hide();
 }
 function showList()
 {
@@ -573,8 +613,9 @@ function showList()
 		//
 		$('#listAreaFrame').show();
 		$('#showListBtn').hide();
-		hideListTT = setTimeout(function(){hideList();}, 8000);		
+//		hideListTT = setTimeout(function(){hideList();}, 8000);		
 	}	
+	$('#divCate').show();
 }
 function moveToCurrentPlayItem()
 {
@@ -611,26 +652,75 @@ function moveToCurrentPlayItem()
 			$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));		
 	}
 }
-function moveToNextPage()
+function moveToFirst()
 {
+	var prevAll = $(currentSelectedItem).prevAll();
+	var len = prevAll.length;
+	window.status = "**********" + len;
+	if(len<=0)
+	{
+		return;
+	}
 	var moveW = (w+6)/shortcutCount;
  	$('#listArea').animate({
-		'marginLeft':"-="+moveW * 7 * shortcutCount+"px"
+		'marginLeft':"+="+moveW * len * shortcutCount+"px"
 	}, 100);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-	currentSelectedItem = $(currentSelectedItem).nextAll().slice(6, 7);
+	currentSelectedItem = $(currentSelectedItem).prevAll().slice(len-1, len);
+	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+}
+function moveToEnd()
+{
+	var nextAll = $(currentSelectedItem).nextAll();
+	var len = nextAll.length;
+	if(len==0)
+		return;
+	var moveW = (w+6)/shortcutCount;
+ 	$('#listArea').animate({
+		'marginLeft':"-="+moveW * len * shortcutCount+"px"
+	}, 100);
+	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+	window.status = "**********" + $(currentSelectedItem).nextAll().length;
+	currentSelectedItem = nextAll.slice(len-1, len);
+	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+}
+function moveToNextPage()
+{
+	var nextAll = $(currentSelectedItem).nextAll();
+	var len = nextAll.length<7?nextAll.length:7;
+	if(len==0)
+	{
+		moveToNextPage();
+		return;
+	}
+//	alert(len);
+	var moveW = (w+6)/shortcutCount;
+ 	$('#listArea').animate({
+		'marginLeft':"-="+moveW * len * shortcutCount+"px"
+	}, 100);
+	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+	window.status = "**********" + $(currentSelectedItem).nextAll().length;
+	currentSelectedItem = nextAll.slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 }
 function moveToPrevPage()
 {
+	var prevAll = $(currentSelectedItem).prevAll();
+	var len = prevAll.length<7?prevAll.length:7;
+	window.status = "**********" + len;
+	if(len<=0)
+	{
+		return;
+	}
 	var moveW = (w+6)/shortcutCount;
  	$('#listArea').animate({
-		'marginLeft':"+="+moveW * 7 * shortcutCount+"px"
+		'marginLeft':"+="+moveW * len * shortcutCount+"px"
 	}, 100);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-//	alert($(currentSelectedItem).prevAll().slice(6, 7).attr('video_title'));
-	currentSelectedItem = $(currentSelectedItem).prevAll().slice(6, 7);
+	currentSelectedItem = $(currentSelectedItem).prevAll().slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 }
@@ -639,6 +729,12 @@ function addShortcutEvent()
 	//
 	var marginLeft = w*3+20+10;
 	var moveW = (w+6)/shortcutCount;
+   $(document).bind('keyup', 'home', function(){
+		moveToFirst();
+   });
+   $(document).bind('keyup', 'end', function(){
+   		moveToEnd();
+   });
    $(document).bind('keyup', 'right', function(){
 		if($('#listArea').find(currentSelectedItem).next().attr('vid') != undefined)
 		{
@@ -712,7 +808,8 @@ function addShortcutEvent()
    		showList();
    });
   $(document).bind('keyup', 'left', function(){
-	   if(idx!=0)
+	   //if(idx!=0)
+	   if($(currentSelectedItem).prevAll().length!=0)
 	   {
 		   $('#listArea').animate({
 			'marginLeft':"+="+moveW+"px"
@@ -761,6 +858,16 @@ function bindEvent()
 	$('#showListBtn').bind('click', function(){
 		showList();
 	});
+	$('#btnFull').bind('click', function(){
+		hideList();
+		$(this).hide();
+		$('#btnRestore').show();
+	});
+	$('#btnRestore').bind('click', function(){
+		showList();
+		$(this).hide();
+		$('#btnFull').show();
+	});
 //
 	addShortcutEvent();
 //
@@ -773,10 +880,11 @@ function bindEvent()
 		});
 	});
 	//
+	/*
 	$('#btnPlayMode').bind('click', function(){
 		if($('#divPlayMode').css('display')=='none')
 		{
-			$('#divCate').hide();
+//			$('#divCate').hide();
 			$('#divPlayMode').show();
 		}
 		else
@@ -788,6 +896,23 @@ function bindEvent()
 		playMode = $(this).attr('rel');
 		$('#divPlayMode').hide('slow');
 	});
+	*/
+	$('#playMode0').bind('click', function(){
+		playMode = 1;
+		$(this).hide();
+		$('#playMode'+playMode).show();
+	});
+	$('#playMode1').bind('click', function(){
+		playMode = 2;
+		$(this).hide();
+		$('#playMode'+playMode).show();
+	});
+	$('#playMode2').bind('click', function(){
+		playMode = 0;
+		$(this).hide();
+		$('#playMode'+playMode).show();
+	});
+	/*
 	$('#btnCate').bind('click', function(){
 		if($('#divCate').css('display')=='none')
 		{	
@@ -797,6 +922,7 @@ function bindEvent()
 		else
 			$('#divCate').hide();
 	});
+	*/
 	//bind share button	
 	$('#share_button').bind('click', function(){
 		if(currentPlayItemVid==null)
@@ -813,7 +939,12 @@ function fbs_click()
 	u=playingItem.attr('surl');
 	t="The Video is shared via Gageea TV";
 	var thumb = playingItem.children('img').attr('src');
-	var imgURL = thumb.substring(thumb.indexOf("url=")+4);
+	var imgURL = thumb;
+	if(thumb.indexOf("url=")!=-1)
+		imgURL = thumb.substring(thumb.indexOf("url=")+4);
+	else
+		imgURL = window.location.protocol + "//" + window.location.host + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")) + "/" + imgURL;
+//alert(imgURL);
 	if(imgURL.indexOf("&")!=-1)
 		imgURL = imgURL.substring(0, imgURL.indexOf("&"));
 	FB.ui(
@@ -869,10 +1000,11 @@ function fbInitialized()
    }(document));
 </script>
 <div id="toolbar" style="width:350px; display:block">
-	<div class="panel" style="width:350px">
+	<div class="panel" style="width:450px">
 		<a href="#"  title="toolbar" style="width:25px"/>
 		<ul>
-			<li style="width:100px; float:left;"><a href="#" id="mP"><span style="color:white">Personal</span></a></li>
+			<li style="width:100px; float:left;"><a href="#" id="mM"><span style="color:white">Me</span></a></li>
+			<li style="width:100px; float:left;"><a href="#" id="mP"><span style="color:white">Network</span></a></li>
 			<li style="width:100px; float:left;"><a href="#" id="mR"><span style="color:white">Regional</span></a></li>
 			<li style="width:100px; float:left;"><a href="#" id="mG"><span style="color:white">Global</span></a></li>
 		</ul>
@@ -881,39 +1013,61 @@ function fbInitialized()
 </div>
 <div style="clear:both; padding-top:4px;"/>
 <!-- play area-->
-<table border=0 id='tbPlayer' align=center style="z-index:100"><tr><td>
-<div id="myytplayer">
-</div>
-</td></tr></table>
+<table border=0 id='tbPlayer' align=center style="z-index:100">
+	<tr>
+		<td>
+			<div style="overflow:auto;z-index:300;position:absolute;top:25px;left:5px;text-align:left;color:white;border-color:gray;border-style:ridge;" id="divCate">
+			</div>
+		</td>
+		<td>
+			<div id="myytplayer">
+			</div>
+		</td>
+		<td>
+			<div id="divControl" style="overflow:auto;z-index:300;position:absolute;top:25px;right:0px;text-align:right;height:80%;width:33px">
+				<img src="images/fullscreen.png" width=30 height=30 id="btnFull" style="cursor:hand;display:none;position:relative;top:0px;float:right">
+				<img src="images/restore.png" width=30 height=30 id="btnRestore" style="cursor:hand;display:none;position:relative;top:0px;float:right">
+				<img src="images/playOnce.png" width=30 height=30 id="playMode0" style="cursor:hand;position:relative;top:5px;float:right"/>
+				<img src="images/repeat.png" width=30 height=30 id="playMode1" style="cursor:hand;display:none;float:right;position:relative;top:5px"/>
+				<img src="images/playAll.png" width=30 height=30 id="playMode2" style="cursor:hand;display:none;float:right;position:relative;top:5px"/>
+			</div>
+		</td>
+	</tr>
+</table>
 <!-- /play area-->
 <div style="clear:both"/>
 <!-- list -->
 <div id="listAreaFrame" class="listAreaFrame" onblur="document.getElementById('listAreaFrame').focus()">
 	<div id="selectedItemTitle" align="center" style="height:24px;color:white;"></div>
-	<div id='pre' style='z-index:100;width:20px; height:100px;left:0;margin-top:3px;cursor:hand;bottom:16px;position:absolute;'><img src='images/pre.png' width=20 style='padding-top:60px'/></div>
+	<div id='pre' style='z-index:100;width:20px; height:100px;left:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/pre.png' width=20 style='padding-top:60px'/></div>
 <!--	<div id="selectedItem" class="selectedItem"></div>-->
 	<div id="listArea" style="background-color:block;border-color:black">
 	</div>
-	<div id='next' style='z-index:100;width:20px; height:100px;right:0;margin-top:3px;cursor:hand;bottom:16px;position:absolute;'><img src='images/next.png' width=20 style='padding-top:60px'/></div>
+	<div id='next' style='z-index:100;width:20px; height:100px;right:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/next.png' width=20 style='padding-top:60px'/></div>
 </div>
+<!--
 <div style="clear:both"/>
 <div style="position:absolute;width:100%;bottom:0px;z-index:500;">
 <div id="showListBtn" align="center" style="bottom:0px;cursor:hand;display:none"><img src="images/up.png" height=16/></div>
+-->
 <!-- /list -->
 <!-- menu -->
+<!--
 <div id="menu" class='menu_box' style="bottom:0px;right:5px">
-<!--<input type="button" value="Config"></input>-->
 <img src='images/playMode.png' style="height:16px;bottom:0px;cursor:hand;" id="btnPlayMode"/>
-<img src='images/catalog.png' style="height:16px;bottom:0px;cursor:hand;" id="btnCate"/>
 </div>
-
+-->
+<!--
 <div style="z-index:600;height:45;position:absolute;bottom:18px;right:8px;display:none;text-align:left;color:white;background-color:gray;border-color:gray;border-style:ridge;" id="divPlayMode">
 	<div id="playMode0" rel=0 style="cursor:hand;background-color:black">Once</div>
 	<div id="playMode1" rel=1 style="cursor:hand">Repeat</div>
 	<div id="playMode2" rel=2 style="cursor:hand">Continuous</div>
 </div>
+-->
+<!--
 <div style="overflow:auto;z-index:300;width:160px;height:200px;position:absolute;bottom:20px;right:5px;display:none;text-align:left;color:white;background-color:gray;border-color:gray;border-style:ridge;" id="divCate">
 </div>
+-->
 <!-- /menu -->
 <div id="dialog" style='z-index:100;display:none'><iframe name="dialogFrame"></iframe></div>
 </body>
