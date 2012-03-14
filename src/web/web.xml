@@ -59,6 +59,14 @@
 		<servlet-name>LoadCategory</servlet-name>
 		<url-pattern>/servlets/LoadCategory</url-pattern>
 	</servlet-mapping>
+<servlet>
+<servlet-name>UpdateVideoState</servlet-name>
+<servlet-class>org.gagia.web.servlets.UpdateVideoState</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>UpdateVideoState</servlet-name>
+<url-pattern>/servlets/UpdateVideoState</url-pattern>
+</servlet-mapping>
 
 	<jsp-config>
 	  <taglib>
