@@ -60,6 +60,28 @@ public class VideoFacade extends DBFacade
 		}		
 		return 0;
 	}
+	public long getMyTotalSize(String access_token, String category)
+	{
+		try
+		{
+			ArrayList list = new ArrayList();
+			String sql = sqlManager.getSQL("video.my.count", access_token);
+			if(category!=null)
+				sql = sqlManager.getSQL("video.my.countByCategory", access_token, category);
+			list = sqlQueryRows(sql);
+			if(list!=null && list.size()>0)
+			{
+				HashMap hm = (HashMap)list.get(0);
+				return Long.parseLong(hm.get("n").toString());
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+		return 0;
+	}
 	public long getPersonalTotalSize(String access_token, String category)
 	{
 		try
@@ -184,6 +206,27 @@ public class VideoFacade extends DBFacade
 		}
 		return list;
 	}
+	public ArrayList listMyVideo(String orderColumn, SQLOrder.Sort orderType, int offset, long timestamp, String access_token, String category)
+	{
+		ArrayList list = new ArrayList();
+		try
+		{
+			String operator = ">=";
+			if(offset<0)
+				operator = "<=";
+			String sql = sqlManager.getSQL("video.my.listByPagingAndTime", new Object[]{new SQLString(" and max_created_time " + operator + " " + timestamp), new SQLOrder(orderColumn, orderType).toSQLString(), new Integer(Math.abs(offset)), access_token});
+			if(category!=null)
+				sql = sqlManager.getSQL("video.my.listByPagingTimeAndCategory", new Object[]{new SQLString(" and max_created_time " + operator + " " + timestamp), new SQLOrder(orderColumn, orderType).toSQLString(), new Integer(Math.abs(offset)), access_token, category});
+			list = sqlQueryRows(sql);
+			if(list!=null)
+				return list;	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return new ArrayList();
+	}
 	public ArrayList listPersonalVideo(String orderColumn, SQLOrder.Sort orderType, int offset, long timestamp, String access_token, String category)
 	{
 		ArrayList list = new ArrayList();
@@ -241,6 +284,25 @@ public class VideoFacade extends DBFacade
 		}
 		return list;
 	}
+	public ArrayList listCategoryAtMe(String access_token)
+	{
+		ArrayList list = new ArrayList();
+		try
+		{
+			String user_id_list = UserFacade.getInstance().getMeAndFriends(access_token);
+			if(user_id_list.equals(""))
+				return list;			
+			String sql = sqlManager.getSQL("category.me.list", access_token);
+			list = sqlQueryRows(sql);
+			if(list!=null)
+				return list;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public ArrayList listCategoryAtPersonal(String access_token)
 	{
 		ArrayList list = new ArrayList();
@@ -278,4 +340,19 @@ public class VideoFacade extends DBFacade
 		}
 		return list;
 	}
+    public boolean updateVideoState(String videoId, String valid, String errorCode)
+    {
+        boolean fSuccess = false;
+        try
+        {
+            String sql = sqlManager.getSQL("video.updateState", videoId, valid, errorCode);
+            sqlUpdate(sql);
+            fSuccess = true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return fSuccess;
+    }
 }
