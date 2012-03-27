@@ -1,72 +1,11 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8" %>
-<%@ page import="javax.crypto.Mac" %>
-<%@ page import="javax.crypto.spec.SecretKeySpec" %>
-<%@ page import="javax.servlet.http.HttpServletRequest" %>
-<%@ page import="javax.servlet.http.HttpServletResponse" %>
-<%@ page import="org.apache.commons.codec.binary.Base64" %>
-<%@ page import="org.json.JSONObject" %>
-<%
-	long l = 1325102400;
-	System.out.println("expired date: " + new java.util.Date(l*1000));
-	String fbSecretKey = "4a841b03e65e229d8309c94fa921d186";
-	String fbAppId = "368607346499484";
-	String signed_request = request.getParameter("signed_request");
-	String accessToken = "";
-	String user_id = "";
-	System.out.println("signed_request=" + signed_request);
-	if(signed_request != null)
-	{
-		Base64 base64 = new Base64(true);
-		String[] signedRequest = signed_request.split("\\.", 2);
-		//parse signature
-		String sig = new String(base64.decode(signedRequest[0].getBytes("UTF-8")));
-		//parse data and convert to json object
-		JSONObject data = new JSONObject(new String(base64.decode(signedRequest[1].getBytes("UTF-8"))));
-		if(data.has("algorithm"))
-			System.out.println("algorithm=" + data.getString("algorithm"));
-		if(!hmacSHA256(signedRequest[1], fbSecretKey).equals(sig))
-		{
-			System.out.println("signature is not correct, possibly the data was tampered with");
-		}
-		if(!data.has("user_id") || !data.has("oauth_token"))
-		{
-			System.out.println("user_id or oauth_token not found.");
-			out.print("Please sign in facebook first.");
-			out.close();
-		}
-		else 
-		{
-			//this is authorized user, get their info from Graph API using received access token
-			accessToken = data.getString("oauth_token");
-			user_id = data.getString("user_id");
-			System.out.println("accessToken=" + accessToken);
-			System.out.println("user_id=" + data.getString("user_id"));
-			//
-			System.out.println(data);
-		}
-	}
-	else
-	{
-		if(request.getParameter("jft")!=null && request.getParameter("jft").equals("gagia"))
-		{
-		}
-		else
-		{
-			out.print("");
-			out.close();
-		}
-	}
-%>
-<%!
-private String hmacSHA256(String data, String key) throws Exception {
-        SecretKeySpec secretKey = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
-        Mac mac = Mac.getInstance("HmacSHA256");
-        mac.init(secretKey);
-        byte[] hmacData = mac.doFinal(data.getBytes("UTF-8"));
-        return new String(hmacData);
-    }
-%>
 <!DOCTYPE>
+<%
+	boolean fDebug = false;
+	String appId = "368607346499484";
+	if(fDebug)
+		appId = "301292833249422";
+%>
 <html>
  <head>
    <title>Gageeatv</title>
@@ -78,63 +17,70 @@ private String hmacSHA256(String data, String key) throws Exception {
  
      <div id="allContent" style="background-color: #000000; height:100%">
   		<!--<div id="output" style="color: #FFFFFF;" />-->
-		<iframe id="output" src="about:blank"></iframe>
+		<iframe id="output" src="about:blank" width=0 height=0 frameborder=0></iframe>
      </div>
 
      <div id="fb-root"></div>
-     <script src="http://connect.facebook.net/en_US/all.js"></script>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
      <script type="text/javascript">
-  	 FB.init({
-    		appId  : '368607346499484',
-            status     : true, 
-            cookie     : true,
-            xfbml      : true
-  	    });
-
-  	 function echoSize() {
-		/*
-    	      document.getElementById('output').innerHTML = 
-                 "HTML Content Width: " + window.innerWidth + 
-                 " Height: " + window.innerHeight;
-    	      console.log(window.innerWidth + ' x ' + window.innerHeight);
-		*/
+     window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '<%=appId%>', // App ID
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+    // Additional initialization code here
+    FB.getLoginStatus(checkState);
+  };
+  function checkState(response) {
+  if (response.status === 'connected') {
+	   	echoSize();
+	   	doLogin(response.authResponse.accessToken, response.authResponse.userID);
+  } else {
+  	fbLogin();
+  }
+}
+  function fbLogin()
+  {
+	FB.login(function(response) {
+	   if (response.authResponse) {
+	   	//accessToken, userID, expiresIn, signedRequest
+	   	echoSize();
+	   	doLogin(response.authResponse.accessToken, response.authResponse.userID);
+	   } else {
+	   }
+	 }, {scope: 'email,user_birthday,user_groups,user_hometown,user_location,read_friendlists,read_stream,offline_access'});
+	}
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+   //
+   //
+  function echoSize() {
 		document.getElementById('output').style.width = document.documentElement.clientWidth + " px";
 		document.getElementById('output').style.height = document.documentElement.clientHeight + " px";
-		//document.getElementById('output').src = "index.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
-		//document.getElementById('output').src = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
   	    }
-	function doLogin()
+	function doLogin(accessToken, userId)
 	{
 		$.ajax({
 			url: "../../servlets/Login",
 			type: "POST",
 			dataType: "json",
 			data: {
-				uid: "<%=user_id%>",
-				token: "<%=accessToken%>"
+				uid: userId,
+				token: accessToken
 			},
 			success: function(response){
-				location.href = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
-				//alert(response);
+				location.href = "list.jsp?access_token=" + accessToken + "&user_id=" + userId;
 			}
 		});
-	}
-	<%
-	if(request.getParameter("jft")!=null && request.getParameter("jft").equals("gagia"))
-	{
-	%>
-		location.href = "list.jsp?access_token=<%=accessToken%>&user_id=<%=user_id%>";
-	<%
-	}
-	else
-	{
-	%>
-    	doLogin();
-    <%
-    }
-    %>
-	   echoSize();
-  	   window.onresize = echoSize;
+	} 
      </script>
   </body>
 </html>

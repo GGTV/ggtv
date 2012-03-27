@@ -14,12 +14,16 @@
         <meta property="og:image" content="thumbnail_image" />	<title>Video</title>
 	<style type="text/css">
 	<!--
+	a{
+		outline: 0;
+	}
 	.showLoading{
 		position:absolute;
 		float:right;
 		right:100px;
 		top:0px;
 		color:white;
+		background-color:#6D7B8D;
 	}
 	.menu_box{
 		position:absolute;
@@ -49,7 +53,7 @@
 		white-space: -hp-pre-wrap;  /* HP Printers */
 		word-wrap: break-word;      /* IE 5+ */
 		/* specific width */
-		width: 120px; 
+		width: 240px; 
 		}
 	.truncated { display:inline-block; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:white}
 	.underline {text-decoration:underline overline; color:orange}
@@ -61,7 +65,10 @@
 		position:absolute;
 		z-index:100;
 		background-color:black;
-		bottom:0px;
+		bottom:3px;
+	}
+	.playingItem {
+		border:2px solid #FFFFFF
 	}
 	.selectedItem {
 		position:absolute;
@@ -69,10 +76,12 @@
 		margin-top:3px;
 		width:100px;
 		height:17%;
+		/*
 		background-color:gray;
 		filter: Alpha(Opacity=0);
 		-moz-opacity: 0.0;
 		opacity: 0.0;
+		*/
 	}
 	.img_opacity{
 		filter: Alpha(Opacity=35);
@@ -89,6 +98,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.hotkeys.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.timeago.js"></script>
 <script>
 <%@ include file="ytscript.jsp" %>
 var currentPlayItemVid = null;
@@ -123,6 +133,12 @@ var screenHeight = document.documentElement.clientHeight;
 var w = (screenWidth - 20 - 20 - 50)/7;
 //var itemHeight = screenHeight * 20/100 - 16;
 var itemHeight = $(window).height() * 17/100 - 16;
+function getShareURL(item)
+{
+	if(item.key!=null)
+		item.share_url = "http://www.youtube.com/watch?v=" + item.key;
+	return item.share_url;
+}
 function loadCachedPosts(offset, fReset)
 {
 	fReset = fReset==undefined?true:fReset;
@@ -137,13 +153,14 @@ function loadCachedPosts(offset, fReset)
 	{
 		var item = response.video[i];
 		var img = item.thumb==null?"images/video.png":item.thumb;
-		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left; margin:3px;cursor:hand;'>" + 
+		ary[ary.length] = "<div id='item_"+item.key+"' vid='"+item.key+"' surl='"+getShareURL(item)+"' style='width:"+w+"px; float:left; margin:3px;cursor:hand;'>" + 
 							"<img src='"+ img+"' width="+w+" height="+itemHeight+" class='img_opacity'/>" +
 						  "</div>";		
 		vData[item.key] = {}
 		vData[item.key].vtitle = item.title;
 		vData[item.key].desc = item.description;
 		vData[item.key].lastPostTime = item.lastPostTime;
+		vData[item.key].ggVid = item.id;
 	}
 	if(fReset)
 	{
@@ -156,6 +173,7 @@ function loadCachedPosts(offset, fReset)
 		$(this).attr('video_title', vData[$(this).attr('vid')].vtitle);
 		$(this).attr('desc', vData[$(this).attr('vid')].desc);
 		$(this).attr('lastPostTime', vData[$(this).attr('vid')].lastPostTime);
+		$(this).attr('ggVid', vData[$(this).attr('vid')].ggVid);
 		$(this).bind('click', function(){
 			var vid = $(this).attr("vid");
 			playVideo(vid);
@@ -175,10 +193,12 @@ function loadCachedPosts(offset, fReset)
     }
 	*/
 	$('#next').bind('click', function(){
+   		$('#divComment').hide();
 		moveToNextPage();
 		//loadOlderPosts();
 	});
 	$('#pre').bind('click', function(){
+   		$('#divComment').hide();
 		moveToPrevPage();
 		/*
 		if(curIndex>0)
@@ -223,14 +243,14 @@ function loadData(mItemId)
 		type = 0;
 	}
 	cache[type+"_"+curCate] = {finish:0, offset:-100, pause:0, index:0};
+	loadCategory(type);
 	loadVideo(type, curCate);
 	$('a[id^=m]').removeClass("underline");
 	$('#'+mItemId).addClass("underline");
-//	loadCategory(type);
 }
 function loadCategory(type)
 {
-	var cates = new Array("All", "Autos", "Film & Animation", "Comedy", "Music", "Games", "News", "Sports", "Travel", "Technology");
+	var cates = new Array("All", "Autos", "Film", "Comedy", "Music", "Games", "News", "Sports", "Travel", "Technology");
 	var otherCates = new Array();
 	$.ajax(
 	{
@@ -280,10 +300,11 @@ function loadCategory(type)
 				$(this).attr('rel', cateData[$(this).attr('rel')]);
 			});
 			$('#divCate').children('div').bind('click', function(){
-				$('#divCate').children('div').css('background-color', '');
-				$(this).css('background-color', 'black');
+				$('#divComment').hide('slow');
+				$('#divCate').children('div').css('background-color', '');					$(this).css('background-color', '#FFA500');
 				if($(this).attr('rel')!='more')
 				{
+					$('#currentCategory').text($(this).text());
 					//$('#divCate').hide("slow");
 					if(timerLoad!=null)
 						clearInterval(timerLoad);
@@ -301,8 +322,9 @@ function loadCategory(type)
 					$('#divCate').children('div[rel=more]').hide();
 					$('#divCate').append(ary.join(''));
 					$('#divCate').children('div[tag=more]').bind('click', function(){
-						$('#divCate').children('div').css('background-color', '');
-						$(this).css('background-color', 'black');
+						$('#divComment').hide('slow');
+						$('#divCate').children('div').css('background-color', '');											$(this).css('background-color', '#FFA500');
+						$('#currentCategory').text($(this).text());
 						if(timerLoad!=null)
 							clearInterval(timerLoad);
 						cache[type+"_"+$(this).attr('rel')] = {finish:0, offset:-100, pause:0, index:0};
@@ -366,13 +388,14 @@ function loadOlderData(type, cate)
 			{
 				var item = response.video[i];
 				var img = item.thumb==null?"images/video.png":item.thumb;
-				ary[ary.length] = "<div id='uitem_"+item.key+"' vid='"+item.key+"' surl='"+item.share_url+"' style='width:"+w+"px; float:left;cursor:hand;margin:3px'>" + 
+				ary[ary.length] = "<div id='uitem_"+item.key+"' vid='"+item.key+"' surl='"+getShareURL(item)+"' style='width:"+w+"px; float:left;cursor:hand;margin:3px'>" + 
 									"<img src='"+ img+"' width="+w+" height="+itemHeight+" class='img_opacity'/>" +
 								  "</div>";
 				vData[item.key] = {};
 				vData[item.key].vtitle = item.title;
 				vData[item.key].desc = item.description;
 				vData[item.key].lastPostTime = item.lastPostTime;
+				vData[item.key].ggVid = item.id;
 			}
 			$('#listArea').append(ary.join(''));
 			$('div[id^=uitem_]').each(function(){
@@ -380,6 +403,7 @@ function loadOlderData(type, cate)
 				$(this).attr('desc', vData[$(this).attr('vid')].desc);
 				$(this).attr('lastPostTime', vData[$(this).attr('vid')].lastPostTime);
 				$(this).attr('id', 'item_'+$(this).attr('vid'));
+				$(this).attr('ggVid', vData[$(this).attr('vid')].ggVid);
 				$(this).bind('click', function(){
 					var vid = $(this).attr("vid");
 					playVideo(vid);
@@ -406,6 +430,7 @@ function loadVideoData(type, cate, offset, fHideLoading)
 				params = $.extend(params, {cate:cate});
 			if(type==2 || type==3)
 				params = $.extend(params, {token:getToken()});
+//			window.status = "getToken(): " + getToken();
 			$.ajax(
 			{
 				url:'../../servlets/LoadVideo',
@@ -426,10 +451,14 @@ function loadVideoData(type, cate, offset, fHideLoading)
 						if(fShowLoading)
 						{
 							loadCachedPosts(0);
-							currentSelectedItem = $('div[id^=item_]')[0];
-							$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
-							$('#selectedItemTitle').text($('#listArea').find(currentSelectedItem).attr('video_title'));
-							$('#selectedItemTitle').focus();		
+							currentSelectedItem = $($('div[id^=item_]').get(0));
+							if(ttComment !=null)
+							 clearTimeout(ttComment);
+							ttComment = setTimeout('showStream()', 2000);
+							$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');							$('#selectedItemTitle').text($('#listArea').find(currentSelectedItem).attr('video_title'));
+							$('#selectedItemTitle').focus();
+							$('#share_button').focus();
+
 						}
 					}
 					catch(e){}
@@ -457,7 +486,6 @@ function loadVideo(type, cate, fHideLoading)
 		if(cacheObj.finish==1)
 			return;
 		//
-		loadCategory(type);
 		cacheObj.pause=0;
 		loadVideoData(type, cate, cacheObj.offset, fHideLoading);
 	}
@@ -494,14 +522,29 @@ function playVideo(vid)
 		yt_loadVideo(vid);
 	}
 	if($('#btnFull').css('display')=="none" && $('#btnRestore').css('display')=="none")
+	{
 		$('#btnFull').show();
+		$('#btnInfo').show();
+	}
 	//		
 	$('#spanPlaying').text($('div[vid='+vid+']').attr('video_title'));
+	//remove old playing item
+	$('#listArea').children('[vid='+currentPlayItemVid+']').children('img').removeClass('playingItem');
+	var fAutoChangeSelectedItem = false;
+	if(currentPlayItemVid == currentSelectedItem.attr('vid'))
+	{
+		fAutoChangeSelectedItem=  true;
+	}
 	currentPlayItemVid = vid;
+	if(fAutoChangeSelectedItem)
+		moveToCurrentPlayItem();
 	//
+	/*
 	if(document.getElementById("listAreaFrame").style.display == "none")
 		moveToCurrentPlayItem();
-	
+	*/
+	//
+	$('#listArea').children('[vid='+currentPlayItemVid+']').children('img').addClass('playingItem');	
 	//
 	if(hideListTT!=null)
 		clearTimeout(hideListTT);
@@ -545,13 +588,22 @@ function playPrevVideo()
 			playVideo(prevVid);
 	}
 }
+function showStream()
+{
+	loadStream(currentSelectedItem.attr("ggVid"), 'divComment');
+	var item = $('#listArea').find(currentSelectedItem);
+	$('#divComment').empty();
+	$('#divComment').append("<div align=center><img src='images/loading.gif' width=16 height=16/></div>").show();
+	$('#divComment').css('bottom', item.height() + 25);
+	$('#divComment').css('left', item.offset().left + item.width()/2);	
+}
 var debug = true;
-function loadStream(vid)
+function loadStream(ggVid, divId)
 {
 	$.ajax(
 	{
 		url: '../../servlets/LoadStream',
-		data: {vid:vid},
+		data: {vid:ggVid},
 		type:'POST',
 		dataType:'json',
 		error: function(xhr, status, e) {
@@ -562,28 +614,45 @@ function loadStream(vid)
 		success: function(response)
 		{
 			var ary = new Array();
+			ary[ary.length] = "<div style='cursor:hand;float:right;position:relative;text-decoration:underline;color:#55FDFF' id='btnCloseDiv'>close</div>";
 			for(var i=0;i<response.stream.length;i++)
 			{
 				var stream = response.stream[i];
-				var hr = i==0?"":"<hr>";
-				ary[ary.length] = hr + "<div>"+stream.name + ": " + stream.message+"</div>";
+				var hr = i==0?"":"<hr style='border-style:inset'>";
+				if(stream.message == null)
+					stream.message = "";
+				ary[ary.length] = hr + "<div align='left' style='top:2px' width='250' ><table><tr><td rowspan=2><img src='http://graph.facebook.com/"+stream.id+"/picture' width=36 height=36/></td><td style='font-size:small'><span style='color:#3B5998' style='top:2px;'>"+stream.name + "</span><span style='color:#ffffff'>"+stream.message+"</span></td></tr><tr><td style='color:#E6D4F8;font-size:x-small'>"+jQuery.timeago(new Date(stream.updated_time*1000))  +"</td></tr></table></div>";
 			}
-			$("#si_" + vid).html(ary.join(''));
+			if(response.stream.length>3)
+				ary[ary.length] = "<div style='cursor:hand;float:right;position:relative;text-decoration:underline;color:#55FDFF' id='btnCloseDiv2'>close</div>";
+			if(response.stream.length<=0)
+				$('#divComment').hide();
+			//
+			$('#' + divId).html(ary.join(''));
+			$('#' + divId).children('#btnCloseDiv').bind('click', function(){
+				$('#' + divId).hide('slow');
+			});
+			$('#' + divId).children('#btnCloseDiv2').bind('click', function(){
+				$('#' + divId).hide('slow');
+			});
 		},
 		complete: function(xhr, status){
 		}
 	});		
 }
 var currentSelectedItem = null;
-var shortcutCount = 7;
+var shortcutCount = 8;
 var idx = 3*shortcutCount;
 var initMarginLeft = 0;
 var flag = 0;
+var ttComment = null;
+var ttPlayingInfo = null;
 function isInteger(s) {
   return (s.toString().search(/^-?[0-9]+$/) == 0);
 }
 function hideList()
 {
+	$('#divComment').hide();
 	if(isPlaying == false)
 		return;
 	var h = $(window).height()-20;
@@ -595,6 +664,53 @@ function hideList()
 	$('#showListBtn').show();
 	//
 	$('#divCate').hide();
+	//
+	$('#toolbar').hide();	
+}
+function showPlayingItemInfo()
+{
+	var currentPlayItem = $('#listArea').children('[vid='+currentPlayItemVid+']');
+	loadStream(currentPlayItem.attr('ggVid'), 'divPlayingComment');
+	$('#divPlayingComment').show();
+	ttPlayingInfo = setTimeout('hidePlayingItemInfo()', 5000);
+}
+function hidePlayingItemInfo()
+{
+	$('#divPlayingComment').hide();
+}
+function showInfoIcon()
+{
+/*
+	var imgObj = $('#listArea').find(currentSelectedItem).children('img');
+	var imgW = imgObj.width();
+	var left = imgObj.offset().left;				
+	var top = imgObj.offset().top;
+	$('#btnInfoForSelected').css('left', left + imgW - 20);
+	$('#btnInfoForSelected').css('top', top + 18);
+	$('#btnInfoForSelected').show();
+*/
+}
+function showSelectedItemInfo()
+{
+	//TODO: show selected item infomation
+}
+function hideSelectedItemInfo()
+{
+	//TODO: hide selected item information
+}
+function showInfo(itemInt)
+{	
+	if(itemInt == 0)
+		showSelectedItemInfo();
+	else if(itemInt == 1)
+		showPlayingItemInfo();
+}
+function hideInfo(itemInt)
+{
+	if(itemInt == 0)
+		hideSelectedItemInfo();
+	else if(itemInt == 1)
+		hidePlayingItemInfo();
 }
 function showList()
 {
@@ -616,6 +732,8 @@ function showList()
 //		hideListTT = setTimeout(function(){hideList();}, 8000);		
 	}	
 	$('#divCate').show();
+	//
+	$('#toolbar').show();		
 }
 function moveToCurrentPlayItem()
 {
@@ -638,7 +756,7 @@ function moveToCurrentPlayItem()
 		currentSelectedItem = $('#listArea').children('[vid='+currentPlayItemVid+']');
 		$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');				
 		$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
-		
+
 	}
 	else if((i-j)>0)
 	{
@@ -647,6 +765,9 @@ function moveToCurrentPlayItem()
 			'marginLeft':"-="+moveW * (i-j)*shortcutCount+"px"
 		}, 100);
 		$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
 			currentSelectedItem = $('#listArea').children('[vid='+currentPlayItemVid+']');
 			$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 			$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));		
@@ -666,9 +787,13 @@ function moveToFirst()
 		'marginLeft':"+="+moveW * len * shortcutCount+"px"
 	}, 100);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
 	currentSelectedItem = $(currentSelectedItem).prevAll().slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+
 }
 function moveToEnd()
 {
@@ -681,10 +806,14 @@ function moveToEnd()
 		'marginLeft':"-="+moveW * len * shortcutCount+"px"
 	}, 100);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
 	window.status = "**********" + $(currentSelectedItem).nextAll().length;
 	currentSelectedItem = nextAll.slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+
 }
 function moveToNextPage()
 {
@@ -701,10 +830,14 @@ function moveToNextPage()
 		'marginLeft':"-="+moveW * len * shortcutCount+"px"
 	}, 100);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
 	window.status = "**********" + $(currentSelectedItem).nextAll().length;
 	currentSelectedItem = nextAll.slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+
 }
 function moveToPrevPage()
 {
@@ -720,22 +853,36 @@ function moveToPrevPage()
 		'marginLeft':"+="+moveW * len * shortcutCount+"px"
 	}, 100);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
 	currentSelectedItem = $(currentSelectedItem).prevAll().slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+
 }
 function addShortcutEvent()
 {
 	//
 	var marginLeft = w*3+20+10;
 	var moveW = (w+6)/shortcutCount;
+   $(document).bind('keyup', 'esc', function(){
+		if(isPlaying)   		
+		{
+			if($('#listAreaFrame').css('display')=="none")
+				$('#btnRestore').click();
+		}
+   });
    $(document).bind('keyup', 'home', function(){
+	 	$('#divComment').hide();
 		moveToFirst();
    });
    $(document).bind('keyup', 'end', function(){
+	 	$('#divComment').hide();
    		moveToEnd();
    });
    $(document).bind('keyup', 'right', function(){
+	 	$('#divComment').hide();
 		if($('#listArea').find(currentSelectedItem).next().attr('vid') != undefined)
 		{
 			window.status = "before:" + idx + ".." + $('#listArea').css('marginLeft');
@@ -746,68 +893,20 @@ function addShortcutEvent()
 			idx++;
 			if(idx%shortcutCount==0)
 			{
-				/*
-				if(timerKeyup.right.t == 0)
-				{
-					timerKeyup.right.t = toTimestamp(new Date());
-					timerKeyup.right.idx = idx;
-					timerKeyup.right.oldIdx = idx - shortcutCount;
-					//
-					$('#listArea').animate({
-						'marginLeft':"-="+moveW +"px"
-					}, 100);
-					$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-					currentSelectedItem = $('#listArea').find(currentSelectedItem).next();
-					$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
-					$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
-				}
-				else
-				{
-					var now = toTimestamp(new Date());
-					if((now - timerKeyup.right.t)<1)
-					{
-						timerKeyup.right.t = now;
-						currentSelectedItem = $('#listArea').find(currentSelectedItem).next();
-						timerKeyup.right.idx = idx;
-						$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
-					}
-					else*/
-					{
-						/*
-						var r = idx-timerKeyup.right.oldIdx;
-						$('#listArea').animate({
-							'marginLeft':"-="+moveW * (r-3)+"px"
-						}, 100);
-						*/
-						$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-						currentSelectedItem = $('#listArea').find(currentSelectedItem).next();
-						$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
-						$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
-						timerKeyrup.right.t = 0;
-					}
-			//	}
+				$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
+				currentSelectedItem = $('#listArea').find(currentSelectedItem).next();
+				$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+				$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 			}
 			window.status = "after: " + idx;
 		}
-		/*
-		else
-		{
-			window.status = "before(DD): " + idx;
-			$('#listArea').animate({
-			 'marginLeft':marginLeft
-			 }, 0);
-			idx=0;
-			flag++;
-			$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
-			currentSelectedItem = $('#listArea').children('div[id^=item_]')[0];
-			$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
-			$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
-			window.status = "after(DD): " + idx + "," + flag;
-		}
-		*/
    		showList();
    });
   $(document).bind('keyup', 'left', function(){
+	 	$('#divComment').hide();
 	   //if(idx!=0)
 	   if($(currentSelectedItem).prevAll().length!=0)
 	   {
@@ -819,6 +918,9 @@ function addShortcutEvent()
    			if(idx%shortcutCount==0)
 			{
 				$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
 				currentSelectedItem = $('#listArea').find(currentSelectedItem).prev();
 				$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');				
 				$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
@@ -827,6 +929,7 @@ function addShortcutEvent()
 		showList();
    });
   $(document).bind('keyup', 'pagedown', function(){
+ 	$('#divComment').hide();
 	if(isPlaying)
 	{
 		playNextVideo();
@@ -834,6 +937,7 @@ function addShortcutEvent()
   	//skip and playNext
   });
   $(document).bind('keyup', 'pageup', function(){
+ 	$('#divComment').hide();
   	//skip and playPrev
 	if(isPlaying)
 	{
@@ -849,6 +953,7 @@ function addShortcutEvent()
 	  idx--;
     }
     $(document).bind('keyup', 'return', function(){
+	 	$('#divComment').hide();
     	playVideo(currentSelectedItem.attr('vid'));
 	});
 	initMarginLeft = $('#listArea').css('marginLeft');
@@ -863,6 +968,17 @@ function bindEvent()
 		$(this).hide();
 		$('#btnRestore').show();
 	});
+	$('#btnInfo').bind('click', function(){
+		showInfo(1);
+	});
+	$('#btnInfo').bind('mouseenter mouseover', function(){
+		if(ttPlayingInfo != null)
+		 clearTimeout(ttPlayingInfo);
+	});
+	$('#btnInfo').bind('mouseout', function(){
+		if($('#divPlayingComment').css('display')!='none')
+		  ttPlayingInfo = setTimeout('hidePlayingItemInfo()', 5000);
+	});
 	$('#btnRestore').bind('click', function(){
 		showList();
 		$(this).hide();
@@ -873,6 +989,7 @@ function bindEvent()
 //
 	$('a[id^=m]').each(function(){
 		$(this).bind('click', function(){
+				$('#divComment').hide('slow');
 			$('a[id^=m] span').removeClass('itemSelected');
 			$(this).children('span').addClass('itemSelected');
 			loadData(this.id);
@@ -880,23 +997,6 @@ function bindEvent()
 		});
 	});
 	//
-	/*
-	$('#btnPlayMode').bind('click', function(){
-		if($('#divPlayMode').css('display')=='none')
-		{
-//			$('#divCate').hide();
-			$('#divPlayMode').show();
-		}
-		else
-			$('#divPlayMode').hide();
-	});
-	$('div[id^=playMode]').bind('click', function(){
-		$('div[id^=playMode]').css('background-color', '');
-		$(this).css('background-color', 'black');
-		playMode = $(this).attr('rel');
-		$('#divPlayMode').hide('slow');
-	});
-	*/
 	$('#playMode0').bind('click', function(){
 		playMode = 1;
 		$(this).hide();
@@ -961,17 +1061,21 @@ function fbs_click()
 }
 $(document).ready(function(e)
 {
+//alert(jQuery.timeago(new Date(1332256429*1000)));
 	bindEvent();
 	//
-	loadData('mG');
+	//loadData('mP');
+	$('#mP').click();
+	$('#mP').focus();
 //
 });
 </script>
 <!-- share message : The video is shared via Gageea TV -->
 <body style="padding:0px;margin:0px auto;text-align:center; background-color:black" onload='document.getElementById("listAreaFrame").focus()'>
 <div id="loading" class="showLoading">Loading...</div>
+<div id="btnInfoForSelected" style='position:absolute;display:none;z-index:300'><img src='images/info.png' width=16 height=16/></div>
 <!-- share -->
-<div id="share" class='menu_box' style="top:0px;right:3px;cursor:hand">
+<div id="share" class='menu_box' style="top:0px;right:3px;cursor:hand" title='Share' alt='Share'>
 	<img src="images/btn_share.png" title="Share" id="share_button"/>
 </div>
 <!-- /share -->
@@ -1016,7 +1120,7 @@ function fbInitialized()
 <table border=0 id='tbPlayer' align=center style="z-index:100">
 	<tr>
 		<td>
-			<div style="overflow:auto;z-index:300;position:absolute;top:25px;left:5px;text-align:left;color:white;border-color:gray;border-style:ridge;" id="divCate">
+			<div style="overflow:auto;z-index:300;position:absolute;top:65px;left:5px;text-align:left;color:white;border-color:gray;border-style:ridge;" id="divCate">
 			</div>
 		</td>
 		<td>
@@ -1024,20 +1128,26 @@ function fbInitialized()
 			</div>
 		</td>
 		<td>
+			<div id="divPlayingComment" style="position:absolute;background-color:#999999;z-index:300;width:250px;max-height:300px;display:none;overflow-y:auto;overflow-x:hidden;right:35px;top:50px">
+			</div>
 			<div id="divControl" style="overflow:auto;z-index:300;position:absolute;top:25px;right:0px;text-align:right;height:80%;width:33px">
-				<img src="images/fullscreen.png" width=30 height=30 id="btnFull" style="cursor:hand;display:none;position:relative;top:0px;float:right">
-				<img src="images/restore.png" width=30 height=30 id="btnRestore" style="cursor:hand;display:none;position:relative;top:0px;float:right">
-				<img src="images/playOnce.png" width=30 height=30 id="playMode0" style="cursor:hand;position:relative;top:5px;float:right"/>
-				<img src="images/repeat.png" width=30 height=30 id="playMode1" style="cursor:hand;display:none;float:right;position:relative;top:5px"/>
-				<img src="images/playAll.png" width=30 height=30 id="playMode2" style="cursor:hand;display:none;float:right;position:relative;top:5px"/>
+				<img src="images/fullscreen.png" width=30 height=30 id="btnFull" style="cursor:hand;display:none;position:relative;top:0px;float:right" title='Light Off' alt='Light Off'>
+				<img src="images/restore.png" width=30 height=30 id="btnRestore" style="cursor:hand;display:none;position:relative;top:0px;float:right" title='Light On' alt='Light On'>
+				<img src="images/info.png" width=25 height=25 id="btnInfo" style="cursor:hand;display:none;position:relative;top:5px;float:right">
+				<img src="images/playOnce.png" width=30 height=30 id="playMode0" style="cursor:hand;position:relative;top:5px;float:right" title='Once' alt='Once'/>
+				<img src="images/repeat.png" width=30 height=30 id="playMode1" style="cursor:hand;display:none;float:right;position:relative;top:5px" title='Repeat' alt='Repeat'/>
+				<img src="images/playAll.png" width=30 height=30 id="playMode2" style="cursor:hand;display:none;float:right;position:relative;top:5px" title='Continuous' alt='Continuous'/>
 			</div>
 		</td>
 	</tr>
 </table>
+<div id="divComment" style="position:absolute;background-color:#999999;z-index:600;width:300px;max-height:160px;display:none;overflow-y:auto;overflow-x:hidden">
+</div>
 <!-- /play area-->
 <div style="clear:both"/>
 <!-- list -->
 <div id="listAreaFrame" class="listAreaFrame" onblur="document.getElementById('listAreaFrame').focus()">
+	<div id="currentCategory" style="position:absolute;z-index:100;height:24px;color:white;float:left"></div>
 	<div id="selectedItemTitle" align="center" style="height:24px;color:white;"></div>
 	<div id='pre' style='z-index:100;width:20px; height:100px;left:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/pre.png' width=20 style='padding-top:60px'/></div>
 <!--	<div id="selectedItem" class="selectedItem"></div>-->
@@ -1045,30 +1155,6 @@ function fbInitialized()
 	</div>
 	<div id='next' style='z-index:100;width:20px; height:100px;right:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/next.png' width=20 style='padding-top:60px'/></div>
 </div>
-<!--
-<div style="clear:both"/>
-<div style="position:absolute;width:100%;bottom:0px;z-index:500;">
-<div id="showListBtn" align="center" style="bottom:0px;cursor:hand;display:none"><img src="images/up.png" height=16/></div>
--->
-<!-- /list -->
-<!-- menu -->
-<!--
-<div id="menu" class='menu_box' style="bottom:0px;right:5px">
-<img src='images/playMode.png' style="height:16px;bottom:0px;cursor:hand;" id="btnPlayMode"/>
-</div>
--->
-<!--
-<div style="z-index:600;height:45;position:absolute;bottom:18px;right:8px;display:none;text-align:left;color:white;background-color:gray;border-color:gray;border-style:ridge;" id="divPlayMode">
-	<div id="playMode0" rel=0 style="cursor:hand;background-color:black">Once</div>
-	<div id="playMode1" rel=1 style="cursor:hand">Repeat</div>
-	<div id="playMode2" rel=2 style="cursor:hand">Continuous</div>
-</div>
--->
-<!--
-<div style="overflow:auto;z-index:300;width:160px;height:200px;position:absolute;bottom:20px;right:5px;display:none;text-align:left;color:white;background-color:gray;border-color:gray;border-style:ridge;" id="divCate">
-</div>
--->
-<!-- /menu -->
 <div id="dialog" style='z-index:100;display:none'><iframe name="dialogFrame"></iframe></div>
 </body>
 </html>

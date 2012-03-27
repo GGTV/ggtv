@@ -32,6 +32,8 @@ function onytplayerStateChange(newState) {
 		isPlaying = false;
 	else
 		isPlaying = false;
+	//
+	window.status = "state("+newState+")";
 }
 function onytplayerError(errorCode)
 {
