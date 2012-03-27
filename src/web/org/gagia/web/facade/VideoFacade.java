@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
+//
+import org.apache.commons.validator.UrlValidator;
 
 import tw.qing.lwdba.DBFacade;
 import tw.qing.lwdba.SQLString;
@@ -17,6 +19,7 @@ public class VideoFacade extends DBFacade
 {
 	private static Logger log = Logger.getLogger(VideoFacade.class);
 	private static VideoFacade instance = null;
+    private UrlValidator urlValidator;
 
 	public static synchronized VideoFacade getInstance()
 	{
@@ -36,6 +39,7 @@ public class VideoFacade extends DBFacade
 	private VideoFacade() throws SQLException, ClassNotFoundException
 	{
 		super(StringManager.getManager("system").getString("mode"));
+        urlValidator = new UrlValidator();
 	}
 	//
 	public long getTotalSize(String category)
@@ -254,13 +258,25 @@ public class VideoFacade extends DBFacade
 	}
 	public ArrayList listStream(String video_id)
 	{
+        //picture http://graph.facebook.com/12344566788/picture
 		ArrayList list = new ArrayList();
 		try
 		{
 			String sql = sqlManager.getSQL("stream.list", video_id);
 			list = sqlQueryRows(sql);
 			if(list!=null)
+            {
+                for(int i=0;i<list.size();i++)
+                {
+                    HashMap hm = (HashMap)list.get(i);
+                    String message = (String)hm.get("message");
+                    if (message!=null && urlValidator.isValid(message.trim())) {
+                        hm.put("message", null);
+                    }
+                    
+                }
 				return list;
+            }
 		}
 		catch(Exception e)
 		{
