@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 //
 import org.gagia.core.util.SQLOrder;
+import org.gagia.web.util.UserIPAddress;
 import org.gagia.web.facade.VideoFacade;
 
 public class LoadVideoCategoryServlet extends HttpServlet
@@ -54,6 +55,8 @@ public class LoadVideoCategoryServlet extends HttpServlet
 				list = VideoFacade.getInstance().listCategory();
 			else if("1".equals(type))
 			{
+                String ip = UserIPAddress.get(request);
+                list = VideoFacade.getInstance().listCategoryAtRegional(ip);
 			}
 			else if("2".equals(type))
 				list = VideoFacade.getInstance().listCategoryAtPersonal(access_token);
