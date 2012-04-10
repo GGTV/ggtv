@@ -1,11 +1,35 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri = "http://java.sun.com/jstl/core" prefix="c"%>
 <!DOCTYPE>
+<%
+	String category = request.getParameter("topic")==null?"":request.getParameter("topic");
+	boolean fAll = true;
+	if(category!=null && !category.equals(""))
+		fAll = false;
+	String displayName = "看蝦米";
+	String appId = "368607346499484";
+	String[] appIds = new String[]{"301292833249422"};
+	String[] categories = new String[]{"Music"};	
+	String[] displayNames = new String[]{"臉書 - 音樂台"};
+	if(!fAll)
+	{
+		for(int i=0;i<categories.length;i++)
+		{
+			if(categories[i].equals(category))
+			{
+				displayName = displayNames[i];
+				appId = appIds[i];
+				break;
+			}
+		}
+	}
+//	System.out.println("###" + category + "..");
+%>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
-<meta property="fb:app_id" content="368607346499484" />
+<meta property="fb:app_id" content="<%=appId%>" />
 <meta property="og:title" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="title" />
@@ -205,6 +229,14 @@ function loadCachedPosts(offset, fReset)
 			loadCachedPosts(-1);
 		*/
 	});
+	$('#next0').bind('click', function(){
+   		$('#divComment').hide();
+		moveToNext();
+	});
+	$('#pre0').bind('click', function(){
+   		$('#divComment').hide();
+		moveToPrev();
+	});
 	if(fAutoPlayNext)
 		playNextVideo();
 }
@@ -221,7 +253,7 @@ function loadData(mItemId)
 {
 	curOffset = -100;
 	curIndex = 0;
-	curCate = "";
+	curCate = "<%=category%>";
 	//
 	if($('#btnCate').val()!="Category")
 		$('#btnCate').val($('#divCate option[value=""]').text());
@@ -243,7 +275,10 @@ function loadData(mItemId)
 		type = 0;
 	}
 	cache[type+"_"+curCate] = {finish:0, offset:-100, pause:0, index:0};
+	<c:if test="${empty param.topic or param.topic == ''}">
+	$('divCate').show();
 	loadCategory(type);
+	</c:if>
 	loadVideo(type, curCate);
 	$('a[id^=m]').removeClass("underline");
 	$('#'+mItemId).addClass("underline");
@@ -514,7 +549,7 @@ function playVideo(vid)
 			objWidth = w;
 			objHeight = h;
 		}
-		swfobject.embedSWF("http://www.youtube.com/v/"+vid+"?enablejsapi=1&playerapiid=ytplayer&version=3",
+		swfobject.embedSWF("http://www.youtube.com/v/"+vid+"?enablejsapi=1&playerapiid=ytplayer&version=3&disablekb=1",
 						"myytplayer", objWidth, objHeight, "8", null, flashvars, params, atts);
 	}
 	else
@@ -588,6 +623,7 @@ function playPrevVideo()
 			playVideo(prevVid);
 	}
 }
+var ttCommentHide;
 function showStream()
 {
 	loadStream(currentSelectedItem.attr("ggVid"), 'divComment');
@@ -596,6 +632,14 @@ function showStream()
 	$('#divComment').append("<div align=center><img src='images/loading.gif' width=16 height=16/></div>").show();
 	$('#divComment').css('bottom', item.height() + 25);
 	$('#divComment').css('left', item.offset().left + item.width()/2);	
+	//
+	if(ttCommentHide!=null)
+		clearTimeout(ttCommentHide);
+	ttCommentHide = setTimeout('hideStream()', 3000);	
+}
+function hideStream()
+{
+	$('#divComment').hide('slow');
 }
 var debug = true;
 function loadStream(ggVid, divId)
@@ -815,16 +859,11 @@ function moveToEnd()
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 
 }
-function moveToNextPage()
+function moveToNext()
 {
+	$('#divComment').hide();
 	var nextAll = $(currentSelectedItem).nextAll();
-	var len = nextAll.length<7?nextAll.length:7;
-	if(len==0)
-	{
-		moveToNextPage();
-		return;
-	}
-//	alert(len);
+	var len = 1;
 	var moveW = (w+6)/shortcutCount;
  	$('#listArea').animate({
 		'marginLeft':"-="+moveW * len * shortcutCount+"px"
@@ -837,7 +876,50 @@ function moveToNextPage()
 	currentSelectedItem = nextAll.slice(len-1, len);
 	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
 	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
-
+}
+function moveToPrev()
+{
+	var prevAll = $(currentSelectedItem).prevAll();
+	var len = prevAll.length<1?prevAll.length:1;
+	window.status = "**********" + len;
+	if(len<=0)
+	{
+		return;
+	}
+	var moveW = (w+6)/shortcutCount;
+ 	$('#listArea').animate({
+		'marginLeft':"+="+moveW * len * shortcutCount+"px"
+	}, 100);
+	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
+	currentSelectedItem = $(currentSelectedItem).prevAll().slice(len-1, len);
+	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
+}
+function moveToNextPage()
+{
+	var nextAll = $(currentSelectedItem).nextAll();
+	var len = nextAll.length<7?nextAll.length:7;
+	if(len==0)
+	{
+		moveToNextPage();
+		return;
+	}
+	//alert(len);
+	var moveW = (w+6)/shortcutCount;
+ 	$('#listArea').animate({
+		'marginLeft':"-="+moveW * len * shortcutCount+"px"
+	}, 400);
+	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
+		if(ttComment !=null)
+		 clearTimeout(ttComment);
+		ttComment = setTimeout('showStream()', 2000);
+	window.status = "**********" + $(currentSelectedItem).nextAll().length;
+	currentSelectedItem = nextAll.slice(len-1, len);
+	$('#listArea').find(currentSelectedItem).children('img').removeClass('img_opacity');
+	$('#selectedItemTitle').text(currentSelectedItem.attr('video_title'));
 }
 function moveToPrevPage()
 {
@@ -851,7 +933,7 @@ function moveToPrevPage()
 	var moveW = (w+6)/shortcutCount;
  	$('#listArea').animate({
 		'marginLeft':"+="+moveW * len * shortcutCount+"px"
-	}, 100);
+	}, 400);
 	$('#listArea').find(currentSelectedItem).children('img').addClass('img_opacity');
 		if(ttComment !=null)
 		 clearTimeout(ttComment);
@@ -1037,7 +1119,7 @@ function fbs_click()
 		return;
 	var playingItem = $('div[vid='+currentPlayItemVid+']');
 	u=playingItem.attr('surl');
-	t="The Video is shared via Gageea TV";
+	t="我在【<%=displayName%>】看到這個影片";
 	var thumb = playingItem.children('img').attr('src');
 	var imgURL = thumb;
 	if(thumb.indexOf("url=")!=-1)
@@ -1083,7 +1165,7 @@ $(document).ready(function(e)
 <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '368607346499484', // App ID
+      appId      : '<%=appId%>', // App ID
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : true  // parse XFBML
@@ -1120,7 +1202,7 @@ function fbInitialized()
 <table border=0 id='tbPlayer' align=center style="z-index:100">
 	<tr>
 		<td>
-			<div style="overflow:auto;z-index:300;position:absolute;top:65px;left:5px;text-align:left;color:white;border-color:gray;border-style:ridge;" id="divCate">
+			<div style="overflow:auto;z-index:300;position:absolute;top:65px;left:5px;text-align:left;color:white;border-color:gray;border-style:ridge;display:none" id="divCate">
 			</div>
 		</td>
 		<td>
@@ -1149,11 +1231,10 @@ function fbInitialized()
 <div id="listAreaFrame" class="listAreaFrame" onblur="document.getElementById('listAreaFrame').focus()">
 	<div id="currentCategory" style="position:absolute;z-index:100;height:24px;color:white;float:left"></div>
 	<div id="selectedItemTitle" align="center" style="height:24px;color:white;"></div>
-	<div id='pre' style='z-index:100;width:20px; height:100px;left:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/pre.png' width=20 style='padding-top:60px'/></div>
-<!--	<div id="selectedItem" class="selectedItem"></div>-->
+	<div style='z-index:100;width:20px; height:80px;left:0;margin-top:3px;bottom:0px;position:absolute;background-color:#F2F2F2'><img id='pre0' src='images/pre0.png' width=20 style='padding-top:15px;cursor:hand;'/><p><img id='pre' src='images/pre.png' width=20 style='padding-top:5px;cursor:hand;'/></div>
 	<div id="listArea" style="background-color:block;border-color:black">
 	</div>
-	<div id='next' style='z-index:100;width:20px; height:100px;right:0;margin-top:3px;cursor:hand;bottom:0px;position:absolute;'><img src='images/next.png' width=20 style='padding-top:60px'/></div>
+	<div style='z-index:100;width:20px; height:80px;right:0px;margin-top:3px;bottom:0px;position:absolute;background-color:#F2F2F2'><img id='next0' src='images/next0.png' width=20 style='padding-top:15px;cursor:hand'/><p><img id='next' src='images/next.png' width=20 style='padding-top:5px;cursor:hand'/></div>
 </div>
 <div id="dialog" style='z-index:100;display:none'><iframe name="dialogFrame"></iframe></div>
 </body>
