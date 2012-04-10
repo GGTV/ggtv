@@ -1,10 +1,34 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE>
 <%
+	String digest = request.getParameter("secret");
+	String[] appIds = new String[]{"301292833249422"};
+	String[] categories = new String[]{"Music"};
 	boolean fDebug = false;
-	String appId = "368607346499484";
+	String appId = "368607346499484";	//all
+	String topic = "";
 	if(fDebug)
 		appId = "301292833249422";
+	if(digest!=null)
+	{
+		boolean fMatch = false;
+		for(int i=0;i<categories.length;i++)
+		{
+			String getDigest = org.gagia.core.security.MD5Digest.getDigest(categories[i], "368607346499484");
+			if(digest.equals(getDigest))
+			{
+				fMatch = true;
+				topic = categories[i];
+				appId = appIds[i];
+				break;
+			}
+		}
+		if(!fMatch)
+		{
+			out.println("");
+			return;
+		}
+	}
 %>
 <html>
  <head>
@@ -77,7 +101,7 @@
 				token: accessToken
 			},
 			success: function(response){
-				location.href = "list.jsp?access_token=" + accessToken + "&user_id=" + userId;
+				location.href = "list.jsp?access_token=" + accessToken + "&user_id=" + userId + "&topic=<%=topic%>";
 			}
 		});
 	} 
