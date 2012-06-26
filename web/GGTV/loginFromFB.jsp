@@ -1,33 +1,48 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE>
 <%
+	String feedVid = request.getParameter("v");
+	String feedVidTitle = request.getParameter("title");
+//	System.out.println("######" + feedVid);
 	String digest = request.getParameter("secret");
-	String[] appIds = new String[]{"301292833249422"};
+	String[] appIds = new String[]{"246324865464948"};
 	String[] categories = new String[]{"Music"};
 	boolean fDebug = false;
 	String appId = "368607346499484";	//all
 	String topic = "";
 	if(fDebug)
-		appId = "301292833249422";
-	if(digest!=null)
 	{
-		boolean fMatch = false;
-		for(int i=0;i<categories.length;i++)
+		appId = "301292833249422";
+		appIds[0] = appId;
+	}
+	try
+	{
+		if(digest!=null && !digest.equals(""))
 		{
-			String getDigest = org.gagia.core.security.MD5Digest.getDigest(categories[i], "368607346499484");
-			if(digest.equals(getDigest))
+			boolean fMatch = false;
+			
+			for(int i=0;i<categories.length;i++)
 			{
-				fMatch = true;
-				topic = categories[i];
-				appId = appIds[i];
-				break;
+				String getDigest = org.gagia.core.security.MD5Digest.getDigest(categories[i], "368607346499484");
+				if(digest.equals(getDigest))
+				{
+					fMatch = true;
+					topic = categories[i];
+					appId = appIds[i];
+					break;
+				}
 			}
+			if(!fMatch)
+			{
+				out.println("");
+				return;
+			}
+			
 		}
-		if(!fMatch)
-		{
-			out.println("");
-			return;
-		}
+	}
+	catch(Exception e)
+	{
+		out.println("...");
 	}
 %>
 <html>
@@ -101,7 +116,7 @@
 				token: accessToken
 			},
 			success: function(response){
-				location.href = "list.jsp?access_token=" + accessToken + "&user_id=" + userId + "&topic=<%=topic%>";
+				location.href = "list.jsp?access_token=" + accessToken + "&user_id=" + userId + "&topic=<%=topic%>&fDebug=<%=fDebug%>&feedVid=<%=feedVid%>&title=<%=feedVidTitle%>";
 			}
 		});
 	} 

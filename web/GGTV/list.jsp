@@ -2,15 +2,26 @@
 <%@ taglib uri = "http://java.sun.com/jstl/core" prefix="c"%>
 <!DOCTYPE>
 <%
+	String feedVid = request.getParameter("feedVid");
+	String feedVidTitle = request.getParameter("title");
+	System.out.println("feedVid = ["+ feedVid +"]");
 	String category = request.getParameter("topic")==null?"":request.getParameter("topic");
+	String reqDebug = request.getParameter("fDebug");
+	boolean fDebug = reqDebug.equals("true")?true:false;
 	boolean fAll = true;
-	if(category!=null && !category.equals(""))
-		fAll = false;
 	String displayName = "看蝦米";
 	String appId = "368607346499484";
-	String[] appIds = new String[]{"301292833249422"};
+	if(category!=null && !category.equals(""))
+		fAll = false;
+	String[] appIds = new String[]{"246324865464948"};
 	String[] categories = new String[]{"Music"};	
 	String[] displayNames = new String[]{"臉書 - 音樂台"};
+	if(fDebug)
+	{
+		appId = "301292833249422";
+		appIds[0] = appId;
+		displayNames[0] = "[Test] 臉書 - 音樂台";
+	}
 	if(!fAll)
 	{
 		for(int i=0;i<categories.length;i++)
@@ -276,8 +287,8 @@ function loadData(mItemId)
 	}
 	cache[type+"_"+curCate] = {finish:0, offset:-100, pause:0, index:0};
 	<c:if test="${empty param.topic or param.topic == ''}">
-	$('divCate').show();
 	loadCategory(type);
+	$('divCate').show();
 	</c:if>
 	loadVideo(type, curCate);
 	$('a[id^=m]').removeClass("underline");
@@ -528,8 +539,10 @@ function loadVideo(type, cate, fHideLoading)
 		loadCachedPosts(0);
 }
 var hideListTT = null;
-function playVideo(vid)
+function playVideo(vid, playFromFeed)
 {
+	playFromFeed = playFromFeed==undefined?false:playFromFeed;
+	//
 	if($('#myytplayer').is('div'))
 	{
 		var params = { allowScriptAccess: "always",  allowfullscreen:"true", wmode:"transparent"};
@@ -561,25 +574,28 @@ function playVideo(vid)
 		$('#btnFull').show();
 		$('#btnInfo').show();
 	}
-	//		
-	$('#spanPlaying').text($('div[vid='+vid+']').attr('video_title'));
-	//remove old playing item
-	$('#listArea').children('[vid='+currentPlayItemVid+']').children('img').removeClass('playingItem');
-	var fAutoChangeSelectedItem = false;
-	if(currentPlayItemVid == currentSelectedItem.attr('vid'))
+	//
+	if(playFromFeed==false)
 	{
-		fAutoChangeSelectedItem=  true;
+		$('#spanPlaying').text($('div[vid='+vid+']').attr('video_title'));
+		//remove old playing item
+		$('#listArea').children('[vid='+currentPlayItemVid+']').children('img').removeClass('playingItem');
+		var fAutoChangeSelectedItem = false;
+		if(currentPlayItemVid == currentSelectedItem.attr('vid'))
+		{
+			fAutoChangeSelectedItem=  true;
+		}
+		currentPlayItemVid = vid;
+		if(fAutoChangeSelectedItem)
+			moveToCurrentPlayItem();
+		//
+		$('#listArea').children('[vid='+currentPlayItemVid+']').children('img').addClass('playingItem');	
 	}
-	currentPlayItemVid = vid;
-	if(fAutoChangeSelectedItem)
-		moveToCurrentPlayItem();
-	//
-	/*
-	if(document.getElementById("listAreaFrame").style.display == "none")
-		moveToCurrentPlayItem();
-	*/
-	//
-	$('#listArea').children('[vid='+currentPlayItemVid+']').children('img').addClass('playingItem');	
+	else
+	{
+//		$('#spanPlaying').text(decodeURIComponent("<%=feedVidTitle%>"));
+		$('#spanPlaying').text("<%=feedVidTitle%>");	
+	}
 	//
 	if(hideListTT!=null)
 		clearTimeout(hideListTT);
@@ -1118,7 +1134,9 @@ function fbs_click()
 	if(currentPlayItemVid==null)
 		return;
 	var playingItem = $('div[vid='+currentPlayItemVid+']');
-	u=playingItem.attr('surl');
+	//u=playingItem.attr('surl');
+	u = "http://apps.facebook.com/<%=appId%>/?fb_source=feed&v="+currentPlayItemVid + "&title="+encodeURIComponent(playingItem.attr('video_title'));
+//	window.clipboardData.setData('Text', u);
 	t="我在【<%=displayName%>】看到這個影片";
 	var thumb = playingItem.children('img').attr('src');
 	var imgURL = thumb;
@@ -1150,6 +1168,12 @@ $(document).ready(function(e)
 	$('#mP').click();
 	$('#mP').focus();
 //
+	var feedVid = "<%=feedVid%>";
+	if(feedVid!="" && feedVid!="null")
+	{
+		currentPlayItemVid = feedVid;
+		playVideo(feedVid, true);		
+	}
 });
 </script>
 <!-- share message : The video is shared via Gageea TV -->
